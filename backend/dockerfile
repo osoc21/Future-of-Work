@@ -1,4 +1,6 @@
 FROM rstudio/plumber
 MAINTAINER Docker User <docker@user.org>
 
+COPY api.R /app/
+
 CMD ["app/api.R"]

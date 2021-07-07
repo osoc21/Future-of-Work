@@ -1,12 +1,15 @@
-FROM python:3.8-slim-buster
+FROM python:3.8
 
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-
 ENV FLASK_RUN_PORT=4000
-COPY . .
+ENV FLASK_DEBUG=1
 
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+EXPOSE 4000
+
+COPY src .
+
+CMD python ./src/app.py

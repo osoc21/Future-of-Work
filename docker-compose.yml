@@ -1,0 +1,6 @@
+version: "3"
+services:
+  api:
+    build: ./backend
+    ports: ["4000:4000"]
+    volumes: ["./backend:/app"]

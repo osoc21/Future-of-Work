@@ -1,8 +1,0 @@
-#version: '1.0'
-services:
-    api-service:
-        build: ./backend/
-        volumes:
-            - ./backend/api.R:/app/api.R
-        ports: 
-            - "7000:8000"

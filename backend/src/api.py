@@ -28,14 +28,14 @@ def create_app():
         if request.method == 'POST':
             # check if the post request has the file part
             if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
+                #flash('No file part')
+                return jsonify({"message":"Couldn't find the file part in form"})
             file = request.files['file']
             # If the user does not select a file, the browser submits an
             # empty file without a filename.
             if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
+                #flash('No selected file')
+                return jsonify({"message":"empty file"})
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 pathName = os.path.join(app.config['UPLOAD_FOLDER'], filename)

@@ -27,10 +27,11 @@ def create_app():
     def upload_file():
         if request.method == 'POST':
             # check if the post request has the file part
-            if 'file' not in request.files:
+            if 'files[]' not in request.files:
                 #flash('No file part')
                 return jsonify({"message":"Couldn't find the file part in form"})
-            file = request.files['file']
+            files = request.files['files']
+            file = files[0]
             # If the user does not select a file, the browser submits an
             # empty file without a filename.
             if file.filename == '':

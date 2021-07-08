@@ -20,7 +20,10 @@ def create_app():
     def sample_route():
         return jsonify({"message": "This is a sample route"})
 
-    @app.route('/', methods=['GET', 'POST'])
+    '''
+    https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
+    '''
+    @app.route('/upload/', methods=['GET', 'POST'])
     def upload_file():
         if request.method == 'POST':
             # check if the post request has the file part

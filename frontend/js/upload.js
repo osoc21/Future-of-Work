@@ -1,6 +1,5 @@
 // Define processing URL and form element 
 
-const url = 'process.php'
 const form = document.querySelector('form')
 
 // Listen for form submit
@@ -17,7 +16,7 @@ form.addEventListener('submit', (e) => {
     }
 });
 
-fetch(url, {
+fetch("http://localhost:4000/upload/", {
     method: 'POST',
     body: formData,
 })

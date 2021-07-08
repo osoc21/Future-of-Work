@@ -11,16 +11,18 @@ form.addEventListener('submit', (e) => {
 
     for (let i = 0; i < files.length; i++) {
         let file = files[i]
-    
+
         formData.append('files[]', file)
     }
-});
 
-fetch("http://localhost:4000/upload/", {
-    method: 'POST',
-    body: formData,
-})
-.then((response) => {
-    console.log(response)
-})
-.catch(err => console.error(err))
+
+    fetch("http://localhost:4000/upload/", {
+        method: 'POST',
+        body: formData,
+    })
+        .then((response) => {
+            console.log(response)
+        })
+        .then((response) => response.json())
+        .catch(err => console.error(err))
+});

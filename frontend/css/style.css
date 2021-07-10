@@ -10,7 +10,19 @@ body {
     font-size: larger;
   }
   
-  main {
+main {
     margin: auto;
     line-height: 2rem;
-}  
+}
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.active{
+  display:block;
+}
+
+.dropdown-menu-wrp{
+  
+}

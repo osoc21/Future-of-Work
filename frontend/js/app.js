@@ -1,71 +1,89 @@
 import '../css/style.css';
-import Chart from 'chart.js/auto';
 
 
-// Fetch json data
-const fetchData = async () => {
-  const response = await fetch(API_URL);
-  const data = await response.json();
-  convertData(data);
-}
-fetchData();
+// import Chart from 'chart.js/auto';
 
-// Converting json data to arrays
-const convertData = (data) => {
-  let labels = data.results.map(function(e) {
-    return e.id
-  })
+// const API_URL = './data/data.json';
 
-  let values = data.results.map(function(e) {
-    return e.value;
-  })
-  
-  generateCharts(labels, values);
-}
+// // Fetch json data
+// const fetchData = async () => {
+//   const response = await fetch(API_URL);
+//   const data = await response.json();
+//   convertData(data);
+// }
+// fetchData();
 
-const generateCharts = (labels, values) => {
-  // Cache myChart element
-let myChart = document.getElementById('myChart').getContext('2d');
+// // Converting json data to arrays
+// const convertData = (data) => {
+//   let labels = data.results.map(function(e) {
+//     return e.id
+//   })
 
-// Init Chart.js and create chart using parameters
-let landingPageRating = new Chart(myChart, {
-  type: 'bar',
-  data: {
-    labels:labels,
-    datasets:[{
-      label:'Amount of votes',
-      data:values,
-      backgroundColor: 'rgb(160, 220, 100)',
-      borderWidth: 1,
-      borderColor: '#777',
-      hoverBorderWidth: 3,
-      hoverBorderColor: '#000'
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: 'Landing page rating (out of 10)'
-    },
-    scales: {
-      y : {
-        max: 20,
-        min: 0,
-        ticks: {
-          stepSize : 1
-        }
-      }
-    },
-    plugins: {
-      legend: {
-        labels: {
-          font: {
-            size: 20
-          }
-        }
-      }
-    }
-  }
-})
-}
+//   let values = data.results.map(function(e) {
+//     return e.value;
+//   })
+
+//   generateCharts(labels, values);
+// }
+
+// const generateCharts = (labels, values) => {
+//   // Cache myChart element
+// let myChart = document.getElementById('myChart').getContext('2d');
+
+// // Init Chart.js and create chart using parameters
+// let landingPageRating = new Chart(myChart, {
+//   type: 'bar',
+//   data: {
+//     labels:labels,
+//     datasets:[{
+//       label:'Amount of votes',
+//       data:values,
+//       backgroundColor: 'rgb(160, 220, 100)',
+//       borderWidth: 1,
+//       borderColor: '#777',
+//       hoverBorderWidth: 3,
+//       hoverBorderColor: '#000'
+//     }]
+//   },
+//   options: {
+//     title: {
+//       display: true,
+//       text: 'Landing page rating (out of 10)'
+//     },
+//     scales: {
+//       y : {
+//         max: 20,
+//         min: 0,
+//         ticks: {
+//           stepSize : 1
+//         }
+//       }
+//     },
+//     plugins: {
+//       legend: {
+//         labels: {
+//           font: {
+//             size: 20
+//           }
+//         }
+//       }
+//     }
+//   }
+// })
+// }
+
+// Dropdown of the sidebar
+
+
+
+var dropdownMenusWrp = document.querySelectorAll(".dropdown-menu-wrp");
+
+dropdownMenusWrp.forEach(dropDownMenuWrp => {
+  dropDownMenuWrp.addEventListener("click", function () {
+    let dropDownMenu = dropDownMenuWrp.querySelector(".dropdown-menu");
+    dropDownMenu.classList.toggle("active");
+  });
+});
+
+
 

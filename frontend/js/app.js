@@ -1,7 +1,6 @@
 import '../css/style.css';
 import Chart from 'chart.js/auto';
 
-const API_URL = './data/data.json';
 
 // Fetch json data
 const fetchData = async () => {

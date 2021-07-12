@@ -4,3 +4,12 @@ services:
     build: ./backend
     ports: ["4000:4000"]
     volumes: ["./backend:/app"]
+
+  database:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes:
+        - redis_data:/data
+  
+volumes:
+  redis_data:

@@ -24,6 +24,20 @@ main {
   display:block;
 }
 
-.dropdown-menu-wrp{
-  
+html, body, #container {
+  min-height: 100vh;
+  margin:0;
+}
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow:column;
+  position: fixed;
+  left:50%;
+  top: 50%;
+  width:50rem;
+  margin-top:-40rem;
+  margin-left:-25rem;
+  text-align:center;
 }

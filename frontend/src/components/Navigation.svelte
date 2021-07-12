@@ -1,17 +1,19 @@
 <script>
   import { Link } from 'svelte-navigator';
+  import CaretDown from './CaretDown.svelte';
 
-  var dropdownMenusWrp = document.querySelectorAll('.dropdown-menu-wrp');
+  let dropdowns = {};
 
-  dropdownMenusWrp.forEach((dropDownMenuWrp) => {
-    dropDownMenuWrp.addEventListener('click', function () {
-      let dropDownMenu = dropDownMenuWrp.querySelector('.dropdown-menu');
-      dropDownMenu.classList.toggle('active');
-    });
-  });
+  const toggleDropdown = (name) => {
+    if (!dropdowns[name]) {
+      dropdowns[name] = true;
+      return;
+    }
+    dropdowns[name] = !dropdowns[name];
+  };
 </script>
 
-<div class="bg-green-300 w-1/6 text-blue-100 h-screen space-y-6 py-7 px-2 mr-8">
+<div class="bg-green-300 w-1/5 text-blue-100 h-screen space-y-6 py-7 px-2 mr-8">
   <Link to="/">
     <span class="text-white flex items-center space-x-2 px-4">
       <svg
@@ -44,58 +46,47 @@
         </Link>
       </li>
 
-      <li class="dropdown-menu-wrp menu-wrp">
+      <li on:click={() => toggleDropdown('supply')}>
         <Link to="/supply">
-          <span class="flex py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white">
-            Supply
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <div
+            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
+            Supply
+            <CaretDown />
+          </div>
         </Link>
 
-        <ul class="dropdown-menu space-y-1">
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Input</a></li>
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Attrition Table</a></li>
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Graphs</a></li>
+        <ul class="dropdown-menu" class:active={dropdowns['supply']}>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Attrition Table</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Graphs</a></li>
         </ul>
       </li>
 
-      <li class="dropdown-menu-wrp">
-        <a
-          href="#"
-          class="flex py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
-          >Demand Modeling
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+      <li on:click={() => toggleDropdown('demand')}>
+        <Link to="/demand">
+          <div
+            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
-        </a>
+            Demand Modeling
+            <CaretDown />
+          </div>
+        </Link>
 
-        <ul class="dropdown-menu space-y-1">
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Input</a></li>
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Table</a></li>
-          <li><a href="#" class="block py-2.5 px-6 text-green-900">Graphs</a></li>
+        <ul class="dropdown-menu" class:active={dropdowns['demand']}>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Table</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Graphs</a></li>
         </ul>
       </li>
 
       <li>
         <a
-          href="#"
+          href={'#'}
           class="block py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
-          >Gap Analysis</a
         >
+          Gap Analysis
+        </a>
       </li>
     </ul>
   </nav>

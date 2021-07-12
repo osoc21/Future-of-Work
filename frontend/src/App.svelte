@@ -1,14 +1,16 @@
 <script>
   import './app.postcss';
+  import { Router, Route } from 'svelte-navigator';
+  import Home from './pages/Home.svelte';
 </script>
 
-<main>
-  <h1>Hello!</h1>
-  <p>
-    Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte
-    apps.
-  </p>
-</main>
+<Router>
+  <div>
+    <Route path="/">
+      <Home />
+    </Route>
+  </div>
+</Router>
 
 <style>
 </style>

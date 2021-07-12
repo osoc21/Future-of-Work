@@ -24,12 +24,21 @@
   <title>Home | Strategic Workforce Planning</title>
 </svelte:head>
 
-<h1>Basic template</h1>
-<div class="chart-container" style="height:50vh; width:50vw">
-  <canvas id="myChart" />
+<div id="container" class="space-y-6">
+  <h1 class="text-2xl font-bold">Strategic Workflow</h1>
+  <p class="max-w-prose">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna justo, lacinia in libero ac,
+    auctor tincidunt quam. Aenean tempor neque leo, nec accumsan quam ullamcorper quis. Quisque
+    gravida aliquet turpis, sed porttitor odio lobortis id. In consectetur non eros at semper.
+  </p>
+  <button class="bg-green-200 hover:bg-green-100 rounded-full py-5 px-20">START</button>
 </div>
 
-<form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
+<!--
+  <form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
   <input type="file" name="files[]" multiple bind:files />
   <input type="submit" value="Upload File" />
 </form>
+ -->
+<style>
+</style>

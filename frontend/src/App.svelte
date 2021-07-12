@@ -1,16 +1,17 @@
 <script>
   import './app.postcss';
   import { Router, Route } from 'svelte-navigator';
+  import Navigation from './components/Navigation.svelte';
   import Home from './pages/Home.svelte';
+  import About from './pages/About.svelte';
 </script>
 
 <Router>
-  <div>
-    <Route path="/">
-      <Home />
-    </Route>
-  </div>
+  <Navigation />
+  <Route path="/">
+    <Home />
+  </Route>
+  <Route path="/about">
+    <About />
+  </Route>
 </Router>
-
-<style>
-</style>

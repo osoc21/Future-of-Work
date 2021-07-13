@@ -1,6 +1,8 @@
 version: "3"
 services:
   api:
+    env_file:
+      - backend/.env
     build: ./backend
     ports: ["4000:4000"]
     volumes: ["./backend:/app"]

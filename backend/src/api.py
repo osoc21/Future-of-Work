@@ -2,6 +2,7 @@ from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+import os
 #For documentation
 from flasgger import Swagger, swag_from
 #Database
@@ -34,8 +35,7 @@ def create_app():
         'uiversion': 3,
         "specs_route": "/swagger/"
         }
-
-    r = redis.Redis(host='database',port=6370)
+    r = redis.Redis(host='database',port=6379)
     
     swagger = Swagger(app, template= template)
 
@@ -43,7 +43,8 @@ def create_app():
     def allowed_file(filename,allowedextensions):
         return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in allowedextensions
-
+    FLASK_SECRET = os.getenv('FLASK_SECRET')
+    app.secret_key = FLASK_SECRET if FLASK_SECRET else "StupidSecret"
     api = Api(app)
 
     #API calls
@@ -72,7 +73,9 @@ def create_app():
                   description: a csv-file containing the retirement age 
             responses:
                 400:
-                    description: form is incorrect format one of the names isn't the same
+                    description: form is incorrect format could not find poplation file
+                401:
+                    description: 
                 401:
                     description: One of the files is empty meaning no file was sent in
                 402:
@@ -81,13 +84,13 @@ def create_app():
             # check if the post request has the file part
             if 'Population' not in request.files:
                 flash('Population is missing')
-                abort(400,'Population is missing')
+                abort(400)
             elif 'Attrition' not in request.files:
                 flash('Attrition is missing')
-                abort(400,'Attrition is missing')
+                abort(401)
             elif 'Retirement' not in request.files:
                 flash('Retirment is missing')
-                abort(400,'Retirement is missing')
+                abort(402)
             else:
                 populationFile = request.files['Population']
                 attritionFile = request.files['Attrition']
@@ -96,31 +99,32 @@ def create_app():
                 # empty file without a filename.
                 if populationFile.filename == '':
                     flash('No Population file selected')
-                    abort(401,"Population not selected")
+                    abort(410)
                 elif attritionFile.filename == '':
                     flash('No Attrition file selected')
-                    abort(401,"Attrition not selected")
+                    abort(411)
                 elif retirementFile.filename == '':
                     flash('No Retirement file selected')
-                    abort(401,"Retirement not selected")
+                    abort(412)
                 elif populationFile and attritionFile and retirementFile and map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile]):
                     if not(allowed_file(populationFile.filename,{'csv'})):
                         flash('Population is not a csv')
-                        abort(402,'Population is not a csv')
+                        abort(420)
                     elif not(allowed_file(attritionFile.filename,{'csv'})):
                         flash('Attrition is not a csv')
-                        abort(402,'Attrition is not a csv')
+                        abort(421)
                     elif not(allowed_file(retirementFile.filename,{'csv'})):
                         flash('Retirement is not a csv')
-                        abort(402,'Retirement is not a csv')
+                        abort(422)
                     else: 
-                        return jsonify({id : writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)}) 
+                        id = writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)
+                        return {"id" : id}, 200
                 else:
                     flash('Internal Error')
-                    abort(500,'Internal Server Error')
+                    abort(500)
             
 
     # API resource routing
-    api.add_resource(UploadFile, "/API/upload")
+    api.add_resource(UploadFile, "/API/upload/")
         
     return app

@@ -17,7 +17,7 @@ form.addEventListener('submit', (e) => {
         formData.append('Retirement', file)
     }
 
-  fetch('http://localhost:4000/API/upload', {
+  fetch('http://localhost:4000/API/upload/', {
     method: 'POST',
     body: formData
   })

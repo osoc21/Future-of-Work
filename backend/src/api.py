@@ -117,12 +117,17 @@ def create_app():
                         flash('Retirement is not a csv')
                         abort(422)
                     else: 
-                        id = writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)
+                        id = "OK"
                         return {"id" : id}, 200
                 else:
                     flash('Internal Error')
                     abort(500)
+
+    class LoadFile(Resource):
+        def PUT(self):
             
+
+            return {}, 200
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload/")

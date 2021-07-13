@@ -4,24 +4,28 @@ const form = document.querySelector('form');
 
 // Listen for form submit
 form.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const files = document.querySelector('[type=file]').files;
-  const formData = new FormData();
+    e.preventDefault()
+    
+    const files = document.querySelector('[type=file]').files;
+    const formData = new FormData();
 
   for (let i = 0; i < files.length; i++) {
     let file = files[i];
 
-    formData.append('files[]', file);
-  }
+        formData.append('Population', file)
+        formData.append('Attrition', file)
+        formData.append('Retirement', file)
+    }
 
-  fetch('http://localhost:4000/upload/', {
+  fetch('http://localhost:4000/API/upload', {
     method: 'POST',
     body: formData
   })
     .then((response) => {
       console.log(response);
     })
-    .then((response) => response.json())
-    .catch((err) => console.error(err));
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(err => console.error(err))
 });

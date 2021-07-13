@@ -80,6 +80,8 @@ def create_app():
                     description: One of the files is empty meaning no file was sent in
                 402:
                     description: One of the files isn't a csv
+                200:
+                    description: succes returns a json with the csv
             """
             # check if the post request has the file part
             if 'Population' not in request.files:
@@ -117,8 +119,8 @@ def create_app():
                         flash('Retirement is not a csv')
                         abort(422)
                     else: 
-                        id = "OK"
-                        return {"id" : id}, 200
+                        result = writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)
+                        return {"result" : result}, 200
                 else:
                     flash('Internal Error')
                     abort(500)

@@ -85,5 +85,6 @@ dropdownMenusWrp.forEach(dropDownMenuWrp => {
   });
 });
 
+// Hold the css when the tab is selected
 
 

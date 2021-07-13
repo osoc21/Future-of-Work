@@ -22,6 +22,7 @@ main {
 
 .dropdown-menu.active{
   display:block;
+  /* background-color:red; */
 }
 
 html, body, #container {
@@ -40,4 +41,40 @@ html, body, #container {
   margin-top:-40rem;
   margin-left:-25rem;
   text-align:center;
+}
+
+.form-container {
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1em;
+}
+
+.grid-1 {
+  grid-column-start:1;
+  grid-column-end:3;
+  grid-row:1;
+}
+
+.grid-2 {
+  grid-column-start:3;
+  grid-column-end:5;
+  grid-row:1;
+}
+
+.grid-3 {
+  grid-column-start:1;
+  grid-column-end:3;
+  grid-row:2;
+}
+
+.grid-4 {
+  grid-column-start:3;
+  grid-column-end:5;
+  grid-row:2;
+}
+
+.grid-part{
+  display: block;
+  width:100%;
+  float:left;
 }

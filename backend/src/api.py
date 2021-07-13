@@ -7,7 +7,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from FileHandling import handleFile
+from FileHandling import writeCSV
 
 
 template = {
@@ -25,8 +25,6 @@ template = {
 
 UPLOAD_FOLDER = '/'
 
-r = redis.Redis(host='database',port=6370)
-
 def create_app():
     app = Flask(__name__)
     CORS(app)
@@ -36,6 +34,8 @@ def create_app():
         'uiversion': 3,
         "specs_route": "/swagger/"
         }
+
+    r = redis.Redis(host='database',port=6370)
     
     swagger = Swagger(app, template= template)
 
@@ -82,44 +82,43 @@ def create_app():
             if 'Population' not in request.files:
                 flash('Population is missing')
                 abort(400,'Population is missing')
-            if 'Attrition' not in request.files:
+            elif 'Attrition' not in request.files:
                 flash('Attrition is missing')
                 abort(400,'Attrition is missing')
-            if 'Retirement' not in request.files:
+            elif 'Retirement' not in request.files:
                 flash('Retirment is missing')
                 abort(400,'Retirement is missing')
-            populationFile = request.files['Population']
-            attritionFile = request.files['Attrition']
-            retirementFile = request.files['Retirement'] 
-            # If the user does not select a file, the browser submits an
-            # empty file without a filename.
-            if populationFile.filename == '':
-                flash('No Population file selected')
-                abort(401,"Population not selected")
-            if attritionFile.filename == '':
-                flash('No Attrition file selected')
-                abort(401,"Attrition not selected")
-            if retirementFile.filename == '':
-                flash('No Retirement file selected')
-                abort(401,"Retirement not selected")
-            if populationFile and allowed_file(populationFile.filename,{'csv'}):
-                if not(allowed_file(populationFile.filename,{'csv'})):
-                    flash('Population is not a csv')
-                    abort(402,'Population is not a csv')
-                id = handleFile(populationFile,id)
-                return jsonify({"id": id})
-            if attritionFile and allowed_file(attritionFile.filename,{'csv'}):
-                if not(allowed_file(attritionFile.filename,{'csv'})):
-                    flash('Attrition is not a csv')
-                    abort(402,'Attrition is not a csv')
-                id = handleFile(attritionFile,id)
-                return jsonify({"id": id})
-            if retirementFile and allowed_file(retirementFile.filename,{'csv'}):
-                if not(allowed_file(retirementFile.filename,{'csv'})):
-                    flash('Retirement is not a csv')
-                    abort(402,'Retirement is not a csv')
-                id = handleFile(retirementFile,id)
-                return jsonify({"id": id})
+            else:
+                populationFile = request.files['Population']
+                attritionFile = request.files['Attrition']
+                retirementFile = request.files['Retirement'] 
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if populationFile.filename == '':
+                    flash('No Population file selected')
+                    abort(401,"Population not selected")
+                elif attritionFile.filename == '':
+                    flash('No Attrition file selected')
+                    abort(401,"Attrition not selected")
+                elif retirementFile.filename == '':
+                    flash('No Retirement file selected')
+                    abort(401,"Retirement not selected")
+                elif populationFile and attritionFile and retirementFile and map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile]):
+                    if not(allowed_file(populationFile.filename,{'csv'})):
+                        flash('Population is not a csv')
+                        abort(402,'Population is not a csv')
+                    elif not(allowed_file(attritionFile.filename,{'csv'})):
+                        flash('Attrition is not a csv')
+                        abort(402,'Attrition is not a csv')
+                    elif not(allowed_file(retirementFile.filename,{'csv'})):
+                        flash('Retirement is not a csv')
+                        abort(402,'Retirement is not a csv')
+                    else: 
+                        return jsonify({id : writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)}) 
+                else:
+                    flash('Internal Error')
+                    abort(500,'Internal Server Error')
+            
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload")

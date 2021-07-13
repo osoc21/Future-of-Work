@@ -25,23 +25,6 @@ main {
   /* background-color:red; */
 }
 
-html, body, #container {
-  min-height: 100vh;
-  margin:0;
-}
-#container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow:column;
-  position: fixed;
-  left:50%;
-  top: 50%;
-  width:50rem;
-  margin-top:-40rem;
-  margin-left:-25rem;
-  text-align:center;
-}
 
 .form-container {
   grid-template-rows: repeat(2, 1fr);

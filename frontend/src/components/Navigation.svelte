@@ -14,7 +14,7 @@
 </script>
 
 <div class="bg-green-300 w-1/5 text-blue-100 h-screen space-y-6 py-7 px-2 mr-8">
-  <Link to="/">
+  <Link to="landing">
     <span class="text-white flex items-center space-x-2 px-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -37,11 +37,11 @@
   <nav>
     <ul class="space-y-3">
       <li>
-        <Link to="/">
+        <Link to="/fileupload">
           <span
             class="menu-wrp block py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
           >
-            Home
+            File Upload
           </span>
         </Link>
       </li>

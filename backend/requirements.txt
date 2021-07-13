@@ -4,5 +4,3 @@ pandas
 flask_restful
 redis
 flasgger
-pyarrow
-fastparquet

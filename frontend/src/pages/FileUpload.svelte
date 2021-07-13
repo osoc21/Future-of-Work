@@ -1,24 +1,33 @@
 <script>
   import { uploadWorkforceData } from '../api/upload';
 
-  let file2;
-  let file1;
+  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
 
-  
-
-//   let file2;
+  //   let file2;
   const handleUpload = async (e) => {
-      //TODO check if every field contains a file
+    //TODO check if every field contains a file
     e.preventDefault();
 
     const formData = new FormData();
-    // for (let i = 0; i < files.length; i++) {
-    //   let file = files[i];
-    //   formData.append('files[]', file);
-    // }
+    const missingFiles = [];
+    fileTypes.forEach((fileType) => {
+      if (!fileType.file) {
+        missingFiles.push(fileType.name);
+      } else {
+        console.log(fileType.file[0]);
+        formData.append('files[]', fileType.file[0]);
+      }
+    });
 
-    formData.append('files[]',file1[0]);
-    formData.append('files[]',file2[0]);    
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+
+    if (missingFiles.length > 0) {
+      // show error
+    } else {
+      // upload
+    }
 
     try {
       const response = await uploadWorkforceData(formData);
@@ -27,20 +36,16 @@
       console.log(error);
     }
   };
+
+  // for (let i = 0; i < files.length; i++) {
+  //   let file = files[i];
+  //   formData.append('files[]', file);
+  // }
 </script>
 
-<div class="relative flex">
-  <div id="nav-placeholder" />
-
-  <div class="flex-1">
-    <form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
-        <input type="file" multiplename="file1" bind:files={file1} />
-        <input type="file" name="file2" bind:files={file2} />
-        <!-- <input type="file" name="file2" bind:file2 /> -->
-
-    
-        <input type="submit" value="Upload File" />
-      </form>   
-  </div>
-
-</div>
+<form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
+  {#each fileTypes as fileType}
+    <input type="file" name={fileType.name} bind:files={fileType.file} />
+  {/each}
+  <input type="submit" value="Upload file" />
+</form>

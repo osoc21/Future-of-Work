@@ -9,7 +9,7 @@
   import FileUpload from './pages/FileUpload.svelte'
 </script>
 
-<Router>
+<!-- <Router>
   <div id="app" class="flex">
     <main>
       <Route path="/">
@@ -17,7 +17,7 @@
       </Route>
     </main>
   </div>
-</Router>
+</Router> -->
 
 <Router>
   <div id="app" class="flex">

@@ -12,7 +12,9 @@ form.addEventListener('submit', (e) => {
     for (let i = 0; i < files.length; i++) {
         let file = files[i]
 
-        formData.append('files[]', file)
+        formData.append('Population', file)
+        formData.append('Attrition', file)
+        formData.append('Retirement', file)
     }
 
 

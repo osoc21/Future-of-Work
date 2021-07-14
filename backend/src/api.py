@@ -84,13 +84,13 @@ def create_app():
             # check if the post request has the file part
             if 'Population' not in request.files:
                 flash('Population is missing')
-                abort(400,message="Population is missing")
+                abort(400,message="Population is missing got " + str(request.files))
             elif 'Attrition' not in request.files:
                 flash('Attrition is missing')
-                abort(401,message="Attrition is missing")
+                abort(401,message="Attrition is missing" + str(request.files))
             elif 'Retirement' not in request.files:
                 flash('Retirment is missing')
-                abort(402,message="Retirement is missing")
+                abort(402,message="Retirement is missing" + str(request.files))
             else:
                 populationFile = request.files['Population']
                 attritionFile = request.files['Attrition']

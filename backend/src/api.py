@@ -84,7 +84,9 @@ def create_app():
             """
             # check if the post request has the file part
             parse = reqparse.RequestParser()
-            parse.add_argument('file', type= werkzeug.datastructures.FileStorage, location='files')
+            parse.add_argument('Population.csv', type= werkzeug.datastructures.FileStorage, location='files')
+            parse.add_argument('Attrition.csv', type= werkzeug.datastructures.FileStorage, location='files')
+            parse.add_argument('Retirement.csv', type= werkzeug.datastructures.FileStorage, location='files')
             args = parse.parse_args()
 
             abort(400,message="Population is missing got " + str(args))

@@ -12,7 +12,7 @@ def writeCSV(files,names,redis):
             ids.append(str(id)) 
             redis.set(str(id),row.to_json()) 
         df['id'] = ids 
-        result[name] = df.to_json()
+        result[name] = df.to_dict()
     return result
 
 def readCSV(id,name,redis):

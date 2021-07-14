@@ -1,6 +1,5 @@
 from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
-from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 #For documentation
@@ -28,7 +27,6 @@ UPLOAD_FOLDER = '/'
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SWAGGER'] = {
         'title': 'My API',
@@ -51,7 +49,7 @@ def create_app():
     class UploadFile(Resource):
         def post(self):
             """
-            Example
+            Upload 3 csv files to the server and get a JSON back with UUID
             ---
             tags:
                 - File upload

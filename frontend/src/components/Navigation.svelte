@@ -11,10 +11,14 @@
     }
     dropdowns[name] = !dropdowns[name];
   };
+
+
+    
 </script>
 
+
 <div class="bg-green-300 w-1/5 text-blue-100 h-screen space-y-6 py-7 px-2 mr-8">
-  <Link to="/">
+  <Link to="/landing">
     <span class="text-white flex items-center space-x-2 px-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"

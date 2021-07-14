@@ -1,5 +1,9 @@
 <script>
-    import { Link } from 'svelte-navigator'
+    import { Link } from 'svelte-navigator';
+    import {  useLocation } from 'svelte-navigator';
+
+    // const currentPage = useLocation();
+    // console.log(currentPage);
 </script>
 
 <div id="container" class="space-y-6">

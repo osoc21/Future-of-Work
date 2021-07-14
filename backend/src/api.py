@@ -1,5 +1,6 @@
 from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
@@ -34,6 +35,9 @@ def create_app():
         'uiversion': 3,
         "specs_route": "/swagger/"
         }
+
+    CORS(app)
+    
     r = redis.Redis(host='database',port=6379)
     
     swagger = Swagger(app, template= template)

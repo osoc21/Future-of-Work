@@ -1,6 +1,7 @@
 from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
 from werkzeug.utils import secure_filename
+import werkzeug
 import os
 #For documentation
 from flasgger import Swagger, swag_from
@@ -82,19 +83,24 @@ def create_app():
                     description: succes returns a json with the csv
             """
             # check if the post request has the file part
-            if 'Population' not in request.files:
+            parse = reqparse.RequestParser()
+            parse.add_argument('Population.csv', type= werkzeug.FileStorage, location='files')
+            args = parse.parse_args()
+
+            abort(400,message="Population is missing got " + str(args))
+            if 'Population.csv' not in request.files:
                 flash('Population is missing')
-                abort(400,message="Population is missing got " + str(request.files))
-            elif 'Attrition' not in request.files:
+                abort(400,message="Population is missing got " + str(request.files.values()))
+            elif 'Attrition.csv' not in request.files:
                 flash('Attrition is missing')
                 abort(401,message="Attrition is missing" + str(request.files))
-            elif 'Retirement' not in request.files:
+            elif 'Retirement.csv' not in request.files:
                 flash('Retirment is missing')
                 abort(402,message="Retirement is missing" + str(request.files))
             else:
-                populationFile = request.files['Population']
-                attritionFile = request.files['Attrition']
-                retirementFile = request.files['Retirement'] 
+                populationFile = request.files['Population.csv']
+                attritionFile = request.files['Attrition.csv']
+                retirementFile = request.files['Retirement.csv'] 
                 # If the user does not select a file, the browser submits an
                 # empty file without a filename.
                 if populationFile.filename == '':

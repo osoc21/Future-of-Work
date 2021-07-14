@@ -2,7 +2,7 @@
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
 
-  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
+  const fileTypes = [{ name: 'Attrition' }, { name: 'Population' }, { name: 'Retirement' }];
 
   //   let file2;
   const handleUpload = async (e) => {
@@ -21,7 +21,7 @@
     });
 
     for (var value of formData.values()) {
-      console.log(value);
+      // console.log(value);
     }
 
     if (missingFiles.length > 0) {

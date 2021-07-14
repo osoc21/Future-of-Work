@@ -1,9 +1,10 @@
+
 <script>
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
 
   const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
-
+  
   //   let file2;
   const handleUpload = async (e) => {
     //TODO check if every field contains a file
@@ -16,7 +17,7 @@
         missingFiles.push(fileType.name);
       } else {
         console.log(fileType.file[0]);
-        formData.append('files[]', fileType.file[0]);
+        formData.append(fileType.name, fileType.file[0]);
       }
     });
 

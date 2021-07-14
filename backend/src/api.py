@@ -83,26 +83,19 @@ def create_app():
                     description: succes returns a json with the csv
             """
             # check if the post request has the file part
-            parse = reqparse.RequestParser()
-            parse.add_argument('Population.csv', type= werkzeug.datastructures.FileStorage, location='files')
-            parse.add_argument('Attrition.csv', type= werkzeug.datastructures.FileStorage, location='files')
-            parse.add_argument('Retirement.csv', type= werkzeug.datastructures.FileStorage, location='files')
-            args = parse.parse_args()
-
-            abort(400,message="Population is missing got " + str(args))
-            if 'Population.csv' not in request.files:
-                flash('Population is missing')
-                abort(400,message="Population is missing got " + str(request.files.values()))
-            elif 'Attrition.csv' not in request.files:
-                flash('Attrition is missing')
+            if 'population' not in request.files:
+                flash('population is missing')
+                abort(400,message="Population is missing got " + str(request.files.keys()))
+            elif 'attrition' not in request.files:
+                flash('attrition is missing')
                 abort(401,message="Attrition is missing" + str(request.files))
-            elif 'Retirement.csv' not in request.files:
+            elif 'retirement' not in request.files:
                 flash('Retirment is missing')
                 abort(402,message="Retirement is missing" + str(request.files))
             else:
-                populationFile = request.files['Population.csv']
-                attritionFile = request.files['Attrition.csv']
-                retirementFile = request.files['Retirement.csv'] 
+                populationFile = request.files['population']
+                attritionFile = request.files['attrition']
+                retirementFile = request.files['retirement'] 
                 # If the user does not select a file, the browser submits an
                 # empty file without a filename.
                 if populationFile.filename == '':
@@ -116,16 +109,16 @@ def create_app():
                     abort(412)
                 elif populationFile and attritionFile and retirementFile and map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile]):
                     if not(allowed_file(populationFile.filename,{'csv'})):
-                        flash('Population is not a csv')
+                        flash('population is not a csv')
                         abort(420)
                     elif not(allowed_file(attritionFile.filename,{'csv'})):
-                        flash('Attrition is not a csv')
+                        flash('attrition is not a csv')
                         abort(421)
                     elif not(allowed_file(retirementFile.filename,{'csv'})):
-                        flash('Retirement is not a csv')
+                        flash('retirement is not a csv')
                         abort(422)
                     else: 
-                        result = writeCSV([populationFile,attritionFile,retirementFile],["Population","Attrition","Retirement"],r)
+                        result = writeCSV([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
                         return {"result" : result}, 200
                 else:
                     flash('Internal Error')

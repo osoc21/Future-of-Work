@@ -9,8 +9,9 @@ def writeCSV(files,names,redis):
         ids = []
         for _,row in df.iterrows():
             id = uuid1()
-            ids.append(id)
-            redis.set(str(id),row.to_json())
+            ids.append(str(id)) 
+            redis.set(str(id),row.to_json()) 
+        df['id'] = ids 
         result[name] = df.to_json()
     return result
 

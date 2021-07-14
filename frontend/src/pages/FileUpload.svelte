@@ -1,6 +1,7 @@
 <script>
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
+  import DefaultButton from '../components/DefaultButton.svelte';
 
   const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
 
@@ -53,13 +54,16 @@
           <div class="form-container  ">
             
             {#each fileTypes as fileType, i}
-            <p>
+            <div>
+              <h2 class="text-4xl">{i+1}</h2>
               <label for={fileType.name}>Upload {fileType.name} file</label>
-              <input type="file" name={fileType.name} bind:files={fileType.file}  id={fileType.name}/>
-            </p>
+              <input type="file" name={fileType.name} bind:files={fileType.file}  id={fileType.name} />
+            </div>
               
             {/each}
-            <input type="submit" value="Upload file" />
+            <DefaultButton type="submit"></DefaultButton>
+            <!-- <input type="submit" value="Upload file" /> -->
+
           </div>
         </form>
           

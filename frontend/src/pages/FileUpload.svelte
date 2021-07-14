@@ -1,5 +1,6 @@
 <script>
   import { uploadWorkforceData } from '../api/upload';
+  import AppLayout from '../components/AppLayout.svelte';
 
   const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
 
@@ -43,9 +44,11 @@
   // }
 </script>
 
-<form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
-  {#each fileTypes as fileType}
-    <input type="file" name={fileType.name} bind:files={fileType.file} />
-  {/each}
-  <input type="submit" value="Upload file" />
-</form>
+<AppLayout>
+  <form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
+    {#each fileTypes as fileType}
+      <input type="file" name={fileType.name} bind:files={fileType.file} />
+    {/each}
+    <input type="submit" value="Upload file" />
+  </form>
+</AppLayout>

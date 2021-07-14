@@ -37,7 +37,7 @@
     left: 50%;
     top: 50%;
     width: 50rem;
-    /* margin-top: -40rem; */
+    margin-top: -40rem;
     margin-left: -25rem;
     text-align: center;
   }

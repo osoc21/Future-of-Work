@@ -34,6 +34,9 @@
     try {
       const response = await uploadWorkforceData(formData);
       console.log(response);
+
+      console.log(response.ID);
+      localStorage.setItem('globalId', response.ID);
     } catch (error) {
       console.log(error);
     }

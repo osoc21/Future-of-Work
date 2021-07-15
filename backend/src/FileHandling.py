@@ -1,18 +1,21 @@
 from uuid import uuid1
-import pandas as pd
+import pandas as pd 
 import io
 
 def writeCSV(files,names,redis):
-    result = {}
+    result = {'globalID':str(uuid1())}
+    globalID = str(uuid1())
     for file,name in zip(files,names):
         df = pd.read_csv(file)
         ids = []
+        dataID = str(uuid1())
         for _,row in df.iterrows():
-            id = uuid1()
-            ids.append(str(id)) 
-            redis.set(str(id),row.to_json()) 
+            id = str(uuid1())
+            ids.append(id) 
+            redis.set(id,row.to_json()) 
         df['id'] = ids 
-        result[name] = df.to_dict()
+        redis.set(dataID,str(ids)) 
+        result[name] = {'id':dataID,'Data':df.to_dict()}
     return result
 
 def readCSV(id,name,redis):

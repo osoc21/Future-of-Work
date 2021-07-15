@@ -1,11 +1,12 @@
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: ['./src/**/*.{html,js,svelte,ts}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
-}
+  plugins: []
+};

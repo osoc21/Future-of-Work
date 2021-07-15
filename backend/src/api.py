@@ -9,7 +9,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from FileHandling import writeCSV
+from FileHandling import writeCSVs
 
 
 template = {
@@ -132,19 +132,21 @@ def create_app():
                         flash('retirement is not a csv')
                         abort(422,message="retirement file is not a csv")
                     else: 
-                        globalID = writeCSV([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
-                        return {"ID" : globalID}, 200
+                        globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
+                        resp = make_response({"ok":"ok"})
+                        resp.set_cookie('globalID', globalID)
+                        return resp
                 else:
                     flash('Internal Error')
                     abort(500,message="Internal server error")
 
     class LoadFile(Resource):
-        def PUT(self):
-            
-
-            return {}, 200
+        def get(self):
+            id = request.cookies['id'] 
+            return {"id",id}, 200
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload/")
-        
+    api.add_resource(LoadFile, "/API/load/")    
+    
     return app

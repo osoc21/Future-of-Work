@@ -142,11 +142,20 @@ def create_app():
 
     class LoadFile(Resource):
         def get(self):
-            id = request.cookies['id'] 
-            return {"id",id}, 200
+            """
+            get cookie
+            ---
+            tags:
+                - File upload
+            responses:
+                200:
+                    description: you get a cookie
+            """ 
+            resp = make_response({"id":request.cookies['id']})
+            return resp
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload/")
     api.add_resource(LoadFile, "/API/load/")    
-    
+ 
     return app

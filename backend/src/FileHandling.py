@@ -5,7 +5,7 @@ import json
 
 def writeCSVs(files,names,redis):
     globalID = str(uuid1())
-    result = {}
+    files = {}
     for file,name in zip(files,names):
         df = pd.read_csv(file)
         ids = []
@@ -15,11 +15,15 @@ def writeCSVs(files,names,redis):
             ids.append(id) 
             redis.set(id,row.to_json())
         redis.set(dataID,str(ids)) 
-        result[name] = {'id':dataID} 
-    redis.set(globalID,json.dumps(result,indent=0))
+        files[name] = {'id':dataID} 
+    redis.set(globalID,json.dumps(files,indent=0))
     return globalID
  
-def readCSV(id,name,redis):
-    buffer = io.BytesIO(redis.get(str(id) + "-" + name))
-    buffer.seek(0)
-    return pd.read_parquet(buffer)
+def readCSV(id,redis):
+    filesID = json.load(redis.get(id))
+    for fileID in filesID:
+        rowIDS = json.load(redis.get(fileID))
+        df = []
+        for rowID in rowIDS:
+            df = pd.read_json()
+    return 

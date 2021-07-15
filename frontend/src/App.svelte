@@ -6,6 +6,8 @@
   import Demand from './pages/Demand.svelte';
   import Landing from './pages/Landing.svelte';
   import FileUpload from './pages/FileUpload.svelte';
+  import SupplyTable from './pages/SupplyTable.svelte';
+  import SupplyGraph from './pages/SupplyGraph.svelte';
 </script>
 
 <Router>
@@ -19,6 +21,12 @@
 
   <Route path="/supply">
     <Supply />
+  </Route>
+  <Route path="/supplytable">
+    <SupplyTable />
+  </Route>
+  <Route path="/supplygraph">
+    <SupplyGraph />
   </Route>
   <Route path="/demand">
     <Demand />

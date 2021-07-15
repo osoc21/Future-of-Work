@@ -51,7 +51,7 @@
       </li>
 
       <li on:click={() => toggleDropdown('supply')}>
-        <Link to="/supply">
+        <Link to="">
           <div
             class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
           >
@@ -61,9 +61,19 @@
         </Link>
 
         <ul class="dropdown-menu" class:active={dropdowns['supply']}>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Attrition Table</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Graphs</a></li>
+          <!-- <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li> -->
+          <li><Link to="/supplytable">
+
+            <div class="block py-2.5 px-6 text-green-900">Attrition Table</div>
+          </Link>
+          </li>
+        
+          <li>
+            <Link to="/supplygraph">
+
+            <div class="block py-2.5 px-6 text-green-900">Graphs</div>
+            </Link>
+          </li>
         </ul>
       </li>
 

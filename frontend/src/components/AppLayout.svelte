@@ -5,7 +5,7 @@
 
 <div id="app" class="flex">
   <Navigation />
-  <main >
+  <main class="relative w-full">
     <slot />
   </main>
 </div>

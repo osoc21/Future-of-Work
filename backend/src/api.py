@@ -1,4 +1,4 @@
-from flask import Flask, make_response, jsonify, flash
+from flask import Flask, make_response, jsonify, flash, session
 from flask_restful import Api, Resource, reqparse, request, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -29,14 +29,13 @@ UPLOAD_FOLDER = '/'
 
 def create_app():
     app = Flask(__name__)
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SWAGGER'] = {
         'title': 'My API',
         'uiversion': 3,
         "specs_route": "/swagger/"
         }
 
-    CORS(app)
+    CORS(app,supports_credentials=True)
     
     r = redis.Redis(host='database',port=6379)
     
@@ -48,6 +47,7 @@ def create_app():
             filename.rsplit('.', 1)[1].lower() in allowedextensions
     FLASK_SECRET = os.getenv('FLASK_SECRET')
     app.secret_key = FLASK_SECRET if FLASK_SECRET else "StupidSecret"
+    
     api = Api(app)
 
     #API calls
@@ -133,14 +133,15 @@ def create_app():
                         abort(422,message="retirement file is not a csv")
                     else: 
                         globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
-                        resp = make_response({"ok":"ok"})
-                        resp.set_cookie('globalID', globalID)
+                        resp = make_response({"succes":"succes"})
+                        resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
+                        session['globalID'] = globalID
                         return resp
                 else:
                     flash('Internal Error')
                     abort(500,message="Internal server error")
 
-    class LoadFile(Resource):
+    class LoadFile(Resource): 
         def get(self):
             """
             get cookie
@@ -151,8 +152,7 @@ def create_app():
                 200:
                     description: you get a cookie
             """ 
-            resp = make_response({"id":request.cookies['id']})
-            return resp
+            return {"id":request.cookies.get("globalID")}
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload/")

@@ -3,7 +3,7 @@ import pandas as pd
 import io
 import json
 
-def writeCSV(files,names,redis):
+def writeCSVs(files,names,redis):
     globalID = str(uuid1())
     result = {}
     for file,name in zip(files,names):

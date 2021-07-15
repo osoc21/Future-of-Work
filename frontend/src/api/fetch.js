@@ -1,5 +1,5 @@
 export const fetchWorkforceData = async () => {
-  const response = await fetch('https://randomuser.me/api/?results=1', {
+  const response = await fetch('http://localhost:4000/API/load/', {
     method: 'GET'
   });
   return await response.json();

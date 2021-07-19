@@ -15,15 +15,37 @@
   <p>Loading...</p>
 {:then data}
   <table>
-    <tbody>
-      <table>
-        <thead>{Object.keys(data.result.attrition[0]).join('')}</thead>
-        {#each data.result.attrition as row, index}
-          <tr>{Object.values(data.result.attrition[index]).join('')}</tr>
+    <tr>
+      {#each Object.keys(data.result.attrition[0]) as header}
+        <th>{header}</th>
+      {/each}
+    </tr>
+    {#each data.result.attrition as row}
+      <tr>
+        {#each Object.values(row) as item}
+          <td>{item}</td>
         {/each}
-    </table>
-    </tbody>
+      </tr>
+    {/each}
   </table>
 {:catch error}
   Oops: {error}
 {/await}
+
+<style>
+  table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>

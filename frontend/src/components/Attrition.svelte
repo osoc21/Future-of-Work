@@ -1,40 +1,3 @@
-<!-- <script>
-  import { fetchWorkforceData } from '../api/fetch';
-
-  let things = [];
-  let colNames = [];
-
-  const getData = async () => {
-    const response = await fetchWorkforceData();
-    console.log(response);
-
-  }
-
-  getData();
-
-
-</script>
-
-<table>
-  <thead>
-    <tr>
-      {#each colNames as col}
-    <th>{col} &varr;</th>
-  {/each}
-    </tr>
-  </thead>
-  <tbody>
-    {#each things as thing, index (thing.id)}
-      <tr>
-        {#each colNames as col, index}
-          <td>{thing[col]}</td>
-        {/each}
-      </tr>
-    {/each}
-  </tbody>
-</table> -->
-
-
 <script>
   import { fetchWorkforceData } from '../api/fetch';
 
@@ -44,18 +7,18 @@
 
   let workForceDataPromise = fetchWorkforceData();
 
+  let index = 0;
   
 </script>
 
 {#await workForceDataPromise}
   <p>Loading...</p>
-  {console.log("test")}
 {:then data}
   <!-- {console.log(data['result']['attrition'])} -->
-  {console.log(Object.entries(Object.entries(data["result"]["attrition"])))}
+  <!-- {console.log(Object.entries(Object.entries(data["result"]["attrition"])))}
 
   {console.log(Object.entries(Object.entries(data["result"]["attrition"])[0][1]))}
-  {console.log(data["result"]["attrition"][0])}
+  {console.log(data["result"]["attrition"][0])} -->
   <table>
     <thead>
       <tr>
@@ -63,14 +26,20 @@
       </tr>
     </thead>
     <tbody>
-      {#each Object.entries(Object.entries(data["result"]["attrition"])[0][1]) as item}
+      {#each Object.entries(data.result.attrition) as row, index}
+          <li>{index + 1}</li>
+          {console.log(row[1])}
+          {#each row as item}
+            <p>{item}</p>
+          {/each}
+      {/each}
+      <!-- {#each Object.entries(Object.entries(data["result"]["attrition"])[0][1]) as item}
         <tr>
-          
           {#each item as col, index}
             <td>{col}</td>
           {/each}
         </tr>
-      {/each}
+      {/each} -->
     </tbody>
   </table>
 {:catch error}

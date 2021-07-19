@@ -1,21 +1,29 @@
 from uuid import uuid1
-import pandas as pd
+import pandas as pd 
 import io
+import json
 
-def writeCSV(files,names,redis):
-    result = {}
+def writeCSVs(files,names,redis):
+    globalID = str(uuid1())
+    files = {}
     for file,name in zip(files,names):
         df = pd.read_csv(file)
         ids = []
+        dataID = str(uuid1())
         for _,row in df.iterrows():
-            id = uuid1()
-            ids.append(str(id)) 
-            redis.set(str(id),row.to_json()) 
-        df['id'] = ids 
-        result[name] = df.to_dict()
-    return result
-
-def readCSV(id,name,redis):
-    buffer = io.BytesIO(redis.get(str(id) + "-" + name))
-    buffer.seek(0)
-    return pd.read_parquet(buffer)
+            id = str(uuid1())
+            ids.append(id) 
+            redis.set(id,row.to_json())
+        redis.set(dataID,str(ids)) 
+        files[name] = {'id':dataID} 
+    redis.set(globalID,json.dumps(files,indent=0))
+    return globalID
+ 
+def readCSV(id,redis):
+    filesID = json.load(redis.get(id))
+    for fileID in filesID:
+        rowIDS = json.load(redis.get(fileID))
+        df = []
+        for rowID in rowIDS:
+            df = pd.read_json()
+    return 

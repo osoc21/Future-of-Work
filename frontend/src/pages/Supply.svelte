@@ -1,5 +1,12 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
+  import { fetchWorkforceData } from '../api/fetch';
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    const response = await fetchWorkforceData();
+    console.log(response);
+  })
 </script>
 
 <AppLayout>

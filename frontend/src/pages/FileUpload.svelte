@@ -60,7 +60,7 @@
   //Code for the range slider
 
   function setBubble(range, bubble) {
-    console.log(range, bubble);
+    
     const val = range.value;
     const min = range.min ? range.min : 1;
     const max = range.max ? range.max : 6;

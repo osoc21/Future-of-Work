@@ -1,5 +1,6 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
+  import Attrition from '../components/Attrition.svelte'
 </script>
 
 <AppLayout>
@@ -31,7 +32,7 @@
       </div>
     
       <div>
-          Table goes here
+          <Attrition />
       </div>
 
 

@@ -4,4 +4,6 @@ export const fetchWorkforceData = async () => {
     credentials: "include"
   });
   return await response.json();
+
+  
 };

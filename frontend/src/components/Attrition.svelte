@@ -14,32 +14,14 @@
 {#await workForceDataPromise}
   <p>Loading...</p>
 {:then data}
-  <!-- {console.log(data['result']['attrition'])} -->
-  <!-- {console.log(Object.entries(Object.entries(data["result"]["attrition"])))}
-
-  {console.log(Object.entries(Object.entries(data["result"]["attrition"])[0][1]))}
-  {console.log(data["result"]["attrition"][0])} -->
   <table>
-    <thead>
-      <tr>
-        <th />
-      </tr>
-    </thead>
     <tbody>
-      {#each Object.entries(data.result.attrition) as row, index}
-          <li>{index + 1}</li>
-          {console.log(row[1])}
-          {#each row as item}
-            <p>{item}</p>
-          {/each}
-      {/each}
-      <!-- {#each Object.entries(Object.entries(data["result"]["attrition"])[0][1]) as item}
-        <tr>
-          {#each item as col, index}
-            <td>{col}</td>
-          {/each}
-        </tr>
-      {/each} -->
+      <table>
+        <thead>{Object.keys(data.result.attrition[0]).join('')}</thead>
+        {#each data.result.attrition as row, index}
+          <tr>{Object.values(data.result.attrition[index]).join('')}</tr>
+        {/each}
+    </table>
     </tbody>
   </table>
 {:catch error}

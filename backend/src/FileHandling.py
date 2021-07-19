@@ -17,7 +17,6 @@ def writeCSVs(files,names,redis):
                 redis.set(id,str(row))
         redis.set(dataID,str(ids))
         filesIDs[name] = {'id':dataID}
-    print(filesIDs) 
     redis.set(globalID,str(filesIDs))
     return globalID
  
@@ -27,9 +26,10 @@ def readCSV(id,redis):
     for fileName in filesIDs:
         fileID = filesIDs[fileName]
         rowIDS = eval(redis.get(fileID['id']).decode())
-        csv = {}
+        rows = []
         for rowID in rowIDS:
             row = eval(redis.get(rowID))
-            csv[rowID] = row
-        result[fileName] = csv
+            row["rowID"] = rowID
+            rows.append(row)
+        result[fileName] = rows
     return result

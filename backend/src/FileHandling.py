@@ -1,29 +1,35 @@
 from uuid import uuid1
-import pandas as pd 
+import csv
 import io
 import json
 
 def writeCSVs(files,names,redis):
     globalID = str(uuid1())
-    files = {}
+    filesIDs = {}
     for file,name in zip(files,names):
-        df = pd.read_csv(file)
         ids = []
         dataID = str(uuid1())
-        for _,row in df.iterrows():
-            id = str(uuid1())
-            ids.append(id) 
-            redis.set(id,row.to_json())
-        redis.set(dataID,str(ids)) 
-        files[name] = {'id':dataID} 
-    redis.set(globalID,json.dumps(files,indent=0))
+        with io.TextIOWrapper(file, encoding='utf-8') as text_file:
+            csvReader = csv.DictReader(text_file, delimiter=',')
+            for row in csvReader:
+                id = str(uuid1())
+                ids.append(id)
+                redis.set(id,str(row))
+        redis.set(dataID,str(ids))
+        filesIDs[name] = {'id':dataID}
+    print(filesIDs) 
+    redis.set(globalID,str(filesIDs))
     return globalID
  
 def readCSV(id,redis):
-    filesID = json.load(redis.get(id))
-    for fileID in filesID:
-        rowIDS = json.load(redis.get(fileID))
-        df = []
+    filesIDs = eval(redis.get(str(id)).decode())
+    result = {}
+    for fileName in filesIDs:
+        fileID = filesIDs[fileName]
+        rowIDS = eval(redis.get(fileID['id']).decode())
+        csv = {}
         for rowID in rowIDS:
-            df = pd.read_json()
-    return 
+            row = eval(redis.get(rowID))
+            csv[rowID] = row
+        result[fileName] = csv
+    return result

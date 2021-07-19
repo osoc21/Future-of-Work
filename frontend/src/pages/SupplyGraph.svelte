@@ -2,16 +2,34 @@
 import { onMount } from "svelte";
 import Chart from 'chart.js/auto';
 import AppLayout from "../components/AppLayout.svelte";
+import { fetchWorkforceData } from '../api/fetch';
 
-function createChart() {
+const fetchData = async () => {
+    const response = await fetchWorkforceData();
+    console.log(response);
+    mapData(response);
+}
+
+const mapData = (data) => {
+    var labels = data.result.attrition.map(function(e) {
+        return e.FTE;
+    });
+    var data = data.result.attrition.map(function(e) {
+        return e[`Country of Personnel Area`];
+    });
+    createChart(labels, data)
+}
+fetchData();
+
+function createChart(chartData, chartLabels) {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: chartLabels,
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: chartData,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -40,8 +58,6 @@ function createChart() {
     }
 });
 }
-
-onMount(createChart);
 </script>
 <AppLayout>
     <div class="relative flex container-flex">

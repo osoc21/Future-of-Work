@@ -159,7 +159,7 @@ def create_app():
                 abort(400,"Couldn't find ID")
 
     # API resource routing
-    api.add_resource(UploadFile, "/API/upload/")
-    api.add_resource(LoadFile, "/API/load/")    
+    api.add_resource(UploadFile, "/api/upload/")
+    api.add_resource(LoadFile, "/api/load/")    
  
     return app

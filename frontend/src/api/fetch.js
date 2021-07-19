@@ -1,5 +1,5 @@
 export const fetchWorkforceData = async () => {
-  const response = await fetch('http://localhost:4000/API/load/', {
+  const response = await fetch('http://localhost:4000/api/load/', {
     method: 'GET',
     credentials: "include"
   });

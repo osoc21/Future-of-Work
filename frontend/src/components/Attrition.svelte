@@ -1,26 +1,36 @@
 <script>
+  import { onMount } from 'svelte';
   import { fetchWorkforceData } from '../api/fetch';
 
-  // let things = [];
-  // Colomn names for testing 
-  let colNames = ["Birth date",'Cont. End'];
+  let isLoading = true;
+  let data;
 
-  let workForceDataPromise = fetchWorkforceData();
+  onMount(async () => {
+    try {
+      data = await fetchWorkforceData();
+      console.log(data)
+    } catch (err) {
+      console.log(err);
+    }
+    isLoading = false;
+  });
 
-  let index = 0;
-  
+  $: attritionData = isLoading ? null : data.result.attrition.map((row) => {
+    delete row.rowID;
+    return row;
+  })
 </script>
 
-{#await workForceDataPromise}
+{#if isLoading}
   <p>Loading...</p>
-{:then data}
+{:else}
   <table>
     <tr>
       {#each Object.keys(data.result.attrition[0]) as header}
         <th>{header}</th>
       {/each}
     </tr>
-    {#each data.result.attrition as row}
+    {#each attritionData as row}
       <tr>
         {#each Object.values(row) as item}
           <td>{item}</td>
@@ -28,24 +38,22 @@
       </tr>
     {/each}
   </table>
-{:catch error}
-  Oops: {error}
-{/await}
+{/if}
 
 <style>
   table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+  }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
 </style>

@@ -9,7 +9,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from FileHandling import writeCSVs
+from FileHandling import writeCSVs,readCSV
 
 
 template = {
@@ -135,7 +135,6 @@ def create_app():
                         globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
                         resp = make_response({"succes":"succes"})
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
-                        session['globalID'] = globalID
                         return resp
                 else:
                     flash('Internal Error')
@@ -152,7 +151,12 @@ def create_app():
                 200:
                     description: you get a cookie
             """ 
-            return {"id":request.cookies.get("globalID")}
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                resp = make_response({"result":readCSV(globalID,r)})
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
 
     # API resource routing
     api.add_resource(UploadFile, "/API/upload/")

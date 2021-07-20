@@ -12,4 +12,4 @@ EXPOSE 4000
 
 COPY src .
 
-CMD python ./src/app.py
+CMD python ./app.py

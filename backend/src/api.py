@@ -10,7 +10,7 @@ from flasgger import Swagger, swag_from
 import redis
 #Our files
 from FileHandling import writeCSVs,readCSV
-from supply import calculateSupply
+from supply import calculateSupplyTitle
 
 
 template = {
@@ -144,13 +144,15 @@ def create_app():
     class LoadFiles(Resource): 
         def get(self):
             """
-            get cookie
+            get back the data you have uploaded
             ---
             tags:
-                - File upload
+                - File fetching
             responses:
                 200:
-                    description: 
+                    description: succes returns the data as a json
+                400:
+                    description: couldn't find the globalID cookie
             """ 
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
@@ -160,15 +162,15 @@ def create_app():
                 abort(400,"Couldn't find ID")
 
     class Supply(Resource):
-        def get(self):
+        def get(self,year):
             """
 
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 csvs = readCSV(globalID,r)
-                supply = calculateSupply(csvs)
-                resp = make_response({"result":"result"})
+                supply = calculateSupplyTitle(csvs,year)
+                resp = make_response({"result":supply})
                 return resp
             else:
                 abort(400,"Couldn't find ID")
@@ -176,6 +178,6 @@ def create_app():
     # API resource routing
     api.add_resource(UploadFile, "/api/upload/")
     api.add_resource(LoadFiles, "/api/load/")
-    api.add_resource(Supply, "/api/supply/")
+    api.add_resource(Supply, "/api/supply/<int:year>")
  
     return app

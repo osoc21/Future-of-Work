@@ -14,6 +14,7 @@ def createDF(csvs):
     del retirementDf["rowID"]
     
     populationDf["Birth date"] = pd.to_datetime(populationDf["Birth date"], format=format)
+    populationDf["FTE"] = pd.to_numeric(populationDf["FTE"])
 
     result = populationDf
 
@@ -41,52 +42,36 @@ def createDF(csvs):
     result["Retirement"] = result.apply(retirement, axis=1)
     return result
 
-def calculateSupply(csvs,horizon = 5):
-    df = createDF(csvs)
+def calculateSupplyTitle(csvs,horizon = 5):
+    currentWF = createDF(csvs)
     
     current = datetime.datetime.now() 
+
+    uniqueFamily = currentWF.drop_duplicates(subset=["Job Family"])["Job Family"].values
     
-    unique = df.drop_duplicates(subset=["Job title"])
+    familyDict = {}
+
+    for family in uniqueFamily:
+        jobs = currentWF.loc[(currentWF["Job Family"] == family)].drop_duplicates(subset=["Job title"])["Job title"].values
+        familyDict[family] = jobs
 
     resultDict = {}
 
-    currentWF = df.loc[(df['Retirement'] > current)] 
-
-    currentFTEs = {}
-
-    #Calculate the current FTE of this year
-    for title in unique["Job title"].values:
-        currentWFTitle = currentWF.loc[currentWF["Job title"] == title]
-        currentFTE = sum(list(map(float,currentWFTitle["FTE"].values)))
-        currentFTEs[title] = currentFTE 
-    resultDict[current.year] = currentFTEs
-
-    def reduceAttrition(row):
-        result = float(row["FTE"]) * (float(row["Attrition"].strip('%'))/100)
-        return result
-
-    #calculate the forcast for the coming years 
-    forecast = currentFTEs.copy()
+    #calculate the forcast for the coming years
     for year in range(0,horizon):
-        current = current.replace(year=current.year + 1)
-        previous = forecast
-        lastWF = currentWF
-        currentWF = currentWF.loc[(df['Retirement'] > current)]
-        for title in unique["Job title"].values:
-            lastFTE = previous[title]
-            retiringFTE = lastWF.loc[(df['Retirement'] <= current)].loc[lastWF["Job title"] == title]
-            retiringFTE = sum(list(map(float,retiringFTE["FTE"].values)))
-            resultFTE = lastFTE - retiringFTE
-            if resultFTE < 0:
-                print("smaller than 0")
-            elif resultFTE == 0:
-                print("zero")
-            else:
-                attritionFTE = currentWF.loc[currentWF["Job title"] == title]
-                print(attritionFTE.apply(reduceAttrition,axis = 1))
-            forecast[title] = resultFTE
- 
+        forecast = {}
+        currentWF = currentWF.loc[(currentWF['Retirement'] > current)]
+        for family in familyDict:
+            currentWFFamily = currentWF.loc[currentWF["Job Family"] == family]
+            titles = []
+            for title in familyDict[family]:
+                currentWFTitle = currentWFFamily.loc[currentWF["Job title"] == title]
+                currentFTE = sum(list(map(float,currentWFTitle["FTE"].values)))
+                titles.append({title:currentFTE})
+            forecast[family] = titles  
         resultDict[current.year] = forecast.copy() 
-
-    return
+        currentWF["FTE"] = currentWF["FTE"] * (1 - currentWF["Attrition"])
+        current = current.replace(year=current.year + 1)
+     
+    return resultDict
 

@@ -156,21 +156,21 @@ def create_app():
             """ 
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response({"result":readCSV(globalID,r)})
+                resp = make_response(readCSV(globalID,r))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
 
     class Supply(Resource):
-        def get(self,year):
+        def get(self):
             """
 
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 csvs = readCSV(globalID,r)
-                supply = calculateSupplyTitle(csvs,year)
-                resp = make_response({"result":supply})
+                supply = calculateSupplyTitle(csvs)
+                resp = make_response(supply)
                 return resp
             else:
                 abort(400,"Couldn't find ID")
@@ -178,6 +178,6 @@ def create_app():
     # API resource routing
     api.add_resource(UploadFile, "/api/upload/")
     api.add_resource(LoadFiles, "/api/load/")
-    api.add_resource(Supply, "/api/supply/<int:year>")
+    api.add_resource(Supply, "/api/supply/")
  
     return app

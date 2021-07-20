@@ -1,44 +1,30 @@
 <script>
-  import { onMount } from 'svelte';
-  import { fetchWorkforceData } from '../api/fetch';
+  import WorkforceDataProvider from './WorkforceDataProvider.svelte';
+  import { workforceData } from '../store';
 
-  let isLoading = true;
-  let data;
-
-  onMount(async () => {
-    try {
-      data = await fetchWorkforceData();
-      console.log(data)
-    } catch (err) {
-      console.log(err);
-    }
-    isLoading = false;
-  });
-
-  $: attritionData = isLoading ? null : data.result.attrition.map((row) => {
-    delete row.rowID;
-    return row;
-  })
+  $: console.log($workforceData.data);
 </script>
 
-{#if isLoading}
-  <p>Loading...</p>
-{:else}
-  <table>
-    <tr>
-      {#each Object.keys(data.result.attrition[0]) as header}
-        <th>{header}</th>
-      {/each}
-    </tr>
-    {#each attritionData as row}
+<WorkforceDataProvider>
+  {#if $workforceData.isLoading}
+    <p>Loading...</p>
+  {:else}
+    <table>
       <tr>
-        {#each Object.values(row) as item}
-          <td>{item}</td>
+        {#each Object.keys($workforceData.data.attrition[0]) as header}
+          <th>{header}</th>
         {/each}
       </tr>
-    {/each}
-  </table>
-{/if}
+      {#each $workforceData.displayableData as row}
+        <tr>
+          {#each Object.values(row) as item}
+            <td>{item}</td>
+          {/each}
+        </tr>
+      {/each}
+    </table>
+  {/if}
+</WorkforceDataProvider>
 
 <style>
   table {

@@ -174,6 +174,22 @@ def create_app():
                 return resp
             else:
                 abort(400,"Couldn't find ID")
+
+    class Demand(Resource):
+        def get(self):
+            """
+
+            """
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                resp = make_response({"result":supply})
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+        def put(self):
+            
+            resp = make_response({"ok":"ok"})
+            return resp
     
     # API resource routing
     api.add_resource(UploadFile, "/api/upload/")

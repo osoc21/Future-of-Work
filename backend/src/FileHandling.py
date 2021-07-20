@@ -17,11 +17,15 @@ def writeCSVs(files,names,redis):
                 redis.set(id,str(row))
         redis.set(dataID,str(ids))
         filesIDs[name] = {'id':dataID}
-    redis.set(globalID,str(filesIDs))
-    return globalID
+    supplyID = str(uuid1())
+    redis.set(globalID,str({"supply":supplyID,"demand":str(uuid1())}))
+    redis.set(supplyID,str(filesIDs))
+    return globalID 
  
 def readCSV(id,redis):
-    filesIDs = eval(redis.get(str(id)).decode())
+    globalDict = eval(redis.get(str(id)).decode())
+    print(globalDict )
+    filesIDs = eval(redis.get(globalDict["supply"]).decode()) 
     result = {}
     for fileName in filesIDs:
         fileID = filesIDs[fileName]

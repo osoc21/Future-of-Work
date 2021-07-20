@@ -13,8 +13,8 @@
       console.log('testset', data);
       workforceData.set({
         ...$workforceData,
-        data: data.result,
-        displayableData: data.result.attrition.map((row) => {
+        data: data,
+        displayableData: data.attrition.map((row) => {
           delete row.rowID;
           return row;
         })

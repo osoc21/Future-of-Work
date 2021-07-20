@@ -99,18 +99,22 @@
               />
             </div>
           {/each}
-          <div class="range-wrap">
-            <input
-              type="range"
-              min="1"
-              max="6"
-              value="1"
-              class="slider"
-              id="myRange"
-              name="foo"
-            />
-            <output class="bubble bg-green-100"><output /></output>
+          <div class="space-x-6">
+            Select year range
+            <div class="range-wrap">
+              <input
+                type="range"
+                min="1"
+                max="6"
+                value="1"
+                class="slider"
+                id="myRange"
+                name="foo"
+              />
+              <output class="bubble bg-green-100"><output /></output>
+            </div>
           </div>
+        
 
           <div class="w-15">
             <label for="submit-file-button">Done?</label>

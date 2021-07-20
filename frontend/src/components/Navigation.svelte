@@ -64,21 +64,21 @@
           <!-- <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li> -->
           <li><Link to="/supplytable">
 
-            <div class="block py-2.5 px-6 text-green-900">Attrition Table</div>
+            <div class="block py-2.5 px-6 text-green-900">Table</div>
           </Link>
           </li>
         
           <li>
             <Link to="/supplygraph">
 
-            <div class="block py-2.5 px-6 text-green-900">Graphs</div>
+            <div class="block py-2.5 px-6 text-green-900">Visualization</div>
             </Link>
           </li>
         </ul>
       </li>
 
       <li on:click={() => toggleDropdown('demand')}>
-        <Link to="/demand">
+        <Link to="">
           <div
             class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
           >
@@ -88,9 +88,15 @@
         </Link>
 
         <ul class="dropdown-menu" class:active={dropdowns['demand']}>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Table</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Graphs</a></li>
+          <li
+          ><Link to="/demand-parameters">
+            <a href={'#'} class="block py-2.5 px-6 text-green-900">Parameters</a>
+          </Link>
+          </li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Build Scenario</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Outcome</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Visualization</a></li>
+
         </ul>
       </li>
 

@@ -1,13 +1,13 @@
 <script>
   import './app.postcss';
   import { Router, Route } from 'svelte-navigator';
-  // import Home from './pages/Home.svelte';
   import Supply from './pages/Supply.svelte';
-  import Demand from './pages/Demand.svelte';
   import Landing from './pages/Landing.svelte';
   import FileUpload from './pages/FileUpload.svelte';
   import SupplyTable from './pages/SupplyTable.svelte';
   import SupplyGraph from './pages/SupplyGraph.svelte';
+  import DemandParameters from './pages/DemandParameters.svelte';
+
 </script>
 
 <Router>
@@ -28,7 +28,8 @@
   <Route path="/supplygraph">
     <SupplyGraph />
   </Route>
-  <Route path="/demand">
-    <Demand />
+
+  <Route path="/demand-parameters">
+    <DemandParameters />
   </Route>
 </Router>

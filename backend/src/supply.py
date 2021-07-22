@@ -55,10 +55,10 @@ def calculateSupplyTitle(csvs,horizon = 5):
         jobs = currentWF.loc[(currentWF["Job Family"] == family)].drop_duplicates(subset=["Job title"])["Job title"].values
         familyDict[family] = jobs
 
-    resultDict = {}
+    result = []
 
     #calculate the forcast for the coming years
-    for year in range(0,horizon):
+    for _ in range(0,horizon):
         forecast = {}
         currentWF = currentWF.loc[(currentWF['Retirement'] > current)]
         for family in familyDict:
@@ -68,10 +68,10 @@ def calculateSupplyTitle(csvs,horizon = 5):
                 currentWFTitle = currentWFFamily.loc[currentWF["Job title"] == title]
                 currentFTE = sum(list(map(float,currentWFTitle["FTE"].values)))
                 titles.append({title:currentFTE})
-            forecast[family] = titles  
-        resultDict[current.year] = forecast.copy() 
+            forecast[family] = titles   
+        result.append({current.year:forecast.copy()}) 
         currentWF["FTE"] = currentWF["FTE"] * (1 - currentWF["Attrition"])
         current = current.replace(year=current.year + 1)
      
-    return resultDict
+    return result 
 

@@ -1,7 +1,7 @@
 from uuid import uuid1
 import csv
 import io
-import json
+import json 
 
 def writeSupplyCSVs(files,names,redis):
     globalID = str(uuid1())
@@ -49,8 +49,8 @@ def writeDemandCSV(globalID,file,redis):
             redis.set(id,str(row))
     redis.set(demandID,str(ids))
 
-def readDemandCSV(id,redis):
-    globalDict = eval(redis.get(str(id)).decode())
+def readDemandCSV(globalID,redis):
+    globalDict = eval(redis.get(str(globalID)).decode())
     fileID = redis.get(globalDict["demand"]).decode()
     rowIDS = eval(redis.get(fileID).decode())
     rows = []

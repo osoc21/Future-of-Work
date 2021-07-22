@@ -123,7 +123,7 @@ def create_app():
                 elif retirementFile.filename == '':
                     flash('No Retirement file selected')
                     abort(412,message="attrition file is empty so no file was selected")
-                elif populationFile and attritionFile and retirementFile and reduce(lambda x,y:x and y,map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile])):
+                elif populationFile and attritionFile and retirementFile:
                     if not(allowed_file(populationFile.filename,{'csv'})):
                         flash('population is not a csv')
                         abort(420,message="population file is not a csv")
@@ -140,7 +140,7 @@ def create_app():
                         return resp
                 else:
                     flash('Internal Error')
-                    abort(500,message="Internal server error") 
+                    abort(500,message="and failed") 
 
     class LoadSupply(Resource): 
         def get(self):
@@ -163,13 +163,13 @@ def create_app():
                 abort(400,"Couldn't find ID")
 
     class CalculateSupply(Resource):
-        def get(self,year):
+        def get(self):
             """
 
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                csvs = readCSV(globalID,r)
+                csvs = readSupplyCSVs(globalID,r)
                 supply = calculateSupplyTitle(csvs)
                 resp = make_response(jsonify(supply))
                 return resp
@@ -221,7 +221,7 @@ def create_app():
     # API resource routing
     api.add_resource(UploadSupply, "/api/supply/upload/")
     api.add_resource(LoadSupply, "/api/supply/load/")
-    api.add_resource(CalculateSupply, "/api/supply/calculate+")
+    api.add_resource(CalculateSupply, "/api/supply/calculate/") 
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
  

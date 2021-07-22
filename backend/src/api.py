@@ -52,7 +52,7 @@ def create_app():
     api = Api(app)
 
     #API calls
-    class UploadFile(Resource):
+    class UploadSupply(Resource):
         def post(self):
             """
             Upload 3 csv files to the server and get a JSON back with UUID
@@ -141,7 +141,7 @@ def create_app():
                     flash('Internal Error')
                     abort(500,message="Internal server error") 
 
-    class LoadFiles(Resource): 
+    class LoadSupply(Resource): 
         def get(self):
             """
             get back the data you have uploaded
@@ -161,11 +161,22 @@ def create_app():
             else:
                 abort(400,"Couldn't find ID")
 
-    class Supply(Resource):
-        def get(self):
+    class CalculateSupply(Resource):
+        def get(self,year):
             """
 
             """
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                csvs = readCSV(globalID,r)
+                supply = calculateSupplyTitle(csvs,year)
+                resp = make_response({"result":supply})
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
+    class UploadDemand(Resource):
+        def post(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 csvs = readCSV(globalID,r)
@@ -176,8 +187,8 @@ def create_app():
                 abort(400,"Couldn't find ID")
     
     # API resource routing
-    api.add_resource(UploadFile, "/api/upload/")
-    api.add_resource(LoadFiles, "/api/load/")
-    api.add_resource(Supply, "/api/supply/")
+    api.add_resource(UploadSupply, "/api/upload/")
+    api.add_resource(LoadSupply, "/api/load/")
+    api.add_resource(CalculateSupply, "/api/supply/<int:year>")
  
     return app

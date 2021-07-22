@@ -68,10 +68,9 @@ def calculateSupplyTitle(csvs,horizon = 5):
                 currentWFTitle = currentWFFamily.loc[currentWF["Job title"] == title]
                 currentFTE = sum(list(map(float,currentWFTitle["FTE"].values)))
                 titles.append({title:currentFTE})
-            forecast[family] = titles   
-        result.append({current.year:forecast.copy()}) 
+            forecast[family] = titles  
+        result.append({"year":current.year,"data":forecast})
         currentWF["FTE"] = currentWF["FTE"] * (1 - currentWF["Attrition"])
         current = current.replace(year=current.year + 1)
-     
-    return result 
+    return result
 

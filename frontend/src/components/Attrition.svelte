@@ -11,7 +11,8 @@
   {:else}
     <table>
       <tr>
-        {#each Object.keys($workforceData.data.attrition[0]) as header}
+        {console.log($workforceData)}
+        {#each Object.keys($workforceData.data) as header}
           <th>{header}</th>
         {/each}
       </tr>

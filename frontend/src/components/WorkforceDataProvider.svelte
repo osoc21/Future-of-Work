@@ -14,7 +14,7 @@
       workforceData.set({
         ...$workforceData,
         data: data,
-        displayableData: data.attrition.map((row) => {
+        displayableData: data.map((row) => {
           delete row.rowID;
           return row;
         })

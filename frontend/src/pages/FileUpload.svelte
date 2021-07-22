@@ -4,7 +4,9 @@
   import DefaultButton from '../components/DefaultButton.svelte';
   import { onMount } from 'svelte';
 
-  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }, {name: 'demand'}];
+
+  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' },{name: 'demand'}];
+
 
   //   let file2;
   const handleUpload = async (e) => {

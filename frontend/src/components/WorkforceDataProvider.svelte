@@ -1,18 +1,17 @@
 <script>
   import { fetchWorkforceData } from '../api/fetch';
-  import { workforceData } from '../store';
+  import { workforceStore } from '../stores/workforce';
   import { onMount } from 'svelte';
 
   onMount(async () => {
-    if (!$workforceData.isLoading) {
+    if (!$workforceStore.isLoading) {
       return;
     }
 
     try {
       const data = await fetchWorkforceData();
-      console.log('testset', data);
-      workforceData.set({
-        ...$workforceData,
+      workforceStore.set({
+        ...$workforceStore,
         data: data,
         displayableData: data.map((row) => {
           delete row.rowID;
@@ -22,7 +21,7 @@
     } catch (err) {
       console.log(err);
     }
-    workforceData.set({ ...$workforceData, isLoading: false });
+    workforceStore.set({ ...$workforceStore, isLoading: false });
   });
 </script>
 

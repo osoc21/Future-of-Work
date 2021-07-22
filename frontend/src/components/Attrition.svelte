@@ -1,10 +1,10 @@
 <script>
+  import { workforceStore } from '../stores/workforce';
   import WorkforceDataProvider from './WorkforceDataProvider.svelte';
-  import { workforceData } from '../store';
 
-  $: console.log($workforceData.data);
+  $: console.log($workforceStore.data);
 
-  // $: $workforceData.data.forEach((element) => {
+  // $: $workforceStore.data.forEach((element) => {
   //   // console.log(element);
   //   // console.log(element.year);
   //   // console.log(Object.values(element.data));
@@ -14,30 +14,30 @@
   //   //   console.log(job[0]);
   //   // });
   // });
+
+  $: jobFamilies = !$workforceStore.isLoading ? Object.keys($workforceStore.data[0].data) : [];
 </script>
 
 <WorkforceDataProvider>
-  {#if $workforceData.isLoading}
+  {#if $workforceStore.isLoading}
     <p>Loading...</p>
   {:else}
     <table>
       <tr>
         <th />
-        {#each $workforceData.data as header}
+        {#each $workforceStore.data as header}
           <th>{header.year}</th>
         {/each}
       </tr>
-      
-      {#each $workforceData.data as yearOfData}
-        {#each Object.values(yearOfData.data) as jobFamily}
-          {#each jobFamily as job}
-            {#each Object.entries(job) as [jobTitle,FTE]}
-              <tr>
-                <td>{jobTitle}</td>
-                <td>{FTE}</td>
-              </tr>
-            {/each} 
-          {/each}
+      {#each $workforceStore.data as dataByYear, i}
+        {#each jobFamilies as family, j}
+          <tr>
+            {#if i === 0}
+              <td>
+                {family}
+              </td>
+            {/if}
+          </tr>
         {/each}
       {/each}
     </table>

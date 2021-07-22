@@ -3,6 +3,17 @@
   import { workforceData } from '../store';
 
   $: console.log($workforceData.data);
+
+  // $: $workforceData.data.forEach((element) => {
+  //   // console.log(element);
+  //   // console.log(element.year);
+  //   // console.log(Object.values(element.data));
+  //   // console.log(Object.entries(element.data));
+
+  //   // Object.values(element.data).forEach(job => {
+  //   //   console.log(job[0]);
+  //   // });
+  // });
 </script>
 
 <WorkforceDataProvider>
@@ -11,17 +22,23 @@
   {:else}
     <table>
       <tr>
-        {console.log($workforceData)}
-        {#each Object.keys($workforceData.data) as header}
-          <th>{header}</th>
+        <th />
+        {#each $workforceData.data as header}
+          <th>{header.year}</th>
         {/each}
       </tr>
-      {#each $workforceData.displayableData as row}
-        <tr>
-          {#each Object.values(row) as item}
-            <td>{item}</td>
+      
+      {#each $workforceData.data as yearOfData}
+        {#each Object.values(yearOfData.data) as jobFamily}
+          {#each jobFamily as job}
+            {#each Object.entries(job) as [jobTitle,FTE]}
+              <tr>
+                <td>{jobTitle}</td>
+                <td>{FTE}</td>
+              </tr>
+            {/each} 
           {/each}
-        </tr>
+        {/each}
       {/each}
     </table>
   {/if}

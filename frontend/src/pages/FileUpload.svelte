@@ -4,7 +4,7 @@
   import DefaultButton from '../components/DefaultButton.svelte';
   import { onMount } from 'svelte';
 
-  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }];
+  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' }, {name: 'demand'}];
 
   //   let file2;
   const handleUpload = async (e) => {
@@ -43,33 +43,7 @@
     }
   };
 
-  onMount(() => {
-    const allRanges = document.querySelectorAll('.range-wrap');
 
-    console.log(allRanges);
-    allRanges.forEach((wrap) => {
-      const range = wrap.querySelector('.slider');
-      const bubble = wrap.querySelector('.bubble');
-
-      range.addEventListener('input', () => {
-        setBubble(range, bubble);
-      });
-      setBubble(range, bubble);
-    });
-  });
-  //Code for the range slider
-
-  function setBubble(range, bubble) {
-    
-    const val = range.value;
-    const min = range.min ? range.min : 1;
-    const max = range.max ? range.max : 6;
-    const newVal = Number(((val - min) * 100) / (max - min));
-    bubble.innerHTML = val;
-    
-    // Sorta magic numbers based on size of the native UI thumb
-    bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.3}px))`;
-  }
 </script>
 
 <AppLayout>
@@ -99,21 +73,7 @@
               />
             </div>
           {/each}
-          <div class="space-x-6">
-            Select year range
-            <div class="range-wrap">
-              <input
-                type="range"
-                min="1"
-                max="6"
-                value="1"
-                class="slider"
-                id="myRange"
-                name="foo"
-              />
-              <output class="bubble bg-green-100"><output /></output>
-            </div>
-          </div>
+
         
 
           <div class="w-15">

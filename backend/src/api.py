@@ -1,4 +1,4 @@
-from flask import Flask, make_response, jsonify, flash, session
+from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -10,7 +10,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from FileHandling import writeCSVs,readCSV
+from FileHandling import writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV
 from supply import calculateSupplyTitle
 
 
@@ -134,7 +134,7 @@ def create_app():
                         flash('retirement is not a csv')
                         abort(422,message="retirement file is not a csv")
                     else: 
-                        globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
+                        globalID = writeSupplyCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
                         resp = make_response({"succes":"succes"})
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
                         return resp
@@ -157,7 +157,7 @@ def create_app():
             """ 
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response(readCSV(globalID,r))
+                resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
@@ -169,7 +169,7 @@ def create_app():
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                csvs = readCSV(globalID,r)
+                csvs = readSupplyCSVs(globalID,r)
                 supply = calculateSupplyTitle(csvs,year)
                 resp = make_response({"result":supply})
                 return resp
@@ -180,16 +180,49 @@ def create_app():
         def post(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                csvs = readCSV(globalID,r)
-                supply = calculateSupplyTitle(csvs)
-                resp = make_response(supply)
-                return resp
+                if 'demand' not in request.files:
+                    flash('demand is missing')
+                    abort(400,message="form is incorrect format could not find demand, files found:" + str(request.files.keys()))
+                else:
+                    demandFile = request.files['demand']   
+                    if demandFile.filename == '':
+                        flash('No demand file selected')
+                        abort(410,message="demand file is empty so no file was selected")
+                    elif demandFile and allowed_file(demandFile,allowedextensions={'csv'}):
+                        writeDemandCSV(globalID,demandFile,r)
+                        resp = make_response()
+                        return resp
+                    else:
+                        abort(500)
             else:
                 abort(400,"Couldn't find ID")
     
+
+    class LoadDemand(Resource): 
+        def get(self):
+            """
+            get back the data you have uploaded
+            ---
+            tags:
+                - File fetching
+            responses:
+                200:
+                    description: succes returns the data as a json
+                400:
+                    description: couldn't find the globalID cookie
+            """ 
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                resp = make_response(readDemandCSV(globalID,r))
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
     # API resource routing
-    api.add_resource(UploadSupply, "/api/upload/")
-    api.add_resource(LoadSupply, "/api/load/")
+    api.add_resource(UploadSupply, "/api/upload/supply/")
+    api.add_resource(LoadSupply, "/api/load/supply/")
     api.add_resource(CalculateSupply, "/api/supply/<int:year>")
+    api.add_resource(UploadDemand, "/api/upload/demand/")
+    api.add_resource(LoadDemand, "/api/load/demand/")
  
     return app

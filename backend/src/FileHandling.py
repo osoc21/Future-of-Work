@@ -3,7 +3,7 @@ import csv
 import io
 import json
 
-def writeCSVs(files,names,redis):
+def writeSupplyCSVs(files,names,redis):
     globalID = str(uuid1())
     filesIDs = {}
     for file,name in zip(files,names):
@@ -22,9 +22,8 @@ def writeCSVs(files,names,redis):
     redis.set(supplyID,str(filesIDs))
     return globalID 
  
-def readCSV(id,redis):
+def readSupplyCSVs(id,redis):
     globalDict = eval(redis.get(str(id)).decode())
-    print(globalDict )
     filesIDs = eval(redis.get(globalDict["supply"]).decode()) 
     result = {}
     for fileName in filesIDs:
@@ -36,4 +35,29 @@ def readCSV(id,redis):
             row["rowID"] = rowID
             rows.append(row)
         result[fileName] = rows
+    return result
+
+def writeDemandCSV(globalID,file,redis):
+    globalDict = eval(redis.get(str(globalID)).decode())
+    demandID = globalDict["demand"]
+    ids = []
+    with io.TextIOWrapper(file, encoding='utf-8') as text_file:
+        csvReader = csv.DictReader(text_file, delimiter=',')
+        for row in csvReader:
+            id = str(uuid1())
+            ids.append(id)
+            redis.set(id,str(row))
+    redis.set(demandID,str(ids))
+
+def readDemandCSV(id,redis):
+    globalDict = eval(redis.get(str(id)).decode())
+    fileID = redis.get(globalDict["demand"]).decode()
+    result = {}
+    rowIDS = eval(redis.get(fileID['id']).decode())
+    rows = []
+    for rowID in rowIDS:
+        row = eval(redis.get(rowID))
+        row["rowID"] = rowID
+        rows.append(row)
+    result["demand"] = rows
     return result

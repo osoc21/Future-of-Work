@@ -4,6 +4,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
+from functools import reduce
 #For documentation
 from flasgger import Swagger, swag_from
 #Database
@@ -122,7 +123,7 @@ def create_app():
                 elif retirementFile.filename == '':
                     flash('No Retirement file selected')
                     abort(412,message="attrition file is empty so no file was selected")
-                elif populationFile and attritionFile and retirementFile and map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile]):
+                elif populationFile and attritionFile and retirementFile and reduce(lambda x,y:x and y,map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile])):
                     if not(allowed_file(populationFile.filename,{'csv'})):
                         flash('population is not a csv')
                         abort(420,message="population file is not a csv")

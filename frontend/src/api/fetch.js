@@ -3,5 +3,5 @@ export const fetchWorkforceData = async () => {
     method: 'GET',
     credentials: 'include'
   });
-  return await response.json();
+  return response.json();
 };

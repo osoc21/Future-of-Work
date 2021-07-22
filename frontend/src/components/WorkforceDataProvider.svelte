@@ -12,11 +12,26 @@
       const data = await fetchWorkforceData();
       workforceStore.set({
         ...$workforceStore,
-        data: data,
-        displayableData: data.map((row) => {
-          delete row.rowID;
-          return row;
-        })
+        data,
+        /*
+          Run a transformation to make the API response easier to work with,
+          Ideally this is temporary fix
+        */
+        formattedData: data.reduce((acc, { year }, i) => {
+          const yearData = data[i].data;
+          const jobFamily = Object.keys(yearData).map((d) => ({
+            family: d,
+            FTEs: yearData[d].map((f) => ({
+              role: Object.keys(f)[0],
+              amount: f[Object.keys(f)[0]]
+            }))
+          }));
+          acc.push({
+            year,
+            jobFamilies: jobFamily
+          });
+          return acc;
+        }, [])
       });
     } catch (err) {
       console.log(err);

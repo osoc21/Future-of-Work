@@ -15,7 +15,8 @@
   //   // });
   // });
 
-  $: jobFamilies = !$workforceStore.isLoading ? Object.keys($workforceStore.data[0].data) : [];
+  $: if (!$workforceStore.isLoading) console.log($workforceStore.formattedData);
+  $: console.log($workforceStore);
 </script>
 
 <WorkforceDataProvider>
@@ -23,7 +24,8 @@
     <p>Loading...</p>
   {:else}
     <table>
-      <tr>
+      <!--
+<tr>
         <th />
         {#each $workforceStore.data as header}
           <th>{header.year}</th>
@@ -40,6 +42,7 @@
           </tr>
         {/each}
       {/each}
+      -->
     </table>
   {/if}
 </WorkforceDataProvider>

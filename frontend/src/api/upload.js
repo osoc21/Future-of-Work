@@ -4,5 +4,5 @@ export const uploadWorkforceData = async (fileData) => {
     credentials: 'include',
     body: fileData
   });
-  return await response.json();
+  return response.json();
 };

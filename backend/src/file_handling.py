@@ -52,12 +52,10 @@ def writeDemandCSV(globalID,file,redis):
 def readDemandCSV(id,redis):
     globalDict = eval(redis.get(str(id)).decode())
     fileID = redis.get(globalDict["demand"]).decode()
-    result = {}
-    rowIDS = eval(redis.get(fileID['id']).decode())
+    rowIDS = eval(redis.get(fileID).decode())
     rows = []
     for rowID in rowIDS:
         row = eval(redis.get(rowID))
         row["rowID"] = rowID
         rows.append(row)
-    result["demand"] = rows
-    return result
+    return {"demand":rows}

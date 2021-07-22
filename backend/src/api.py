@@ -52,7 +52,7 @@ def create_app():
     api = Api(app)
 
     #API calls
-    class UploadFile(Resource):
+    class UploadSupply(Resource):
         def post(self):
             """
             Upload 3 csv files to the server and get a JSON back with UUID
@@ -141,7 +141,7 @@ def create_app():
                     flash('Internal Error')
                     abort(500,message="Internal server error") 
 
-    class LoadFiles(Resource): 
+    class LoadSupply(Resource): 
         def get(self):
             """
             get back the data you have uploaded
@@ -156,12 +156,12 @@ def create_app():
             """ 
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response({"result":readCSV(globalID,r)})
+                resp = make_response(readCSV(globalID,r))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
 
-    class Supply(Resource):
+    class CalculateSupply(Resource):
         def get(self,year):
             """
 
@@ -175,25 +175,20 @@ def create_app():
             else:
                 abort(400,"Couldn't find ID")
 
-    class Demand(Resource):
-        def get(self):
-            """
-
-            """
+    class UploadDemand(Resource):
+        def post(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response({"result":supply})
+                csvs = readCSV(globalID,r)
+                supply = calculateSupplyTitle(csvs)
+                resp = make_response(supply)
                 return resp
             else:
                 abort(400,"Couldn't find ID")
-        def put(self):
-            
-            resp = make_response({"ok":"ok"})
-            return resp
     
     # API resource routing
-    api.add_resource(UploadFile, "/api/upload/")
-    api.add_resource(LoadFiles, "/api/load/")
-    api.add_resource(Supply, "/api/supply/<int:year>")
+    api.add_resource(UploadSupply, "/api/upload/")
+    api.add_resource(LoadSupply, "/api/load/")
+    api.add_resource(CalculateSupply, "/api/supply/<int:year>")
  
     return app

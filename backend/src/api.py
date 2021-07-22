@@ -170,7 +170,7 @@ def create_app():
                 globalID = request.cookies.get("globalID")
                 csvs = readCSV(globalID,r)
                 supply = calculateSupplyTitle(csvs)
-                resp = make_response(supply)
+                resp = make_response(jsonify(supply))
                 return resp
             else:
                 abort(400,"Couldn't find ID")

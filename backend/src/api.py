@@ -1,15 +1,16 @@
-from flask import Flask, make_response, jsonify, flash, session
+from flask import Flask, make_response, jsonify, flash
 from flask_restful import Api, Resource, reqparse, request, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
+from functools import reduce
 #For documentation
 from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from FileHandling import writeCSVs,readCSV
+from file_handling import writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV
 from supply import calculateSupplyTitle
 
 
@@ -52,7 +53,7 @@ def create_app():
     api = Api(app)
 
     #API calls
-    class UploadFile(Resource):
+    class UploadSupply(Resource):
         def post(self):
             """
             Upload 3 csv files to the server and get a JSON back with UUID
@@ -122,7 +123,7 @@ def create_app():
                 elif retirementFile.filename == '':
                     flash('No Retirement file selected')
                     abort(412,message="attrition file is empty so no file was selected")
-                elif populationFile and attritionFile and retirementFile and map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile]):
+                elif populationFile and attritionFile and retirementFile and reduce(lambda x,y:x and y,map(lambda x: allowed_file(x,{'csv'}),[populationFile,attritionFile,retirementFile])):
                     if not(allowed_file(populationFile.filename,{'csv'})):
                         flash('population is not a csv')
                         abort(420,message="population file is not a csv")
@@ -133,7 +134,7 @@ def create_app():
                         flash('retirement is not a csv')
                         abort(422,message="retirement file is not a csv")
                     else: 
-                        globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
+                        globalID = writeSupplyCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],r)
                         resp = make_response({"succes":"succes"})
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
                         return resp
@@ -141,7 +142,7 @@ def create_app():
                     flash('Internal Error')
                     abort(500,message="Internal server error") 
 
-    class LoadFiles(Resource): 
+    class LoadSupply(Resource): 
         def get(self):
             """
             get back the data you have uploaded
@@ -156,13 +157,13 @@ def create_app():
             """ 
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response(readCSV(globalID,r))
+                resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
 
-    class Supply(Resource):
-        def get(self):
+    class CalculateSupply(Resource):
+        def get(self,year):
             """
 
             """
@@ -174,10 +175,54 @@ def create_app():
                 return resp
             else:
                 abort(400,"Couldn't find ID")
+
+    class UploadDemand(Resource):
+        def post(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                if 'demand' not in request.files:
+                    flash('demand is missing')
+                    abort(400,message="form is incorrect format could not find demand, files found:" + str(request.files.keys()))
+                else:
+                    demandFile = request.files['demand']   
+                    if demandFile.filename == '':
+                        flash('No demand file selected')
+                        abort(410,message="demand file is empty so no file was selected")
+                    elif demandFile and allowed_file(demandFile,allowedextensions={'csv'}):
+                        writeDemandCSV(globalID,demandFile,r)
+                        resp = make_response()
+                        return resp
+                    else:
+                        abort(500)
+            else:
+                abort(400,"Couldn't find ID")
     
+
+    class LoadDemand(Resource): 
+        def get(self):
+            """
+            get back the data you have uploaded
+            ---
+            tags:
+                - File fetching
+            responses:
+                200:
+                    description: succes returns the data as a json
+                400:
+                    description: couldn't find the globalID cookie
+            """ 
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                resp = make_response(readDemandCSV(globalID,r))
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
     # API resource routing
-    api.add_resource(UploadFile, "/api/upload/")
-    api.add_resource(LoadFiles, "/api/load/")
-    api.add_resource(Supply, "/api/supply/")
+    api.add_resource(UploadSupply, "/api/supply/upload/")
+    api.add_resource(LoadSupply, "/api/supply/load/")
+    api.add_resource(CalculateSupply, "/api/supply/calculate+")
+    api.add_resource(UploadDemand, "/api/demand/upload/")
+    api.add_resource(LoadDemand, "/api/demand/load/")
  
     return app

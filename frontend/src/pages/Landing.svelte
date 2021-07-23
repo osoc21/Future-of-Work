@@ -15,9 +15,9 @@
       Quisque gravida aliquet turpis, sed porttitor odio lobortis id. In consectetur non eros at
       semper.
     </p>
-    <button class="bg-green-200 hover:bg-green-100 rounded-full py-5 px-20">
-      <Link to="/fileupload">START></Link>
-    </button>
+    <Link to="/fileupload">
+      <button class="bg-green-200 hover:bg-green-100 rounded-full py-5 px-20"> START > </button>
+    </Link>
   </div>
 </HomeLayout>
 

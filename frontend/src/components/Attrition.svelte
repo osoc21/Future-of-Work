@@ -2,21 +2,31 @@
   import { workforceStore } from '../stores/workforce';
   import WorkforceDataProvider from './WorkforceDataProvider.svelte';
 
-  $: console.log($workforceStore.data);
+  const createWorkforceTable = () => {
+    const { formattedData } = $workforceStore;
 
-  // $: $workforceStore.data.forEach((element) => {
-  //   // console.log(element);
-  //   // console.log(element.year);
-  //   // console.log(Object.values(element.data));
-  //   // console.log(Object.entries(element.data));
+    // List all the years available
+    const years = formattedData.map((y) => y.year);
 
-  //   // Object.values(element.data).forEach(job => {
-  //   //   console.log(job[0]);
-  //   // });
-  // });
+    // List the names of all the job families available
+    const families = formattedData[0].jobFamilies.map((f) => f.family);
 
-  $: if (!$workforceStore.isLoading) console.log($workforceStore.formattedData);
-  $: console.log($workforceStore);
+    // Create a JS representation of the table to render in HTML
+    /* Resulting array has structure of
+      family 1 [[ year 1 ], [ year 2 ], [ year 3 ], [...]]
+      family 2 [[ year 1 ], [ year 2 ], [ year 3 ], [...]]
+      family 3 [[ year 1 ], [ year 2 ], [ year 3 ], [...]]
+      family ...
+    */
+    const table = [];
+    families.forEach((_, familyIndex) => {
+      table[familyIndex] = [];
+      years.forEach((_, yearIndex) => {
+        table[familyIndex][yearIndex] = formattedData[yearIndex].jobFamilies[familyIndex];
+      });
+    });
+    return table;
+  };
 </script>
 
 <WorkforceDataProvider>
@@ -24,25 +34,25 @@
     <p>Loading...</p>
   {:else}
     <table>
-      <!--
-<tr>
+      <tr>
         <th />
-        {#each $workforceStore.data as header}
+        {#each $workforceStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
       </tr>
-      {#each $workforceStore.data as dataByYear, i}
-        {#each jobFamilies as family, j}
-          <tr>
-            {#if i === 0}
-              <td>
-                {family}
-              </td>
-            {/if}
-          </tr>
-        {/each}
+
+      {#each createWorkforceTable() as familyRow}
+        <tr>
+          <td>{familyRow[0].family}</td>
+          {#each familyRow as { FTEs }}
+            <td>
+              {#each FTEs as { role, amount }}
+                <p>{role}: {amount}</p>
+              {/each}
+            </td>
+          {/each}
+        </tr>
       {/each}
-      -->
     </table>
   {/if}
 </WorkforceDataProvider>
@@ -55,6 +65,7 @@
 
   td,
   th {
+    @apply text-base;
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;

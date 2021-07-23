@@ -27,6 +27,12 @@
     });
     return table;
   };
+
+  const format = (num) => {
+    // Round to 5 decimal places
+    const places = 100000;
+    return Math.round(num * places) / places;
+  };
 </script>
 
 <WorkforceDataProvider>
@@ -47,7 +53,7 @@
           {#each familyRow as { FTEs }}
             <td>
               {#each FTEs as { role, amount }}
-                <p>{role}: {amount}</p>
+                <p>{role}: {format(amount.toFixed(5))}</p>
               {/each}
             </td>
           {/each}

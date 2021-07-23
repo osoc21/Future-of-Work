@@ -22,8 +22,6 @@
 </HomeLayout>
 
 <style>
-  html,
-  body,
   #container {
     min-height: 100vh;
     margin: 0;

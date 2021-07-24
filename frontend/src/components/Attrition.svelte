@@ -1,4 +1,6 @@
 <script>
+  import { each } from 'svelte/internal';
+
   import { workforceStore } from '../stores/workforce';
   import WorkforceDataProvider from './WorkforceDataProvider.svelte';
 
@@ -42,6 +44,7 @@
     <table>
       <tr>
         <th />
+        <th />
         {#each $workforceStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
@@ -50,10 +53,16 @@
       {#each createWorkforceTable() as familyRow}
         <tr>
           <td>{familyRow[0].family}</td>
+          <td>
+            {#each familyRow[0].FTEs as {role}}
+              <p>{role}</p>
+            {/each}
+          </td>
           {#each familyRow as { FTEs }}
+            
             <td>
-              {#each FTEs as { role, amount }}
-                <p>{role}: {format(amount.toFixed(5))}</p>
+              {#each FTEs as { amount }}
+                <p>{format(amount.toFixed(5))}</p>
               {/each}
             </td>
           {/each}

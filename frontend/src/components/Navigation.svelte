@@ -11,35 +11,23 @@
     }
     dropdowns[name] = !dropdowns[name];
   };
-
-
-    
 </script>
 
-
-<div class="bg-green-300 w-1/5 text-blue-100 h-screen space-y-6 py-7 px-2 mr-8">
-  <Link to="/">
-    <span class="text-white flex items-center space-x-2 px-4">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
-      <span class="text-2xl font-extrabold">Future of Work</span>
+<div class="navigation w-1/5 text-blue-100 h-full space-y-6 py-7 px-2 mr-8">
+  <div class="px-4 pb-12">
+    <Link to="/">
+      <h1 class="text-white font-bold text-4xl leading-24 w-1/2 mb-4 hover:text-green-300">
+        Future of Work
+      </h1>
+    </Link>
+    <span class="text-white">
+      <p class="text-base">Open Source Tool for</p>
+      <p class="text-base">Strategic Workforce Planning</p>
     </span>
-  </Link>
+  </div>
 
   <nav>
-    <ul class="space-y-3">
+    <ul>
       <li>
         <Link to="/fileupload">
           <span
@@ -62,16 +50,15 @@
 
         <ul class="dropdown-menu" class:active={dropdowns['supply']}>
           <!-- <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li> -->
-          <li><Link to="/supplytable">
-
-            <div class="block py-2.5 px-6 text-green-900">Table</div>
-          </Link>
+          <li>
+            <Link to="/supplytable">
+              <div class="block py-2.5 px-6 text-green-900">Table</div>
+            </Link>
           </li>
-        
+
           <li>
             <Link to="/supplygraph">
-
-            <div class="block py-2.5 px-6 text-green-900">Visualization</div>
+              <div class="block py-2.5 px-6 text-green-900">Visualization</div>
             </Link>
           </li>
         </ul>
@@ -88,15 +75,14 @@
         </Link>
 
         <ul class="dropdown-menu" class:active={dropdowns['demand']}>
-          <li
-          ><Link to="/demand-parameters">
-            <a href={'#'} class="block py-2.5 px-6 text-green-900">Parameters</a>
-          </Link>
+          <li>
+            <Link to="/demand-parameters">
+              <a href={'#'} class="block py-2.5 px-6 text-green-900">Parameters</a>
+            </Link>
           </li>
           <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Build Scenario</a></li>
           <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Outcome</a></li>
           <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Visualization</a></li>
-
         </ul>
       </li>
 
@@ -119,5 +105,9 @@
 
   .dropdown-menu.active {
     display: block;
+  }
+
+  .navigation {
+    background-color: #41a37e;
   }
 </style>

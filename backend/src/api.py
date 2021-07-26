@@ -9,10 +9,11 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter
+from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter, getParameter
 from supply import calculateSupplyTitle
-from demand import extractInfoFormulas,getFormulas
+from demand import extractInfoFormulas,getFormulas,createDF
 
+import pandas as pd
 
 template = {
   "swagger": "2.0",
@@ -302,6 +303,8 @@ def create_app():
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 result = getDemandParameter(globalID,r)
+                print(createDF(readDemandCSV(globalID,r))) 
+                print(pd.DataFrame(getParameter(globalID,r))) 
                 resp = make_response(jsonify(result))
                 return resp
             else:
@@ -311,7 +314,8 @@ def create_app():
         def patch(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                parameterID = request.args.get('key')
+                parameterID = request.args.get('id')
+                parameterID = request.args.get('year')
                 setParameter(parameterID)
                 resp = make_response()
                 return resp
@@ -327,6 +331,6 @@ def create_app():
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
-    api.add_resource(Parameter, "/api/demand/parameter/<id>")
+    api.add_resource(Parameter, "/api/demand/parameter/<id>/<year>")
 
     return app

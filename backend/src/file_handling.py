@@ -130,7 +130,7 @@ def writeDemandParameter(globalID,parameters,default,redis,horizon = 5):
     for parameter in parameters:
         years = []    
         parameterID = str(uuid1())
-        for _ in range(0,horizon):
+        for _ in range(0,horizon - 1):
             redis.set(parameterID + str(current.year),str(default))
             years.append(current.year)
         result.append({"parameter":parameter,"years":years,"id":parameterID})
@@ -153,6 +153,20 @@ def getDemandParameter(globalID,redis):
             row.append({"id":str(item["id"]),"year":year,"parameter":eval(parameter)})
         data.append(row)
     return {"parameters":parameters,"data":data}
+
+def getParameter(globalID,redis):
+    globalDict = eval(redis.get(str(globalID)).decode()) 
+    demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
+    parameterList = eval(redis.get(demandParameterID).decode())
+    result = []
+    for item in parameterList:
+        row = {}
+        row["profile"] = item["parameter"]
+        for year in item["years"]: 
+            parameter = redis.get(item["id"] + str(year))
+            row[year] = eval(parameter) 
+        result.append(row) 
+    return result
 
 def setParameter(ID,value,redis):
     redis.set(ID,str(value))

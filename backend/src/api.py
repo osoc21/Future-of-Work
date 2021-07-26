@@ -104,7 +104,6 @@ def create_app():
                         globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],demandFile,r)
                         data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
                         writeDemandParameter(globalID,list(data["parameters"]),0,r)
-                        print(getDemandParameter(globalID,r)) 
                         resp = make_response(readCSVs(globalID,r))
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
                         return resp
@@ -302,19 +301,7 @@ def create_app():
         def get(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
-                list(data["parameters"])
-                resp = make_response()
-                return resp
-            else:
-                abort(400,"Couldn't find ID")
-        
-        def post(self):
-            if "globalID" in request.cookies:
-                globalID = request.cookies.get("globalID")
-                parameters = request.get_json()
-                print(parameters)
-                resp = make_response({"result":parameters})
+                resp = make_response(jsonify(getDemandParameter(globalID,r)))
                 return resp
             else:
                 abort(400,"Couldn't find ID")

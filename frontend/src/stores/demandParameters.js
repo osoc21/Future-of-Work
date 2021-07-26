@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const demandParameters = writable({
+export const demandParametersStore = writable({
   isLoading: true,
   data: null
 });

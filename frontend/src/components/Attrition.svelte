@@ -36,6 +36,7 @@
 </script>
 
 <WorkforceDataProvider>
+  {console.log($workforceStore.isLoading)}
   {#if $workforceStore.isLoading}
     <p>Loading...</p>
   {:else}

@@ -2,6 +2,7 @@ from uuid import uuid1
 import csv
 import io
 import json 
+import datetime
 
 def writeCSVs(supplyFiles,supplyNames,demandFile,redis):
     globalID = str(uuid1())
@@ -118,13 +119,32 @@ def readDemandCSV(globalID,redis):
         rows.append(row)
     return {"demand":rows}
 
-def writeDemandParameter(globalID,parameters,redis):
+def writeDemandParameter(globalID,parameters,default,redis,horizon = 5):
     globalDict = eval(redis.get(str(globalID)).decode()) 
     demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
-    rowIDS = []
+    
+    result = []
+    
     for parameter in parameters:
-        rowID = str(uuid1())
-        redis.set(rowID,str({parameter:parameters[parameter]}))
-        rowIDS.append(rowID)
-    redis.set(demandParameterID,rowIDS)
-    return globalID
+        row = []    
+        for _ in range(0,horizon):
+            cellID = str(uuid1())
+            redis.set(cellID,str(default))
+            row.append(cellID)
+        result.append({parameter:row})
+    redis.set(demandParameterID,str(result))
+
+    return
+
+def getDemandParameter(globalID,redis):
+    globalDict = eval(redis.get(str(globalID)).decode()) 
+    demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
+    parameterList = eval(redis.get(demandParameterID).decode())
+    result = []
+    for item in parameterList:
+        row = {} 
+        for parameter in item:
+            for cellID in item[parameter]:
+                row[cellID] = eval(redis.get(cellID))
+            result.append({parameter:row})
+    return result

@@ -1,7 +1,10 @@
 import pandas as pd
 import datetime 
+import math
 
-operators = {"*","+","**","-"}
+operators = {"*","+","**","-","log"}
+
+myOperators = {"log":lambda x,y: math.log(x,y)}
 
 def createDF(csv):
     demandDF = pd.DataFrame(csv["demand"])
@@ -35,7 +38,7 @@ def getFormulas(csv):
 
 def calculateFormula(formula,values):
     values = {k : float(v) for k,v in values.items()}
-    variables = values
+    variables = dict(values).update(myOperators)
     return eval(formula,variables)
 
 def calculateDemand(csv,parameters,familyDict):

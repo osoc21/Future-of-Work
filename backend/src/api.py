@@ -303,9 +303,6 @@ def create_app():
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 result = getDemandParameter(globalID,r)
-                #print(createDF(readDemandCSV(globalID,r))) 
-                #print(pd.DataFrame(getParameter(globalID,r)))
-                print(result)
                 resp = make_response(jsonify(result))
                 return resp
             else:

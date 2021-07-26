@@ -9,7 +9,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter
+from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter
 from supply import calculateSupplyTitle
 from demand import extractInfoFormulas,getFormulas
 
@@ -301,11 +301,23 @@ def create_app():
         def get(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                resp = make_response(jsonify(getDemandParameter(globalID,r)))
+                result = getDemandParameter(globalID,r)
+                resp = make_response(jsonify(result))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
     
+    class Parameter(Resource):
+        def patch(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                parameterID = request.args.get('key')
+                setParameter(parameterID)
+                resp = make_response()
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")
@@ -315,5 +327,6 @@ def create_app():
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
+    api.add_resource(Parameter, "/api/demand/parameter/<id>")
 
     return app

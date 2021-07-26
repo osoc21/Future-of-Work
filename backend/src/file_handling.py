@@ -124,14 +124,17 @@ def writeDemandParameter(globalID,parameters,default,redis,horizon = 5):
     demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
     
     result = []
-    
+
+    current = datetime.datetime.now() 
+
     for parameter in parameters:
-        row = []    
+        years = []    
+        parameterID = str(uuid1())
         for _ in range(0,horizon):
-            cellID = str(uuid1())
-            redis.set(cellID,str(default))
-            row.append(cellID)
-        result.append({parameter:row})
+            redis.set(parameterID + str(current.year),str(default))
+            years.append(current.year)
+        result.append({"parameter":parameter,"years":years,"id":parameterID})
+        current = current.replace(year=current.year + 1)
     redis.set(demandParameterID,str(result))
 
     return
@@ -140,11 +143,16 @@ def getDemandParameter(globalID,redis):
     globalDict = eval(redis.get(str(globalID)).decode()) 
     demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
     parameterList = eval(redis.get(demandParameterID).decode())
-    result = []
+    parameters = []
+    data = []
     for item in parameterList:
-        row = {} 
-        for parameter in item:
-            for cellID in item[parameter]:
-                row[cellID] = eval(redis.get(cellID))
-            result.append({parameter:row})
-    return result
+        parameters.append(str(item["parameter"]))
+        row = []
+        for year in item["years"]: 
+            parameter = redis.get(item["id"] + str(year))
+            row.append({"id":str(item["id"]),"year":year,"parameter":eval(parameter)})
+        data.append(row)
+    return {"parameters":parameters,"data":data}
+
+def setParameter(ID,value,redis):
+    redis.set(ID,str(value))

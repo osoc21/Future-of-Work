@@ -167,5 +167,5 @@ def getParameter(globalID,redis):
         result.append(row) 
     return result
 
-def setParameter(ID,value,redis):
-    redis.set(ID,str(value))
+def setParameter(ID,year,value,redis):
+    redis.set(str(ID) + str(year),str(value))

@@ -11,6 +11,7 @@
   fetchData();
 </script>
 
+
 <AppLayout>
   <div class="relative flex container-flex">
     <div class="flex-1 font-bold space-y-7">

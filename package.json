@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "svelte-chartjs": "^1.0.1"
+  }
+}

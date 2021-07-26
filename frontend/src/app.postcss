@@ -1,0 +1,45 @@
+@tailwind base;
+
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: larger;
+}
+
+html,
+body,
+#app {
+  height: 100vh;
+  margin: 0;
+}
+li {
+  list-style-type: none;
+}
+h1 {
+  @apply text-2xl;
+}
+h2 {
+  @apply text-xl;
+}
+
+p, option {
+  @apply text-sm;
+}
+
+mark {
+  @apply bg-green-200;
+}
+
+.container-flex {
+  top: 10%;
+}
+
+
+@tailwind components;
+
+.input-class {
+  @apply border py-2 px-3;
+}
+@tailwind utilities;

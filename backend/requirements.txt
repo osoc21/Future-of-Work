@@ -1,3 +1,7 @@
 flask
-flask-cors
 pandas
+flask_restful
+redis
+flasgger
+python-dotenv
+flask_cors

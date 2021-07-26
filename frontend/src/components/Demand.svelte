@@ -17,7 +17,7 @@
     $demandParametersStore.data.forEach((row) => {
       const result = row.data.find((cell) => cell.id === id && year === year);
       if (result) {
-        value = result;
+        value = result.parameter;
         return;
       }
     });
@@ -45,7 +45,7 @@
                   type="number"
                   data-year={cell.year}
                   data-id={cell.id}
-                  value={cell.parameter}
+                  bind:value={cell.parameter}
                 />
                 <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button>
               </td>

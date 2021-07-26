@@ -8,15 +8,21 @@
 
 <HomeLayout>
   <div id="container" class="space-y-6">
-    <h1 class="text-2xl font-bold">Strategic Workflow</h1>
-    <p class="max-w-prose">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras magna justo, lacinia in libero
-      ac, auctor tincidunt quam. Aenean tempor neque leo, nec accumsan quam ullamcorper quis.
-      Quisque gravida aliquet turpis, sed porttitor odio lobortis id. In consectetur non eros at
-      semper.
-    </p>
+    <div>
+      <h1 class="text-6xl font-bold pb-6">Future of Work</h1>
+      <span class="text-gray-700">Open Source Tool for Strategic Workforce Planning</span>
+    </div>
+    <div class="pt-12 w-2/3">
+      <p class="m-0 text-xl">Welcome to Future of Work!</p>
+      <p class="mt-0 text-xl">
+        Be ready to upload your CVS files, so they can be turned into comprehensible graphs and
+        tables
+      </p>
+    </div>
     <Link to="/fileupload">
-      <button class="bg-green-200 hover:bg-green-100 rounded-full py-5 px-20"> START > </button>
+      <button class="hover:bg-green-300 text-white rounded-full text-2xl font-bold py-4 px-20"
+        >Let's go</button
+      >
     </Link>
   </div>
 </HomeLayout>
@@ -38,5 +44,16 @@
     margin-top: -40rem;
     margin-left: -25rem;
     text-align: center;
+  }
+  h1 {
+    width: 51.5%;
+    line-height: 4rem;
+    margin: auto;
+    text-align: left;
+    color: #41a37e;
+  }
+
+  button {
+    background-color: #41a37e;
   }
 </style>

@@ -311,9 +311,9 @@ def create_app():
     class Parameter(Resource):
         def patch(self,year,id):
             if "globalID" in request.cookies:
-                globalID = request.cookies.get("globalID")
-                body = request.get_json()
-                setParameter(id,year,body["parameter"],redis)
+                globalID = request.cookies.get("globalID") 
+                body = eval(request.data) 
+                setParameter(id,year,body["parameter"],r)
                 resp = make_response()
                 return resp
             else:

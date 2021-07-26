@@ -309,13 +309,11 @@ def create_app():
                 abort(400,"Couldn't find ID")
     
     class Parameter(Resource):
-        def patch(self):
+        def patch(self,year,id):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                parameterID = request.args.get('id')
-                year = request.args.get('year')
                 body = request.get_json()
-                setParameter(parameterID,year,body["parameter"],redis)
+                setParameter(id,year,body["parameter"],redis)
                 resp = make_response()
                 return resp
             else:
@@ -330,6 +328,6 @@ def create_app():
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
-    api.add_resource(Parameter, "/api/demand/parameter/<year>/<id>")
+    api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>")
 
     return app

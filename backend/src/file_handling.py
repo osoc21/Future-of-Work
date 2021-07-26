@@ -22,6 +22,7 @@ def writeCSVs(supplyFiles,supplyNames,demandFile,redis):
         filesIDs[name] = {'id':dataID}
     redis.set(supplyID,str(filesIDs))
     # Demand mapping
+    demandFileID = str(uuid1())
     demandIds = []
     with io.TextIOWrapper(demandFile, encoding='utf-8') as demand_text_file:
         demandCSVReader = csv.DictReader(demand_text_file, delimiter=',')
@@ -29,8 +30,9 @@ def writeCSVs(supplyFiles,supplyNames,demandFile,redis):
             id = str(uuid1())
             demandIds.append(id)
             redis.set(id,str(demandRow))
-        redis.set(demandID,str(demandIds))
+        redis.set(demandFileID,str(demandIds))
     # Global mapping 
+    redis.set(demandID,str({"csv":demandFileID,"parameters":str(uuid1())}))
     redis.set(globalID,str({"supply":supplyID,"demand":demandID}))
     return globalID 
 
@@ -49,7 +51,8 @@ def readCSVs(id,redis):
             rows.append(row)
         result[fileName] = rows
     # demand loading
-    demandRowIDs = eval(redis.get(globalDict["demand"]).decode())
+    demandFileID = eval(redis.get(globalDict["demand"]).decode())["csv"]
+    demandRowIDs = eval(redis.get(demandFileID))
     rows = []
     for rowID in demandRowIDs:
         row = eval(redis.get(rowID))
@@ -106,10 +109,22 @@ def writeDemandCSV(globalID,file,redis):
 
 def readDemandCSV(globalID,redis):
     globalDict = eval(redis.get(str(globalID)).decode()) 
-    demandRowIDs = eval(redis.get(globalDict["demand"]).decode())
+    demandFileID = eval(redis.get(globalDict["demand"]).decode())["csv"]
+    demandRowIDs = eval(redis.get(demandFileID))
     rows = [] 
     for rowID in demandRowIDs:
         row = eval(redis.get(rowID)) 
         row["rowID"] = rowID
         rows.append(row)
     return {"demand":rows}
+
+def writeDemandParameter(globalID,parameters,redis):
+    globalDict = eval(redis.get(str(globalID)).decode()) 
+    demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
+    rowIDS = []
+    for parameter in parameters:
+        rowID = str(uuid1())
+        redis.set(rowID,str({parameter:parameters[parameter]}))
+        rowIDS.append(rowID)
+    redis.set(demandParameterID,rowIDS)
+    return globalID

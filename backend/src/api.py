@@ -304,7 +304,17 @@ def create_app():
                 return resp
             else:
                 abort(400,"Couldn't find ID")
-
+        
+        def post(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                parameters = request.get_json()
+                print(parameters)
+                resp = make_response({"result":parameters})
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+    
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")

@@ -125,17 +125,18 @@ def writeDemandParameter(globalID,parameters,default,redis,horizon = 5):
     
     result = []
 
-    current = datetime.datetime.now() 
+    
 
     for parameter in parameters:
+        current = datetime.datetime.now() 
         years = []    
         parameterID = str(uuid1())
-        for _ in range(0,horizon - 1):
+        for _ in range(0,horizon):
             redis.set(parameterID + str(current.year),str(default))
             years.append(current.year)
+            current = current.replace(year=current.year + 1)
         result.append({"parameter":parameter,"years":years,"id":parameterID})
-        current = current.replace(year=current.year + 1)
-    redis.set(demandParameterID,str(result))
+    redis.set(demandParameterID,str(result)) 
 
     return
 

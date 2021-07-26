@@ -299,8 +299,8 @@ def create_app():
         def get(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r)))
-                resp = make_response(list(data["parameters"]))
+                data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
+                resp = make_response(jsonify(list(data["parameters"])))
                 return resp
             else:
                 abort(400,"Couldn't find ID")

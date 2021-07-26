@@ -11,10 +11,11 @@
     yearsArray.push(year);
   }
 
-  const attemptValueChange = async (id, year) => {
+  const attemptValueChange = async (id, year, e) => {
+    e.preventDefault();
     let value;
     $demandParametersStore.data.forEach((row) => {
-      const result = row.find((cell) => cell.id === id && year === year);
+      const result = row.data.find((cell) => cell.id === id && year === year);
       if (result) {
         value = result;
         return;
@@ -46,10 +47,10 @@
                   data-id={cell.id}
                   value={cell.parameter}
                 />
+                <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button>
               </td>
             {/each}
           </tr>
-          <button on:click={() => attemptValueChange(row.id, row.year)}>Update</button>
         {/each}
       </table>
     </form>

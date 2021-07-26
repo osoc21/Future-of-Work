@@ -320,6 +320,18 @@ def create_app():
             else:
                 abort(400,"Couldn't find ID")
 
+    class CalculateDemand(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                pd.DataFrame(getParameter(globalID,r))
+                createDF(readDemandCSV(globalID,r))
+                resp = make_response()
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+            
+
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")
@@ -330,5 +342,6 @@ def create_app():
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
     api.add_resource(Parameter, "/api/demand/parameter/<id>/<year>")
+    api.add_resource(CalculateDemand, "/api/demand/calculate/")
 
     return app

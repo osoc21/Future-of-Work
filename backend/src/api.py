@@ -9,7 +9,7 @@ from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV
+from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter
 from supply import calculateSupplyTitle
 from demand import extractInfoFormulas,getFormulas
 
@@ -102,6 +102,8 @@ def create_app():
                         abort(422,message="demand file is not a csv")
                     else: 
                         globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],demandFile,r)
+                        data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
+                        writeDemandParameter(globalID,list(data["parameters"]),0,r)
                         resp = make_response(readCSVs(globalID,r))
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
                         return resp
@@ -299,12 +301,11 @@ def create_app():
         def get(self):
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
-                resp = make_response(jsonify(list(data["parameters"])))
+                resp = make_response(jsonify(getDemandParameter(globalID,r)))
                 return resp
             else:
                 abort(400,"Couldn't find ID")
-
+    
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")

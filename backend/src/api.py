@@ -240,7 +240,7 @@ def create_app():
                 resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class CalculateSupply(Resource):
         def get(self):
@@ -254,7 +254,7 @@ def create_app():
                 resp = make_response(jsonify(supply))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class UploadDemand(Resource):
         def post(self):
@@ -275,7 +275,7 @@ def create_app():
                     else:
                         abort(500)
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
     
 
     class LoadDemand(Resource): 
@@ -296,7 +296,7 @@ def create_app():
                 resp = make_response(readDemandCSV(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class Parameters(Resource):
         def get(self):
@@ -306,19 +306,18 @@ def create_app():
                 resp = make_response(jsonify(result))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
     
     class Parameter(Resource):
-        def patch(self):
+        def patch(self,year,id):
             if "globalID" in request.cookies:
-                globalID = request.cookies.get("globalID")
-                parameterID = request.args.get('id')
-                parameterID = request.args.get('year')
-                setParameter(parameterID)
+                globalID = request.cookies.get("globalID") 
+                body = eval(request.data) 
+                setParameter(id,year,body["parameter"],r)
                 resp = make_response()
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class CalculateDemand(Resource):
         def get(self):
@@ -341,7 +340,7 @@ def create_app():
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
-    api.add_resource(Parameter, "/api/demand/parameter/<id>/<year>")
+    api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>")
     api.add_resource(CalculateDemand, "/api/demand/calculate/")
 
     return app

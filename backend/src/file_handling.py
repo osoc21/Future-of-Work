@@ -144,16 +144,14 @@ def getDemandParameter(globalID,redis):
     globalDict = eval(redis.get(str(globalID)).decode()) 
     demandParameterID = eval(redis.get(globalDict["demand"]).decode())["parameters"]
     parameterList = eval(redis.get(demandParameterID).decode())
-    parameters = []
     data = []
     for item in parameterList:
-        parameters.append(str(item["parameter"]))
         row = []
         for year in item["years"]: 
             parameter = redis.get(item["id"] + str(year))
             row.append({"id":str(item["id"]),"year":year,"parameter":eval(parameter)})
-        data.append(row)
-    return {"parameters":parameters,"data":data}
+        data.append({"name":str(item["parameter"]),"data":row})
+    return data
 
 def getParameter(globalID,redis):
     globalDict = eval(redis.get(str(globalID)).decode()) 
@@ -169,5 +167,5 @@ def getParameter(globalID,redis):
         result.append(row) 
     return result
 
-def setParameter(ID,value,redis):
-    redis.set(ID,str(value))
+def setParameter(ID,year,value,redis):
+    redis.set(str(ID) + str(year),str(value))

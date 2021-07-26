@@ -41,12 +41,13 @@
             <td>{row.name}</td>
             {#each row.data as cell}
               <td>
+              
                 <input
                   type="number"
                   data-year={cell.year}
                   data-id={cell.id}
                   value={cell.parameter}
-                />
+                  />
                 <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button>
               </td>
             {/each}
@@ -71,7 +72,5 @@
     padding: 8px;
   }
 
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+
 </style>

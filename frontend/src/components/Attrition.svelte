@@ -36,7 +36,6 @@
 </script>
 
 <WorkforceDataProvider>
-  {console.log($workforceStore.isLoading)}
   {#if $workforceStore.isLoading}
     <p>Loading...</p>
   {:else}
@@ -57,7 +56,7 @@
             {/each}
           </td>
           {#each familyRow as { FTEs }}
-            <td>
+            <td class="space-y-3">
               {#each FTEs as { amount }}
                 <p>{format(amount.toFixed(5))}</p>
               {/each}
@@ -83,7 +82,5 @@
     padding: 8px;
   }
 
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+  
 </style>

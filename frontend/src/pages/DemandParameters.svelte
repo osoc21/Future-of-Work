@@ -13,9 +13,12 @@
         <br />Finally, fill in the coefficients and watch the machine work!
         <br />These profiles will be used to build scenario later on.
       </p>
+
+      <div>
+        <Demand />
+      </div>
     </div>
   </div>
-  <Demand />
 </AppLayout>
 
 <style>

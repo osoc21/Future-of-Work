@@ -31,7 +31,7 @@
       <li>
         <Link to="/fileupload">
           <span
-            class="menu-wrp block py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
+            class="menu-wrp block py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
           >
             File Upload
           </span>
@@ -41,7 +41,7 @@
       <li on:click={() => toggleDropdown('supply')}>
         <Link to="">
           <div
-            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
+            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
           >
             Supply
             <CaretDown />
@@ -49,16 +49,15 @@
         </Link>
 
         <ul class="dropdown-menu" class:active={dropdowns['supply']}>
-          <!-- <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Input</a></li> -->
           <li>
             <Link to="/supplytable">
-              <div class="block py-2.5 px-6 text-green-900">Table</div>
+              <div class="block py-2.5 px-6 text-white">Table</div>
             </Link>
           </li>
 
           <li>
             <Link to="/supplygraph">
-              <div class="block py-2.5 px-6 text-green-900">Visualization</div>
+              <div class="block py-2.5 px-6 text-white">Visualization</div>
             </Link>
           </li>
         </ul>
@@ -67,7 +66,7 @@
       <li on:click={() => toggleDropdown('demand')}>
         <Link to="">
           <div
-            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
+            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
           >
             Demand Modeling
             <CaretDown />
@@ -77,19 +76,19 @@
         <ul class="dropdown-menu" class:active={dropdowns['demand']}>
           <li>
             <Link to="/demand-parameters">
-              <a href={'#'} class="block py-2.5 px-6 text-green-900">Parameters</a>
+              <a href={'#'} class="block py-2.5 px-6 text-white">Parameters</a>
             </Link>
           </li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Build Scenario</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Outcome</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-green-900">Visualization</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-white">Build Scenario</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-white">Outcome</a></li>
+          <li><a href={'#'} class="block py-2.5 px-6 text-white">Visualization</a></li>
         </ul>
       </li>
 
       <li>
         <a
           href={'#'}
-          class="block py-2.5 px-4 rounded hover:bg-green-200 text-green-900 hover:text-white"
+          class="block py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
         >
           Gap Analysis
         </a>

@@ -1,18 +1,10 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
-  import { fetchDemandParameters } from '../api/fetch';
-  import ViewPoint from '../components/ViewPoint.svelte';
-
-  const fetchData = async () => {
-    const response = await fetchDemandParameters();
-    console.log(response);
-  };
-
-  fetchData();
+  import Demand from '../components/Demand.svelte';
 </script>
 
 <AppLayout>
-  <div class="relative flex container-flex">
+  <div class="relative flex container-flex mb-36">
     <div class="flex-1 font-bold space-y-7">
       <h1 class="text-2xl">Demand modelling: Parameters</h1>
       <p>
@@ -20,11 +12,9 @@
         <br />Finally, fill in the coefficients and watch the machine work!
         <br />These profiles will be used to build scenario later on.
       </p>
-
-      <h2>Select your view</h2>
-      <ViewPoint />
     </div>
   </div>
+  <Demand />
 </AppLayout>
 
 <style>

@@ -3,7 +3,6 @@
   import AppLayout from '../components/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
 
-
   const fileTypes = [
     { name: 'attrition' },
     { name: 'population' },
@@ -19,7 +18,6 @@
   function successUpload() {
     alert('All files are uploaded!');
   }
-
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -42,7 +40,6 @@
     if (missingFiles.length > 0) {
       missingUploadFiles();
       console.log('file missing');
-     
     } else {
       successUpload();
     }
@@ -71,7 +68,6 @@
         </p>
       </div>
 
-    
       <form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
         <div class="form-container  space-y-5">
           {#each fileTypes as fileType, i}

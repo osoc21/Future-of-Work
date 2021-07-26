@@ -23,13 +23,13 @@ def writeCSVs(supplyFiles,supplyNames,demandFile,redis):
     redis.set(supplyID,str(filesIDs))
     # Demand mapping
     demandIds = []
-    with io.TextIOWrapper(demandFile, encoding='utf-8') as text_file:
-        csvReader = csv.DictReader(text_file, delimiter=',')
-        for row in csvReader:
+    with io.TextIOWrapper(demandFile, encoding='utf-8') as demand_text_file:
+        demandCSVReader = csv.DictReader(demand_text_file, delimiter=',')
+        for demandRow in demandCSVReader: 
             id = str(uuid1())
             demandIds.append(id)
-            redis.set(id,str(row))
-    redis.set(demandID,str(demandIds))
+            redis.set(id,str(demandRow))
+        redis.set(demandID,str(demandIds))
     # Global mapping 
     redis.set(globalID,str({"supply":supplyID,"demand":demandID}))
     return globalID 
@@ -52,7 +52,7 @@ def readCSVs(id,redis):
     demandRowIDs = eval(redis.get(globalDict["demand"]).decode())
     rows = []
     for rowID in demandRowIDs:
-        row = eval(redis.get(rowID)) 
+        row = eval(redis.get(rowID))
         row["rowID"] = rowID
         rows.append(row)
     result["demand"] = rows
@@ -105,11 +105,11 @@ def writeDemandCSV(globalID,file,redis):
     redis.set(demandID,str(ids))
 
 def readDemandCSV(globalID,redis):
-    globalDict = eval(redis.get(str(globalID)).decode())
-    rowIDS = redis.get(globalDict["demand"]).decode()
-    rows = []
-    for rowID in rowIDS:
-        row = eval(redis.get(rowID))
+    globalDict = eval(redis.get(str(globalID)).decode()) 
+    demandRowIDs = eval(redis.get(globalDict["demand"]).decode())
+    rows = [] 
+    for rowID in demandRowIDs:
+        row = eval(redis.get(rowID)) 
         row["rowID"] = rowID
         rows.append(row)
     return {"demand":rows}

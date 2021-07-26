@@ -2,15 +2,26 @@
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
-  import { onMount } from 'svelte';
 
 
-  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' },{name: 'demand'}];
+  const fileTypes = [
+    { name: 'attrition' },
+    { name: 'population' },
+    { name: 'retirement' },
+    { name: 'demand' }
+  ];
+
+  // Loading the error is Upload files are missing
+  function missingUploadFiles() {
+    alert('File is missing');
+  }
+
+  function successUpload() {
+    alert('All files are uploaded!');
+  }
 
 
-  //   let file2;
   const handleUpload = async (e) => {
-    //TODO check if every field contains a file
     e.preventDefault();
 
     const formData = new FormData();
@@ -29,9 +40,11 @@
     }
 
     if (missingFiles.length > 0) {
-      // show error
+      missingUploadFiles();
+      console.log('file missing');
+     
     } else {
-      // upload
+      successUpload();
     }
 
     try {
@@ -44,8 +57,6 @@
       console.log(error);
     }
   };
-
-
 </script>
 
 <AppLayout>
@@ -60,6 +71,7 @@
         </p>
       </div>
 
+    
       <form method="post" enctype="multipart/form-data" on:submit={handleUpload}>
         <div class="form-container  space-y-5">
           {#each fileTypes as fileType, i}
@@ -76,11 +88,9 @@
             </div>
           {/each}
 
-        
-
           <div class="w-15">
             <label for="submit-file-button">Done?</label>
-            <DefaultButton type="submit" id="submit-file-button" />
+            <DefaultButton type="submit" id="submit-file-button" on:click={missingUploadFiles} />
           </div>
         </div>
       </form>
@@ -139,21 +149,21 @@
 
   .range-wrap {
     position: relative;
-    width:50%;
+    width: 50%;
   }
   .bubble {
     position: absolute;
     transform: translateX(-20%);
     border-radius: 5px;
     text-align: center;
-    width:30px;
+    width: 30px;
     left: -15%;
-    top:18px;
+    top: 18px;
   }
 
   .bubble::after {
     content: '';
-    position: absolute; 
+    position: absolute;
     left: -5%;
   }
 </style>

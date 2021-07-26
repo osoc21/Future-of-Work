@@ -313,8 +313,9 @@ def create_app():
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
                 parameterID = request.args.get('id')
-                parameterID = request.args.get('year')
-                setParameter(parameterID)
+                year = request.args.get('year')
+                body = request.get_json()
+                setParameter(parameterID,year,body["parameter"],redis)
                 resp = make_response()
                 return resp
             else:
@@ -329,6 +330,6 @@ def create_app():
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
-    api.add_resource(Parameter, "/api/demand/parameter/<id>/<year>")
+    api.add_resource(Parameter, "/api/demand/parameter/<year>/<id>")
 
     return app

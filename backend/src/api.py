@@ -240,7 +240,7 @@ def create_app():
                 resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class CalculateSupply(Resource):
         def get(self):
@@ -254,7 +254,7 @@ def create_app():
                 resp = make_response(jsonify(supply))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class UploadDemand(Resource):
         def post(self):
@@ -275,7 +275,7 @@ def create_app():
                     else:
                         abort(500)
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
     
 
     class LoadDemand(Resource): 
@@ -296,7 +296,7 @@ def create_app():
                 resp = make_response(readDemandCSV(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class Parameters(Resource):
         def get(self):
@@ -306,7 +306,7 @@ def create_app():
                 resp = make_response(jsonify(result))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
     
     class Parameter(Resource):
         def patch(self,year,id):
@@ -317,7 +317,7 @@ def create_app():
                 resp = make_response()
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")

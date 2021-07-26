@@ -4,7 +4,6 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
-from functools import reduce
 #For documentation
 from flasgger import Swagger, swag_from
 #Database
@@ -12,6 +11,7 @@ import redis
 #Our files
 from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV
 from supply import calculateSupplyTitle
+from demand import extractInfoFormulas,getFormulas
 
 
 template = {
@@ -295,6 +295,16 @@ def create_app():
             else:
                 abort(400,"Couldn't find ID")
 
+    class Parameters(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r)))
+                resp = make_response(list(data["parameters"]))
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")
@@ -303,5 +313,6 @@ def create_app():
     api.add_resource(CalculateSupply, "/api/supply/calculate/") 
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
- 
+    api.add_resource(Parameters, "/api/demand/parameters/")
+
     return app

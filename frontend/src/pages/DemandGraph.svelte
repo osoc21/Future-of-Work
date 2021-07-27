@@ -5,7 +5,6 @@
   import { demandDataStore} from '../stores/demandData';
   import DemandDataProvider from '../components/DemandDataProvider.svelte';
 
-  console.log($demandDataStore);
   let canvas;
   var mounted = false;
   var myChart;

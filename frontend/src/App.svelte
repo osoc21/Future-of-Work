@@ -8,7 +8,8 @@
   import SupplyGraph from './pages/SupplyGraph.svelte';
   import DemandParameters from './pages/DemandParameters.svelte';
   import DemandOutcome from './pages/DemandOutcome.svelte';
-
+  import GapTable from './pages/GapTable.svelte';
+  import GapGraph from './pages/GapTable.svelte';
 </script>
 
 <Router>
@@ -35,5 +36,12 @@
   </Route>
   <Route path="/demand-outcome">
     <DemandOutcome />
+  </Route>
+
+  <Route path="/gaptable">
+    <GapTable />
+  </Route>
+  <Route path="/gapgraph">
+    <GapGraph />
   </Route>
 </Router>

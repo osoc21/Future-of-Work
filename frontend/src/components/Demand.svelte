@@ -1,9 +1,7 @@
 <script>
   import { postParameterData } from '../api/patch';
-
   import { demandParametersStore } from '../stores/demandParameters';
   import DemandParametersProvider from './DemandParametersProvider.svelte';
-  console.log($demandParametersStore.data);
 
   const yearsArray = [];
   for (let i = 0; i < 5; i++) {

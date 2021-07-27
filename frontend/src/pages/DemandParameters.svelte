@@ -1,6 +1,8 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
+  import {Link } from 'svelte-navigator';
   import Demand from '../components/Demand.svelte';
+  import DefaultButton from '../components/DefaultButton.svelte';
 </script>
 
 
@@ -16,6 +18,11 @@
 
       <div>
         <Demand />
+        <Link to="/demand-outcome">
+        <DefaultButton>
+          Show outcome
+        </DefaultButton>
+        </Link>
       </div>
     </div>
   </div>

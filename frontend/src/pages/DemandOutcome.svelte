@@ -1,6 +1,8 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
+  import {Link} from 'svelte-navigator';
   import DemandTable from '../components/DemandTable.svelte';
+  import DefaultButton from '../components/DefaultButton.svelte';
 </script>
 
 <AppLayout>
@@ -13,6 +15,13 @@
     </div>
   </div>
   <DemandTable />
+  <Link to="/demand-graph">
+  <DefaultButton>
+    
+ 
+
+    Visualize !</DefaultButton>
+  </Link>
 </AppLayout>
 
 <style>

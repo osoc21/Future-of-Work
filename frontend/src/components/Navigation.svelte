@@ -92,13 +92,29 @@
         </ul>
       </li>
 
-      <li>
-        <a
-          href={'#'}
-          class="block py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
-        >
-          Gap Analysis
-        </a>
+      <li on:click={() => toggleDropdown('gap')}>
+        <Link to="">
+          <div
+            class="flex justify-between items-center py-2.5 px-4 rounded hover:bg-green-200 text-white hover:text-white"
+          >
+            Gap
+            <CaretDown />
+          </div>
+        </Link>
+
+        <ul class="dropdown-menu" class:active={dropdowns['gap']}>
+          <li>
+            <Link to="/gaptable">
+              <div class="block py-2.5 px-6 text-white">Table</div>
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/gapgraph">
+              <div class="block py-2.5 px-6 text-white">Visualization</div>
+            </Link>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>

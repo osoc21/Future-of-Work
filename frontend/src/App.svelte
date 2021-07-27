@@ -10,6 +10,8 @@
   import DemandOutcome from './pages/DemandOutcome.svelte';
   import DemandGraph from './pages/DemandGraph.svelte';
 
+  import GapTable from './pages/GapTable.svelte';
+  import GapGraph from './pages/GapTable.svelte';
 </script>
 
 <Router>
@@ -40,4 +42,11 @@
   <Route path="/demand-graph">
     <DemandGraph />
   </Route>
+  <Route path="/gaptable">
+    <GapTable />
+  </Route>
+  <Route path="/gapgraph">
+    <GapGraph />
+  </Route>
+
 </Router>

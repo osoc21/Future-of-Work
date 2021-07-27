@@ -4,15 +4,17 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import werkzeug
 import os
-from functools import reduce
 #For documentation
 from flasgger import Swagger, swag_from
 #Database
 import redis
 #Our files
-from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV
-from supply import calculateSupplyTitle
+from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter, getParameter
+from supply import calculateSupplyTitle,jobFamilyTitle
+from demand import extractInfoFormulas,getFormulas,calculateDemand
+from gap import calculateGap
 
+import pandas as pd
 
 template = {
   "swagger": "2.0",
@@ -102,6 +104,8 @@ def create_app():
                         abort(422,message="demand file is not a csv")
                     else: 
                         globalID = writeCSVs([populationFile,attritionFile,retirementFile],["population","attrition","retirement"],demandFile,r)
+                        data = extractInfoFormulas(getFormulas(readDemandCSV(globalID,r))) 
+                        writeDemandParameter(globalID,list(data["parameters"]),0,r)
                         resp = make_response(readCSVs(globalID,r))
                         resp.set_cookie('globalID', globalID,max_age=100000000,samesite='Lax')
                         return resp
@@ -237,7 +241,7 @@ def create_app():
                 resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class CalculateSupply(Resource):
         def get(self):
@@ -246,12 +250,11 @@ def create_app():
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                csvs = readSupplyCSVs(globalID,r)
-                supply = calculateSupplyTitle(csvs)
+                supply = calculateSupplyTitle(readSupplyCSVs(globalID,r))
                 resp = make_response(jsonify(supply))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
 
     class UploadDemand(Resource):
         def post(self):
@@ -272,7 +275,7 @@ def create_app():
                     else:
                         abort(500)
             else:
-                abort(400,"Couldn't find ID")
+                abort(400,message="Couldn't find ID")
     
 
     class LoadDemand(Resource): 
@@ -293,6 +296,54 @@ def create_app():
                 resp = make_response(readDemandCSV(globalID,r))
                 return resp
             else:
+                abort(400,message="Couldn't find ID")
+
+    class Parameters(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID")
+                result = getDemandParameter(globalID,r)
+                resp = make_response(jsonify(result))
+                return resp
+            else:
+                abort(400,message="Couldn't find ID")
+    
+    class Parameter(Resource):
+        def patch(self,year,id):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID") 
+                body = eval(request.data) 
+                setParameter(id,year,body["parameter"],r)
+                print(getParameter(globalID,r))
+                resp = make_response({"result":"result"})
+                return resp
+            else:
+                abort(400,message="Couldn't find ID")
+
+    class CalculateDemand(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID") 
+                result = calculateDemand(readDemandCSV(globalID,r),getParameter(globalID,r),jobFamilyTitle(readSupplyCSVs(globalID,r)))
+                resp = make_response(jsonify(result))
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+            
+
+    class CalculateGap(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID") 
+                
+                supply = calculateSupplyTitle(readSupplyCSVs(globalID,r))
+
+                demand = calculateDemand(readDemandCSV(globalID,r),getParameter(globalID,r),jobFamilyTitle(readSupplyCSVs(globalID,r)))
+                
+                result = calculateGap(supply,demand)
+                resp = make_response(jsonify(result))
+                return resp
+            else:
                 abort(400,"Couldn't find ID")
 
     # API resource routing
@@ -303,5 +354,9 @@ def create_app():
     api.add_resource(CalculateSupply, "/api/supply/calculate/") 
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
- 
+    api.add_resource(Parameters, "/api/demand/parameters/")
+    api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>")
+    api.add_resource(CalculateDemand, "/api/demand/calculate/")
+    api.add_resource(CalculateGap, "/api/gap/calculate/")
+
     return app

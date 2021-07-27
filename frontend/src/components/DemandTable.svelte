@@ -1,9 +1,11 @@
 <script>
-  import { workforceStore } from '../stores/workforce';
-  import WorkforceDataProvider from './WorkforceDataProvider.svelte';
+  import { demandDataStore } from '../stores/demandData';
+  import DemandDataProvider from './DemandDataProvider.svelte';
+
+
 
   const createWorkforceTable = () => {
-    const { formattedData } = $workforceStore;
+    const { formattedData } = $demandDataStore;
 
     // List all the years available
     const years = formattedData.map((y) => y.year);
@@ -35,15 +37,15 @@
   };
 </script>
 
-<WorkforceDataProvider>
-  {#if $workforceStore.isLoading}
+<DemandDataProvider>
+  {#if $demandDataStore.isLoading}
     <p>Loading...</p>
   {:else}
     <table>
       <tr>
         <th>Job Family</th>
         <th>Job Title</th>
-        {#each $workforceStore.formattedData as header}
+        {#each $demandDataStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
       </tr>
@@ -67,7 +69,7 @@
       {/each}
     </table>
   {/if}
-</WorkforceDataProvider>
+</DemandDataProvider>
 
 <style>
   table {

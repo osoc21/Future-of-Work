@@ -1,35 +1,32 @@
 <script>
   import AppLayout from '../components/AppLayout.svelte';
-  import { fetchWorkforceData } from '../api/fetch';
-  import ViewPoint from '../components/ViewPoint.svelte'
-
-  const fetchData = async () => {
-    const response = await fetchWorkforceData();
-    console.log(response);
-}
-
-fetchData();
-
+  import {Link } from 'svelte-navigator';
+  import Demand from '../components/Demand.svelte';
+  import DefaultButton from '../components/DefaultButton.svelte';
 </script>
 
+
 <AppLayout>
-  <div class="relative flex container-flex">
+  <div class="relative flex container-flex mb-36">
     <div class="flex-1 font-bold space-y-7">
       <h1 class="text-2xl">Demand modelling: Parameters</h1>
-      <p> Select your view and add-in parameters you want to calculate.
-        <br>Finally, fill in the coefficients and watch the machine work!
-        <br>These profiles will be used to build scenario later on.
+      <p>
+        Select your view and add-in parameters you want to calculate.
+        <br />Finally, fill in the coefficients and watch the machine work!
+        <br />These profiles will be used to build scenario later on.
       </p>
 
-      <h2>Select your view</h2>
-     <ViewPoint />
-
-
+      <div>
+        <Demand />
+        <Link to="/demand-outcome">
+        <DefaultButton>
+          Show outcome
+        </DefaultButton>
+        </Link>
+      </div>
+    </div>
   </div>
-</div>
 </AppLayout>
 
 <style>
-
-
 </style>

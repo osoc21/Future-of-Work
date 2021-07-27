@@ -2,15 +2,24 @@
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
-  import { onMount } from 'svelte';
 
+  const fileTypes = [
+    { name: 'attrition' },
+    { name: 'population' },
+    { name: 'retirement' },
+    { name: 'demand' }
+  ];
 
-  const fileTypes = [{ name: 'attrition' }, { name: 'population' }, { name: 'retirement' },{name: 'demand'}];
+  // Loading the error is Upload files are missing
+  function missingUploadFiles() {
+    alert('File is missing');
+  }
 
+  function successUpload() {
+    alert('All files are uploaded!');
+  }
 
-  //   let file2;
   const handleUpload = async (e) => {
-    //TODO check if every field contains a file
     e.preventDefault();
 
     const formData = new FormData();
@@ -29,9 +38,10 @@
     }
 
     if (missingFiles.length > 0) {
-      // show error
+      missingUploadFiles();
+      console.log('file missing');
     } else {
-      // upload
+      successUpload();
     }
 
     try {
@@ -44,8 +54,6 @@
       console.log(error);
     }
   };
-
-
 </script>
 
 <AppLayout>
@@ -55,7 +63,7 @@
         <h1>Upload Page</h1>
         <p>
           Please, upload ONLY csv files with the following names: <mark
-            >Population, Attrition, Retirement</mark
+            >Population, Attrition, Retirement, Demand.</mark
           >
         </p>
       </div>
@@ -76,11 +84,9 @@
             </div>
           {/each}
 
-        
-
           <div class="w-15">
             <label for="submit-file-button">Done?</label>
-            <DefaultButton type="submit" id="submit-file-button" />
+            <DefaultButton type="submit" id="submit-file-button" on:click={missingUploadFiles}>Let's Go!</DefaultButton>
           </div>
         </div>
       </form>
@@ -102,58 +108,5 @@
     grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-  }
-
-  .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 15px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: 0.2s;
-    transition: opacity 0.2s;
-  }
-  .slider:hover {
-    opacity: 1;
-  }
-
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #04aa6d;
-    cursor: pointer;
-  }
-
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #04aa6d;
-    cursor: pointer;
-  }
-
-  .range-wrap {
-    position: relative;
-    width:50%;
-  }
-  .bubble {
-    position: absolute;
-    transform: translateX(-20%);
-    border-radius: 5px;
-    text-align: center;
-    width:30px;
-    left: -15%;
-    top:18px;
-  }
-
-  .bubble::after {
-    content: '';
-    position: absolute; 
-    left: -5%;
   }
 </style>

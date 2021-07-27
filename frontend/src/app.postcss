@@ -24,18 +24,23 @@ h2 {
   @apply text-xl;
 }
 
-p, option {
+p,
+option {
   @apply text-sm;
 }
 
 mark {
-  @apply bg-green-200;
+  background-color: #41a37e;
+}
+
+tr:nth-child(even) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(209, 250, 229, var(--tw-bg-opacity));
 }
 
 .container-flex {
   top: 10%;
 }
-
 
 @tailwind components;
 

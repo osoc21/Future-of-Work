@@ -1,9 +1,9 @@
 <script>
-  import { workforceStore } from '../stores/workforce';
-  import WorkforceDataProvider from './WorkforceDataProvider.svelte';
+  import { gapDataStore } from '../stores/gapData';
+  import GapDataProvider from './GapDataProvider.svelte';
 
   const createWorkforceTable = () => {
-    const { formattedData } = $workforceStore;
+    const { formattedData } = $gapDataStore;
 
     // List all the years available
     const years = formattedData.map((y) => y.year);
@@ -35,15 +35,15 @@
   };
 </script>
 
-<WorkforceDataProvider>
-  {#if $workforceStore.isLoading}
+<GapDataProvider>
+  {#if $gapDataStore.isLoading}
     <p>Loading...</p>
   {:else}
     <table>
       <tr>
         <th>Job Family</th>
         <th>Job Title</th>
-        {#each $workforceStore.formattedData as header}
+        {#each $gapDataStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
       </tr>
@@ -67,7 +67,7 @@
       {/each}
     </table>
   {/if}
-</WorkforceDataProvider>
+</GapDataProvider>
 
 <style>
   table {

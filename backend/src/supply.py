@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import datetime 
 
 format = "%d.%m.%Y"
@@ -74,3 +73,15 @@ def calculateSupplyTitle(csvs,horizon = 5):
         current = current.replace(year=current.year + 1)
     return result
 
+def jobFamilyTitle(csvs):
+    currentWF = createDF(csvs) 
+
+    uniqueFamily = currentWF.drop_duplicates(subset=["Job Family"])["Job Family"].values
+    
+    familyDict = {}
+
+    for family in uniqueFamily:
+        jobs = currentWF.loc[(currentWF["Job Family"] == family)].drop_duplicates(subset=["Job title"])["Job title"].values
+        familyDict[family] = jobs
+
+    return familyDict

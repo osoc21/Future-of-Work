@@ -2,7 +2,7 @@
   import { fetchWorkforceData } from '../api/fetch';
   import { Link } from 'svelte-navigator';
   import AppLayout from '../components/AppLayout.svelte';
-  import Attrition from '../components/Attrition.svelte';
+  import Gap from '../components/Gap.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
 
   let promise = fetchWorkforceData;
@@ -19,14 +19,17 @@
   <div class="relative flex container-flex">
     <div class="flex-1 font-bold space-y-7">
       <div>
-        <h2>Supply modelling: Table</h2>
-        <p class="text-sm">Supply Table allows you to see FTEs per Job Title and Job Family <br>renderded from uploaded csv files.</p>
+        <h2>Gap modelling: Table</h2>
+        <p class="text-sm">
+          Supply Table allows you to see FTEs per Job Title and Job Family <br />renderded from
+          uploaded csv files.
+        </p>
       </div>
 
       <div>
-        <Attrition />
-        <Link to="/supply-graph">
-        <DefaultButton> Visualize !</DefaultButton>
+        <Gap />
+        <Link to="/gapgraph">
+          <DefaultButton>Visualize !</DefaultButton>
         </Link>
       </div>
     </div>
@@ -34,5 +37,4 @@
 </AppLayout>
 
 <style>
- 
 </style>

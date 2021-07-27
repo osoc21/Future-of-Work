@@ -15,13 +15,14 @@
     e.preventDefault();
     let value;
     $demandParametersStore.data.forEach((row) => {
-      const result = row.data.find((cell) => cell.id === id && year === year);
+      const result = row.data.find((cell) => cell.id === id && cell.year === year);
       if (result) {
         value = result.parameter;
         return;
       }
     });
-    await postParameterData(id, year, value);
+    // await postParameterData(id, year, value);
+    console.log(value);
   };
 </script>
 

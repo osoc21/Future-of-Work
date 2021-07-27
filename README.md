@@ -1,20 +1,28 @@
-# Future-of-Work
-Our goal is to create an application that analyzes the inflow and outflow of personnel and creates fancy, useful visualizations. 
+# Osoc18 gh-pages template
+If you want to use this template, fork it to your /gh-pages branch, break it, fix it, ship it!
 
-### Running the API
+## No hidden tigers or dragons
+It's just html pages. Start fiddling with the index.html to see your project come to life.
+The css is also just regular css, no compiling needed.
 
-You'll need [Docker](https://docs.docker.com/get-docker/) installed.
+## Styleguide
+There's a tiny style guide that shows you what elements you have at your disposal.
 
-To build the app for the first time, or after a configuration change, run:
-```
-docker-compose up --build
-```
+## Where is it deployed?
+The site for your project will be: https://osoc18.github.io/[NAMEOFYOURREPO]
+The site for this template can be found here: https://osoc18.github.io/website/
 
-Afterwards, you can just run
-```
-docker-compose up
-```
+--
 
-Changes to your python code won't need a server restart, it'll work when you save your file.
+## How to reuse
+* Go to your repo. Make a new branch called "gh-pages".
+* Make sure you remove all the files that were in that folder — but the .git folder.
+* Copy everything from this gh-pages folder into your gh-pages branch
+* Go to "settings" and make sure your gh-pages branch is set as github page (you will also find your url here).
+* Fiddle with the html and css and party!
 
-The API will run on port 4000 by default. You can make requests to http://localhost:4000/api/hello to test if it is working.
+### Help, I can't set my gh-pages branch as github page!
+Ask your coach or an other owner of your repo to do it for you.
+
+### Help, my css doesn't work when I copy everything!
+You might have kept the gitignore file. That's okay, just make sure you open it and remove the "css" folder, because it's ignoring the files...

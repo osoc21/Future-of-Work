@@ -8,6 +8,7 @@
   import SupplyGraph from './pages/SupplyGraph.svelte';
   import DemandParameters from './pages/DemandParameters.svelte';
   import DemandOutcome from './pages/DemandOutcome.svelte';
+  import DemandGraph from './pages/DemandGraph.svelte';
 
 </script>
 
@@ -23,10 +24,10 @@
   <Route path="/supply">
     <Supply />
   </Route>
-  <Route path="/supplytable">
+  <Route path="/supply-table">
     <SupplyTable />
   </Route>
-  <Route path="/supplygraph">
+  <Route path="/supply-graph">
     <SupplyGraph />
   </Route>
 
@@ -35,5 +36,8 @@
   </Route>
   <Route path="/demand-outcome">
     <DemandOutcome />
+  </Route>
+  <Route path="/demand-graph">
+    <DemandGraph />
   </Route>
 </Router>

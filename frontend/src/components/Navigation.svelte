@@ -50,13 +50,13 @@
 
         <ul class="dropdown-menu" class:active={dropdowns['supply']}>
           <li>
-            <Link to="/supplytable">
+            <Link to="/supply-table">
               <div class="block py-2.5 px-6 text-white">Table</div>
             </Link>
           </li>
 
           <li>
-            <Link to="/supplygraph">
+            <Link to="/supply-graph">
               <div class="block py-2.5 px-6 text-white">Visualization</div>
             </Link>
           </li>
@@ -81,10 +81,14 @@
           </li>
           <li>
             <Link to="/demand-outcome">
-            <a href={'#'} class="block py-2.5 px-6 text-white">Outcome</a>
+              <a href={'#'} class="block py-2.5 px-6 text-white">Outcome</a>
             </Link>
           </li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-white">Visualization</a></li>
+          <li>
+            <Link to="/demand-graph">
+              <a href={'#'} class="block py-2.5 px-6 text-white">Visualization</a>
+            </Link>
+          </li>
         </ul>
       </li>
 

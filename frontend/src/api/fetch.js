@@ -13,3 +13,11 @@ export const fetchDemandParameters = async () => {
   });
   return response.json();
 };
+
+export const fetchDemandData = async () => {
+  const response = await fetch('http://localhost:4000/api/demand/calculate/', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  return response.json();
+};

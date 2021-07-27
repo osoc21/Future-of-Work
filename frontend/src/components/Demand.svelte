@@ -21,8 +21,7 @@
         return;
       }
     });
-    // await postParameterData(id, year, value);
-    console.log(value);
+    await postParameterData(id, year, value);
   };
 </script>
 

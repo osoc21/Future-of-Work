@@ -12,6 +12,7 @@ import redis
 from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter, getParameter
 from supply import calculateSupplyTitle,jobFamilyTitle
 from demand import extractInfoFormulas,getFormulas,calculateDemand
+from gap import calculateGap
 
 import pandas as pd
 
@@ -249,8 +250,7 @@ def create_app():
             """
             if "globalID" in request.cookies:
                 globalID = request.cookies.get("globalID")
-                csvs = readSupplyCSVs(globalID,r)
-                supply = calculateSupplyTitle(csvs)
+                supply = calculateSupplyTitle(readSupplyCSVs(globalID,r))
                 resp = make_response(jsonify(supply))
                 return resp
             else:
@@ -331,6 +331,21 @@ def create_app():
                 abort(400,"Couldn't find ID")
             
 
+    class CalculateGap(Resource):
+        def get(self):
+            if "globalID" in request.cookies:
+                globalID = request.cookies.get("globalID") 
+                
+                supply = calculateSupplyTitle(readSupplyCSVs(globalID,r))
+
+                demand = calculateDemand(readDemandCSV(globalID,r),getParameter(globalID,r),jobFamilyTitle(readSupplyCSVs(globalID,r)))
+                
+                result = calculateGap(supply,demand)
+                resp = make_response(jsonify(result))
+                return resp
+            else:
+                abort(400,"Couldn't find ID")
+
     # API resource routing
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")
@@ -342,5 +357,6 @@ def create_app():
     api.add_resource(Parameters, "/api/demand/parameters/")
     api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>")
     api.add_resource(CalculateDemand, "/api/demand/calculate/")
+    api.add_resource(CalculateGap, "/api/gap/calculate/")
 
     return app

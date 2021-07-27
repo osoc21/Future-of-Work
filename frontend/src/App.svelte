@@ -7,6 +7,7 @@
   import SupplyTable from './pages/SupplyTable.svelte';
   import SupplyGraph from './pages/SupplyGraph.svelte';
   import DemandParameters from './pages/DemandParameters.svelte';
+  import DemandOutcome from './pages/DemandOutcome.svelte';
 
 </script>
 
@@ -31,5 +32,8 @@
 
   <Route path="/demand-parameters">
     <DemandParameters />
+  </Route>
+  <Route path="/demand-outcome">
+    <DemandOutcome />
   </Route>
 </Router>

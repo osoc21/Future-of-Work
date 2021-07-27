@@ -3,6 +3,7 @@
 
   import AppLayout from '../components/AppLayout.svelte';
   import Attrition from '../components/Attrition.svelte';
+  import DefaultButton from '../components/DefaultButton.svelte';
 
   let promise = fetchWorkforceData;
   let sourceJson = 'users';

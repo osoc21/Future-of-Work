@@ -79,8 +79,11 @@
               <a href={'#'} class="block py-2.5 px-6 text-white">Parameters</a>
             </Link>
           </li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-white">Build Scenario</a></li>
-          <li><a href={'#'} class="block py-2.5 px-6 text-white">Outcome</a></li>
+          <li>
+            <Link to="/demand-outcome">
+            <a href={'#'} class="block py-2.5 px-6 text-white">Outcome</a>
+            </Link>
+          </li>
           <li><a href={'#'} class="block py-2.5 px-6 text-white">Visualization</a></li>
         </ul>
       </li>

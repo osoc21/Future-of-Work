@@ -7,8 +7,8 @@
   <div id="container" class="m-auto w-full">
     <div class="mb-16">
       <div class="header-container m-auto mb-6">
-        <h1 class="text-6xl font-bold text-left">Future</h1>
-        <h1 class="text-6xl font-bold text-left">of Work</h1>
+        <h1 class="text-6xl font-bold text-center">Future <br>of Work</h1>
+  
       </div>
       <span class="text-gray-700 text-xl">Open Source Tool for Strategic Workforce Planning</span>
     </div>

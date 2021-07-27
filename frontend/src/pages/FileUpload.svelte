@@ -1,4 +1,5 @@
 <script>
+  import {Link} from 'svelte-navigator';
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
@@ -86,7 +87,9 @@
 
           <div class="w-15">
             <label for="submit-file-button">Done?</label>
-            <DefaultButton type="submit" id="submit-file-button" on:click={missingUploadFiles}>Let's Go!</DefaultButton>
+            <Link to="/supply-table">
+              <DefaultButton type="submit" id="submit-file-button" on:click={missingUploadFiles}>Let's Go!</DefaultButton>
+            </Link>
           </div>
         </div>
       </form>

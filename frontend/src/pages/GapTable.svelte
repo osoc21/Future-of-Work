@@ -19,7 +19,7 @@
   <div class="relative flex container-flex">
     <div class="flex-1 font-bold space-y-7">
       <div>
-        <h2>Supply modelling: Table</h2>
+        <h2>Gap modelling: Table</h2>
         <p class="text-sm">
           Supply Table allows you to see FTEs per Job Title and Job Family <br />renderded from
           uploaded csv files.

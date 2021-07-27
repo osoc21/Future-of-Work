@@ -5,12 +5,13 @@
 
   onMount(async () => {
     if (!$gapDataStore.isLoading) {
+      console.log($gapDataStore);
       return;
     }
 
     try {
       const data = await fetchGapData();
-      workforceStore.set({
+      gapDataStore.set({
         ...$gapDataStore,
         data,
         /*

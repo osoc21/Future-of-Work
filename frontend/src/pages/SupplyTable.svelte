@@ -25,7 +25,7 @@
 
       <div>
         <Attrition />
-        <Link to="/supplygraph">
+        <Link to="/supply-graph">
         <DefaultButton> Visualize !</DefaultButton>
         </Link>
       </div>

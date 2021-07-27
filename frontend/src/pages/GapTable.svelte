@@ -28,7 +28,7 @@
 
       <div>
         <Gap />
-        <Link to="/supplygraph">
+        <Link to="/gapgraph">
           <DefaultButton>Visualize !</DefaultButton>
         </Link>
       </div>

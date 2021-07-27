@@ -11,7 +11,7 @@
   import DemandGraph from './pages/DemandGraph.svelte';
 
   import GapTable from './pages/GapTable.svelte';
-  import GapGraph from './pages/GapTable.svelte';
+  import GapGraph from './pages/GapGraph.svelte';
 </script>
 
 <Router>

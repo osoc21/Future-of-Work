@@ -1,6 +1,6 @@
 <script>
   import { fetchWorkforceData } from '../api/fetch';
-
+  import { Link } from 'svelte-navigator';
   import AppLayout from '../components/AppLayout.svelte';
   import Attrition from '../components/Attrition.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
@@ -25,6 +25,9 @@
 
       <div>
         <Attrition />
+        <Link to="/supplygraph">
+        <DefaultButton> Visualize !</DefaultButton>
+        </Link>
       </div>
     </div>
   </div>

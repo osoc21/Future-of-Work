@@ -169,7 +169,4 @@ def getParameter(globalID,redis):
 
 def setParameter(ID,year,value,redis):
     key = str(ID) + str(year)
-    print(redis.get(key)) 
-    print(value)
     redis.set(key,str(value))
-    print(redis.get(key)) 

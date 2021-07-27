@@ -1,6 +1,6 @@
 <script>
-  import { gapDataStore } from '../stores/gapData';
-  import GapDataProvider from './GapDataProvider.svelte';
+  import { gapDataStore } from '../../stores/gapData';
+  import GapDataProvider from './../dataProviders/GapDataProvider.svelte';
 
   const createWorkforceTable = () => {
     const { formattedData } = $gapDataStore;

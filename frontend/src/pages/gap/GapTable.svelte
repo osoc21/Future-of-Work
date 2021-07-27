@@ -1,9 +1,9 @@
 <script>
-  import { fetchWorkforceData } from '../api/fetch';
+  import { fetchWorkforceData } from '../../api/fetch';
   import { Link } from 'svelte-navigator';
-  import AppLayout from '../components/AppLayout.svelte';
-  import Gap from '../components/Gap.svelte';
-  import DefaultButton from '../components/DefaultButton.svelte';
+  import AppLayout from '../../components/layouts/AppLayout.svelte';
+  import Gap from '../../components/gap/Gap.svelte';
+  import DefaultButton from '../../components/DefaultButton.svelte';
 
   let promise = fetchWorkforceData;
   let sourceJson = 'users';

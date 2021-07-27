@@ -1,5 +1,5 @@
 <script>
-  import HomeLayout from '../components/HomeLayout.svelte';
+  import HomeLayout from '../components/layouts/HomeLayout.svelte';
   import { Link } from 'svelte-navigator';
 </script>
 

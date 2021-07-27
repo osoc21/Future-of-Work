@@ -1,9 +1,9 @@
 <script>
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
-  import AppLayout from '../components/AppLayout.svelte';
-  import { workforceStore } from '../stores/workforce';
-  import WorkforceDataProvider from '../components/WorkforceDataProvider.svelte';
+  import AppLayout from '../../components/layouts/AppLayout.svelte';
+  import { workforceStore } from '../../stores/workforce';
+  import WorkforceDataProvider from '../../components/dataProviders/WorkforceDataProvider.svelte';
 
   let canvas;
   var mounted = false;

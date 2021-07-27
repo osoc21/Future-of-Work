@@ -1,7 +1,7 @@
 <script>
   import {Link} from 'svelte-navigator';
   import { uploadWorkforceData } from '../api/upload';
-  import AppLayout from '../components/AppLayout.svelte';
+  import AppLayout from '../components/layouts/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
 
   const fileTypes = [

@@ -1,9 +1,9 @@
 <script>
-  import { workforceStore } from '../stores/workforce';
-  import WorkforceDataProvider from './WorkforceDataProvider.svelte';
+  import { gapDataStore } from '../../stores/gapData';
+  import GapDataProvider from './../dataProviders/GapDataProvider.svelte';
 
   const createWorkforceTable = () => {
-    const { formattedData } = $workforceStore;
+    const { formattedData } = $gapDataStore;
 
     // List all the years available
     const years = formattedData.map((y) => y.year);
@@ -35,15 +35,15 @@
   };
 </script>
 
-<WorkforceDataProvider>
-  {console.log($workforceStore.isLoading)}
-  {#if $workforceStore.isLoading}
+<GapDataProvider>
+  {#if $gapDataStore.isLoading}
     <p>Loading...</p>
   {:else}
     <table>
       <tr>
-        <th colspan="2" />
-        {#each $workforceStore.formattedData as header}
+        <th>Job Family</th>
+        <th>Job Title</th>
+        {#each $gapDataStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
       </tr>
@@ -53,11 +53,11 @@
           <td>{familyRow[0].family}</td>
           <td>
             {#each familyRow[0].FTEs as { role }}
-              <p>{role}</p>
+              <p class="role">{role}</p>
             {/each}
           </td>
           {#each familyRow as { FTEs }}
-            <td>
+            <td class="space-y-3">
               {#each FTEs as { amount }}
                 <p>{format(amount.toFixed(5))}</p>
               {/each}
@@ -67,7 +67,7 @@
       {/each}
     </table>
   {/if}
-</WorkforceDataProvider>
+</GapDataProvider>
 
 <style>
   table {
@@ -82,8 +82,7 @@
     text-align: left;
     padding: 8px;
   }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
+  .role {
+    line-height: 2rem;
   }
 </style>

@@ -160,7 +160,7 @@ def getParameter(globalID,redis):
     result = []
     for item in parameterList:
         row = {}
-        row["profile"] = item["parameter"]
+        row["parameter"] = item["parameter"]
         for year in item["years"]: 
             parameter = redis.get(item["id"] + str(year))
             row[year] = eval(parameter) 
@@ -168,4 +168,5 @@ def getParameter(globalID,redis):
     return result
 
 def setParameter(ID,year,value,redis):
-    redis.set(str(ID) + str(year),str(value))
+    key = str(ID) + str(year)
+    redis.set(key,str(value))

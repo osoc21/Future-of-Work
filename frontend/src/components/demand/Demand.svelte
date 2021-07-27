@@ -1,9 +1,7 @@
 <script>
-  import { postParameterData } from '../api/patch';
-
-  import { demandParametersStore } from '../stores/demandParameters';
-  import DemandParametersProvider from './DemandParametersProvider.svelte';
-  console.log($demandParametersStore.data);
+  import { postParameterData } from '../../api/patch';
+  import { demandParametersStore } from '../../stores/demandParameters';
+  import DemandParametersProvider from '../dataProviders/DemandParametersProvider.svelte';
 
   const yearsArray = [];
   for (let i = 0; i < 5; i++) {
@@ -15,7 +13,7 @@
     e.preventDefault();
     let value;
     $demandParametersStore.data.forEach((row) => {
-      const result = row.data.find((cell) => cell.id === id && year === year);
+      const result = row.data.find((cell) => cell.id === id && cell.year === year);
       if (result) {
         value = result.parameter;
         return;
@@ -30,7 +28,7 @@
     <form>
       <table>
         <tr>
-          <th />
+          <th>Parameters</th>
           {#each yearsArray as year}
             <th>{year}</th>
           {/each}
@@ -42,12 +40,13 @@
             {#each row.data as cell}
               <td>
                 <input
+                  class="h-12 w-12 text-center mr-4"
                   type="number"
                   data-year={cell.year}
                   data-id={cell.id}
                   bind:value={cell.parameter}
+                  on:blur={(e) => attemptValueChange(cell.id, cell.year, e)}
                 />
-                <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button>
               </td>
             {/each}
           </tr>
@@ -70,8 +69,10 @@
     text-align: left;
     padding: 8px;
   }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
+  button {
+    background-color: #3f9c79;
+  }
+  button:hover {
+    background-color: #75c8a8;
   }
 </style>

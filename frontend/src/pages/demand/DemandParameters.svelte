@@ -1,8 +1,9 @@
 <script>
-  import AppLayout from '../components/AppLayout.svelte';
-  import Demand from '../components/Demand.svelte';
+  import { Link } from 'svelte-navigator';
+  import Demand from '../../components/demand/Demand.svelte';
+  import AppLayout from '../../components/layouts/AppLayout.svelte';
+  import DefaultButton from '../../components/DefaultButton.svelte';
 </script>
-
 
 <AppLayout>
   <div class="relative flex container-flex mb-36">
@@ -13,9 +14,15 @@
         <br />Finally, fill in the coefficients and watch the machine work!
         <br />These profiles will be used to build scenario later on.
       </p>
+
+      <div>
+        <Demand />
+        <Link to="/demand-outcome">
+          <DefaultButton>Show outcome</DefaultButton>
+        </Link>
+      </div>
     </div>
   </div>
-  <Demand />
 </AppLayout>
 
 <style>

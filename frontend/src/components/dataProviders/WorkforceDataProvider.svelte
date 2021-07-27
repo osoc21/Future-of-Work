@@ -1,6 +1,6 @@
 <script>
-  import { fetchWorkforceData } from '../api/fetch';
-  import { workforceStore } from '../stores/workforce';
+  import { fetchWorkforceData } from '../../api/fetch';
+  import { workforceStore } from '../../stores/workforce';
   import { onMount } from 'svelte';
 
   onMount(async () => {

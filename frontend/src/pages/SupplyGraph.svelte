@@ -8,7 +8,7 @@
   let canvas;
   var mounted = false;
   var myChart;
-let dataLabels;
+  let dataLabels;
 
   const getVizForYear = (year) => {
     const data = $workforceStore.formattedData;
@@ -16,27 +16,24 @@ let dataLabels;
 
     // TODO supply labels on hover
     for (let index = 0; index < dataForYear.jobFamilies.length; index++) {
-        // dataLabels = dataForYear.jobFamilies[index].map((item) => jobFamily);
+      // dataLabels = dataForYear.jobFamilies[index].map((item) => jobFamily);
 
-        console.log(dataLabels);
+      console.log(dataLabels);
     }
     console.log(dataForYear.jobFamilies[0].family);
     return dataForYear.jobFamilies.reduce((accumulator, jobFamily) => {
       if (!accumulator.roles) accumulator.roles = [];
       if (!accumulator.amounts) accumulator.amounts = [];
-    
+
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
-        console.log(dataForYear);
-    
+      console.log(dataForYear);
+
       //Creating accumulator for families
-    //   dataLabels = jobFamily.map((item) => item.family);
-    //   console.log(dataLabels);
+      //   dataLabels = jobFamily.map((item) => item.family);
+      //   console.log(dataLabels);
       return accumulator;
-    
     }, {});
-
-
   };
 
   const updateViz = (e, defaultYear) => {
@@ -120,8 +117,8 @@ let dataLabels;
           {/each}
         </select>
 
-        <div>
-          <canvas bind:this={canvas} id="myChart" class="w-5 " />
+        <div style="width: 100%; height:100%">
+          <canvas width="20%" height="7rem" bind:this={canvas} id="myChart" />
         </div>
       </div>
     </div>

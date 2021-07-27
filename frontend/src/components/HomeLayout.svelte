@@ -7,5 +7,7 @@
 <style>
   main {
     line-height: 2rem;
+    width: 100%;
+    height: 100%;
   }
 </style>

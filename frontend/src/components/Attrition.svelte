@@ -53,7 +53,7 @@
           <td>{familyRow[0].family}</td>
           <td>
             {#each familyRow[0].FTEs as { role }}
-              <p>{role}</p>
+              <p class="role">{role}</p>
             {/each}
           </td>
           {#each familyRow as { FTEs }}
@@ -82,5 +82,7 @@
     text-align: left;
     padding: 8px;
   }
-
+  .role {
+    line-height: 2rem;
+  }
 </style>

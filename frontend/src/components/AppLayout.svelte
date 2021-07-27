@@ -1,6 +1,5 @@
 <script>
   import Navigation from './Navigation.svelte';
-
 </script>
 
 <div id="app" class="flex">

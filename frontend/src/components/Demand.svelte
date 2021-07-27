@@ -41,15 +41,18 @@
             <td>{row.name}</td>
             {#each row.data as cell}
               <td>
-              
                 <input
+                  class="h-12 w-12 text-center mr-4"
                   type="number"
                   data-year={cell.year}
                   data-id={cell.id}
                   bind:value={cell.parameter}
                 />
 
-                <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)} class="rounded border border-green-100 hover:bg-green-200 subpixel-antialiased p-2">Update</button>
+                <button
+                  class="bg-gray-200 text-white p-2 rounded-xl"
+                  on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button
+                >
               </td>
             {/each}
           </tr>
@@ -72,6 +75,10 @@
     text-align: left;
     padding: 8px;
   }
-
-
+  button {
+    background-color: #3f9c79;
+  }
+  button:hover {
+    background-color: #75c8a8;
+  }
 </style>

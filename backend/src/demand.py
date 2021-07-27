@@ -38,28 +38,31 @@ def getFormulas(csv):
 
 def calculateFormula(formula,values):
     values = {k : float(v) for k,v in values.items()}
-    variables = dict(values).update(myOperators)
-    return eval(formula,variables)
+    variables = {**values,**myOperators}
+    return eval(formula,values) 
 
 def calculateDemand(csv,parameters,familyDict):
     demandDF = createDF(csv)
-
-    current = datetime.datetime.now() 
-
-    result = []
-
-    for year in range(0,len(list(parameters)[0]) - 1):
+    parameterDF = pd.DataFrame(parameters)
+    
+    result = [] 
+    years = list(parameterDF)  
+    years.remove('parameter')
+    for year in years:
         forecast = {}
-        parameter = {k: v[year] for k, v in parameters.items()}
+        parameter = {}
+        for _,row in parameterDF[[year,'parameter']].iterrows():
+            parameter[row['parameter']] = row[year]
         for family in familyDict:
             titles = []
             for title in familyDict[family]:
-                jobs = demandDF.loc[demandDF["Profile"]==title]
-                if jobs:
-                    titles.append({title: calculateFormula(jobs[0],parameter)})
-                else:
+                jobs = demandDF.loc[demandDF["Job title"]==title]
+                if jobs.empty:
                     titles.append({title:0})
-        result.append({"year":current.year,"data":forecast})
-        current = current.replace(year=current.year + 1)
-    
+                else:
+                    formula = jobs["Formula"].values[0]
+                    titles.append({title: calculateFormula(formula,parameter)})
+            forecast[family] = titles
+        result.append({"year":year,"data":forecast})
+
     return result

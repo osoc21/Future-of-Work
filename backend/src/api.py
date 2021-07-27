@@ -10,8 +10,8 @@ from flasgger import Swagger, swag_from
 import redis
 #Our files
 from file_handling import writeCSVs,readCSVs,writeSupplyCSVs,readSupplyCSVs,writeDemandCSV,readDemandCSV, writeDemandParameter, getDemandParameter, setParameter, getParameter
-from supply import calculateSupplyTitle
-from demand import extractInfoFormulas,getFormulas,createDF
+from supply import calculateSupplyTitle,jobFamilyTitle
+from demand import extractInfoFormulas,getFormulas,calculateDemand
 
 import pandas as pd
 
@@ -314,7 +314,8 @@ def create_app():
                 globalID = request.cookies.get("globalID") 
                 body = eval(request.data) 
                 setParameter(id,year,body["parameter"],r)
-                resp = make_response()
+                print(getParameter(globalID,r))
+                resp = make_response({"result":"result"})
                 return resp
             else:
                 abort(400,message="Couldn't find ID")
@@ -322,10 +323,9 @@ def create_app():
     class CalculateDemand(Resource):
         def get(self):
             if "globalID" in request.cookies:
-                globalID = request.cookies.get("globalID")
-                pd.DataFrame(getParameter(globalID,r))
-                createDF(readDemandCSV(globalID,r))
-                resp = make_response()
+                globalID = request.cookies.get("globalID") 
+                result = calculateDemand(readDemandCSV(globalID,r),getParameter(globalID,r),jobFamilyTitle(readSupplyCSVs(globalID,r)))
+                resp = make_response(jsonify(result))
                 return resp
             else:
                 abort(400,"Couldn't find ID")

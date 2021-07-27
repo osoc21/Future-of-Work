@@ -1,28 +1,28 @@
 <script>
-  import AppLayout from '../components/AppLayout.svelte';
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
-  import { gapDataStore } from '../stores/gapData';
-  import GapDataProvider from '../components/GapDataProvider.svelte';
+  import AppLayout from '../../components/layouts/AppLayout.svelte';
+  import { demandDataStore } from '../../stores/demandData';
+  import DemandDataProvider from '../../components/dataProviders/DemandDataProvider.svelte';
 
   let canvas;
   var mounted = false;
   var myChart;
+  let dataLabels;
 
   const getVizForYear = (year) => {
-    const data = $gapDataStore.formattedData;
+    const data = $demandDataStore.formattedData;
     const dataForYear = data.find((yearData) => yearData.year == year);
-
     return dataForYear.jobFamilies.reduce((accumulator, jobFamily) => {
       if (!accumulator.roles) accumulator.roles = [];
       if (!accumulator.amounts) accumulator.amounts = [];
 
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
-
       return accumulator;
     }, {});
   };
+
   const updateViz = (e, defaultYear) => {
     const year = defaultYear || e.currentTarget.value;
 
@@ -39,7 +39,7 @@
     mounted = true;
   });
 
-  $: if (!$gapDataStore.isLoading && mounted) {
+  $: if (!$demandDataStore.isLoading && mounted) {
     updateViz(null, 2021);
   }
 
@@ -52,7 +52,7 @@
         labels: chartlabels,
         datasets: [
           {
-            label: 'Gap Analysis ',
+            label: 'Amount of FTEs per Job Title',
             data: chartData,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
@@ -91,15 +91,15 @@
 </script>
 
 <AppLayout>
-  <GapDataProvider>
+  <DemandDataProvider>
     <div class="relative flex container-flex">
       <div class="flex-1 font-bold space-y-7">
         <div>
-          <h2>Gap: Visualization</h2>
-          <p>Here you can find visualization of the gap data per Job Title.</p>
+          <h2>Demand: Visualization</h2>
+          <p>Here you can find FTEs per every Job Title per one year at the time.</p>
         </div>
         <select on:input={updateViz} class="text-gray-700 block px-4 py-2 border-2">
-          {#each $gapDataStore.formattedData || [] as yearData}
+          {#each $demandDataStore.formattedData || [] as yearData}
             <option>{yearData.year}</option>
           {/each}
         </select>
@@ -109,5 +109,5 @@
         </div>
       </div>
     </div>
-  </GapDataProvider>
+  </DemandDataProvider>
 </AppLayout>

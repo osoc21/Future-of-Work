@@ -1,6 +1,6 @@
 <script>
-  import { fetchDemandParameters } from '../api/fetch';
-  import { demandParametersStore } from '../stores/demandParameters';
+  import { fetchDemandParameters } from '../../api/fetch';
+  import { demandParametersStore } from '../../stores/demandParameters';
   import { onMount } from 'svelte';
 
   onMount(async () => {

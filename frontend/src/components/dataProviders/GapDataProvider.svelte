@@ -1,17 +1,18 @@
 <script>
-  import { fetchWorkforceData } from '../api/fetch';
-  import { workforceStore } from '../stores/workforce';
+  import { fetchGapData } from '../../api/fetch';
+  import { gapDataStore } from '../../stores/gapData';
   import { onMount } from 'svelte';
 
   onMount(async () => {
-    if (!$workforceStore.isLoading) {
+    if (!$gapDataStore.isLoading) {
+      console.log($gapDataStore);
       return;
     }
 
     try {
-      const data = await fetchWorkforceData();
-      workforceStore.set({
-        ...$workforceStore,
+      const data = await fetchGapData();
+      gapDataStore.set({
+        ...$gapDataStore,
         data,
         /*
           Run a transformation to make the API response easier to work with,
@@ -36,7 +37,7 @@
     } catch (err) {
       console.log(err);
     }
-    workforceStore.set({ ...$workforceStore, isLoading: false });
+    gapDataStore.set({ ...$gapDataStore, isLoading: false });
   });
 </script>
 

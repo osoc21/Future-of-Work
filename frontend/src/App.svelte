@@ -4,14 +4,16 @@
 
   import Landing from './pages/Landing.svelte';
   import FileUpload from './pages/FileUpload.svelte';
-  import SupplyTable from './pages/SupplyTable.svelte';
-  import SupplyGraph from './pages/SupplyGraph.svelte';
-  import DemandParameters from './pages/DemandParameters.svelte';
-  import DemandOutcome from './pages/DemandOutcome.svelte';
-  import DemandGraph from './pages/DemandGraph.svelte';
 
-  import GapTable from './pages/GapTable.svelte';
-  import GapGraph from './pages/GapGraph.svelte';
+  import SupplyTable from './pages/supply/SupplyTable.svelte';
+  import SupplyGraph from './pages/supply/SupplyGraph.svelte';
+
+  import DemandParameters from './pages/demand/DemandParameters.svelte';
+  import DemandOutcome from './pages/demand/DemandOutcome.svelte';
+  import DemandGraph from './pages/demand/DemandGraph.svelte';
+
+  import GapTable from './pages/gap/GapTable.svelte';
+  import GapGraph from './pages/gap/GapGraph.svelte';
 </script>
 
 <Router>
@@ -44,5 +46,4 @@
   <Route path="/gapgraph">
     <GapGraph />
   </Route>
-
 </Router>

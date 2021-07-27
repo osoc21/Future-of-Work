@@ -1,17 +1,17 @@
 <script>
-  import { fetchDemandData } from '../api/fetch';
-  import { demandDataStore } from '../stores/demandData';
+  import { fetchWorkforceData } from '../../api/fetch';
+  import { workforceStore } from '../../stores/workforce';
   import { onMount } from 'svelte';
 
   onMount(async () => {
-    if (!$demandDataStore.isLoading) {
+    if (!$workforceStore.isLoading) {
       return;
     }
 
     try {
-      const data = await fetchDemandData();
-      demandDataStore.set({
-        ...$demandDataStore,
+      const data = await fetchWorkforceData();
+      workforceStore.set({
+        ...$workforceStore,
         data,
         /*
           Run a transformation to make the API response easier to work with,
@@ -36,7 +36,7 @@
     } catch (err) {
       console.log(err);
     }
-    demandDataStore.set({ ...$demandDataStore, isLoading: false });
+    workforceStore.set({ ...$workforceStore, isLoading: false });
   });
 </script>
 

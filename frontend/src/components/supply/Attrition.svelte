@@ -1,6 +1,6 @@
 <script>
-  import { workforceStore } from '../stores/workforce';
-  import WorkforceDataProvider from './WorkforceDataProvider.svelte';
+  import { workforceStore } from '../../stores/workforce';
+  import WorkforceDataProvider from './../dataProviders/WorkforceDataProvider.svelte';
 
   const createWorkforceTable = () => {
     const { formattedData } = $workforceStore;

@@ -2,7 +2,7 @@
   import { demandDataStore } from '../stores/demandData';
   import DemandDataProvider from './DemandDataProvider.svelte';
 
-  console.log($demandDataStore.data);
+
 
   const createWorkforceTable = () => {
     const { formattedData } = $demandDataStore;

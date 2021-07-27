@@ -2,7 +2,7 @@
   import AppLayout from '../components/AppLayout.svelte';
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
-  import { gapDataStore} from '../stores/gapData';
+  import { gapDataStore } from '../stores/gapData';
   import GapDataProvider from '../components/GapDataProvider.svelte';
 
   let canvas;
@@ -19,11 +19,7 @@
 
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
-      console.log(dataForYear);
 
-      //Creating accumulator for families
-      //   dataLabels = jobFamily.map((item) => item.family);
-      //   console.log(dataLabels);
       return accumulator;
     }, {});
   };
@@ -95,25 +91,23 @@
 </script>
 
 <AppLayout>
-   <GapDataProvider>
+  <GapDataProvider>
     <div class="relative flex container-flex">
-        <div class="flex-1 font-bold space-y-7">
-          <div>
-            <h2>Gap: Visualization</h2>
-            <p>Here you can find visualization of the gap data per Job Title.</p>
-          </div>
-          <select on:input={updateViz} class="text-gray-700 block px-4 py-2 border-2">
-            {#each $gapDataStore.formattedData || [] as yearData}
-              <option>{yearData.year}</option>
-            {/each}
-          </select>
-  
-          <div style="width: 100%; height:100%">
-            <canvas bind:this={canvas} width="20%" height="7rem"  id="myChart" />
-          </div>
+      <div class="flex-1 font-bold space-y-7">
+        <div>
+          <h2>Gap: Visualization</h2>
+          <p>Here you can find visualization of the gap data per Job Title.</p>
+        </div>
+        <select on:input={updateViz} class="text-gray-700 block px-4 py-2 border-2">
+          {#each $gapDataStore.formattedData || [] as yearData}
+            <option>{yearData.year}</option>
+          {/each}
+        </select>
+
+        <div style="width: 100%; height:100%">
+          <canvas bind:this={canvas} width="20%" height="7rem" id="myChart" />
         </div>
       </div>
-   </GapDataProvider>
-     
-  </AppLayout>
-  
+    </div>
+  </GapDataProvider>
+</AppLayout>

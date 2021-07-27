@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
   import AppLayout from '../components/AppLayout.svelte';
-  import { demandDataStore} from '../stores/demandData';
+  import { demandDataStore } from '../stores/demandData';
   import DemandDataProvider from '../components/DemandDataProvider.svelte';
 
   let canvas;
@@ -13,25 +13,12 @@
   const getVizForYear = (year) => {
     const data = $demandDataStore.formattedData;
     const dataForYear = data.find((yearData) => yearData.year == year);
-
-    // TODO supply labels on hover
-    for (let index = 0; index < dataForYear.jobFamilies.length; index++) {
-      // dataLabels = dataForYear.jobFamilies[index].map((item) => jobFamily);
-
-      console.log(dataLabels);
-    }
-    console.log(dataForYear.jobFamilies[0].family);
     return dataForYear.jobFamilies.reduce((accumulator, jobFamily) => {
       if (!accumulator.roles) accumulator.roles = [];
       if (!accumulator.amounts) accumulator.amounts = [];
 
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
-      console.log(dataForYear);
-
-      //Creating accumulator for families
-      //   dataLabels = jobFamily.map((item) => item.family);
-      //   console.log(dataLabels);
       return accumulator;
     }, {});
   };
@@ -101,7 +88,8 @@
       }
     });
   }
-  </script>
+</script>
+
 <AppLayout>
   <DemandDataProvider>
     <div class="relative flex container-flex">
@@ -117,7 +105,7 @@
         </select>
 
         <div style="width: 100%; height:100%">
-          <canvas bind:this={canvas} width="20%" height="7rem"  id="myChart" />
+          <canvas bind:this={canvas} width="20%" height="7rem" id="myChart" />
         </div>
       </div>
     </div>

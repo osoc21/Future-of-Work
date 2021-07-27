@@ -30,7 +30,7 @@
     <form>
       <table>
         <tr>
-          <th />
+          <th>Parameters</th>
           {#each yearsArray as year}
             <th>{year}</th>
           {/each}
@@ -49,7 +49,7 @@
                   bind:value={cell.parameter}
                 />
 
-                <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button>
+                <button on:click={(e) => attemptValueChange(cell.id, cell.year, e)} class="rounded border border-green-100 hover:bg-green-200 subpixel-antialiased p-2">Update</button>
               </td>
             {/each}
           </tr>

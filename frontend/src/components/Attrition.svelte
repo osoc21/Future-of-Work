@@ -41,7 +41,8 @@
   {:else}
     <table>
       <tr>
-        <th colspan="2" />
+        <th>Job Family</th>
+        <th>Job Title</th>
         {#each $workforceStore.formattedData as header}
           <th>{header.year}</th>
         {/each}
@@ -82,5 +83,4 @@
     padding: 8px;
   }
 
-  
 </style>

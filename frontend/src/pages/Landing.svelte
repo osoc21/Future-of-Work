@@ -9,7 +9,7 @@
 <HomeLayout>
   <div id="container" class="space-y-6">
     <div>
-      <h1 class="text-6xl font-bold pb-6">Future of Work</h1>
+      <h1 class="text-center text-6xl font-bold pb-6 ">Future of Work</h1>
       <span class="text-gray-700">Open Source Tool for Strategic Workforce Planning</span>
     </div>
     <div class="pt-12 w-2/3">

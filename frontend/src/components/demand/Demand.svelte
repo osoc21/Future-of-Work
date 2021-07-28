@@ -45,12 +45,8 @@
                   data-year={cell.year}
                   data-id={cell.id}
                   bind:value={cell.parameter}
+                  on:blur={(e) => attemptValueChange(cell.id, cell.year, e)}
                 />
-
-                <button
-                  class="bg-gray-200 text-white p-2 rounded-xl"
-                  on:click={(e) => attemptValueChange(cell.id, cell.year, e)}>Update</button
-                >
               </td>
             {/each}
           </tr>

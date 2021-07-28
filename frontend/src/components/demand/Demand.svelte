@@ -48,6 +48,7 @@
                   data-year={cell.year}
                   data-id={cell.id}
                   bind:value={cell.parameter}
+                  on:keyup={({ key, target }) => key === 'Enter' && target.blur()}
                   on:blur={(e) => attemptValueChange(cell.id, cell.year, e)}
                 />
               </td>

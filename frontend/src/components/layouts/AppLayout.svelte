@@ -1,4 +1,6 @@
 <script>
+  // Layout component displayed on every page of the app with Navigation bar
+
   import Navigation from './../Navigation.svelte';
 </script>
 

@@ -1,4 +1,6 @@
 <script>
+  // Data provider for Supply Section using csv files 
+
   import { fetchWorkforceData } from '../../api/fetch';
   import { workforceStore } from '../../stores/workforce';
   import { onMount } from 'svelte';

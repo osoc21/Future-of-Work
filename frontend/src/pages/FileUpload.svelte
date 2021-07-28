@@ -1,9 +1,11 @@
 <script>
+  // Upload page for the csv files
   import {Link} from 'svelte-navigator';
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/layouts/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
 
+  // File names that are expected on the back-end. Change them if you are changing the backend names
   const fileTypes = [
     { name: 'attrition' },
     { name: 'population' },
@@ -20,6 +22,7 @@
     alert('All files are uploaded!');
   }
 
+  // Handling file upload from the form
   const handleUpload = async (e) => {
     e.preventDefault();
 
@@ -45,6 +48,7 @@
       successUpload();
     }
 
+    // Setting up local Storage based on user ID to pass individual data 
     try {
       const response = await uploadWorkforceData(formData);
       console.log(response);

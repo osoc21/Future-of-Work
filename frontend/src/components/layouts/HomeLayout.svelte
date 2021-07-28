@@ -1,3 +1,7 @@
+<script>
+  // Layout component used on the Landing page
+</script>
+
 <div id="app" class="flex">
   <main>
     <slot />

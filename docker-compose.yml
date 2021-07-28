@@ -6,6 +6,8 @@ services:
     build: ./backend
     ports: ["4000:4000"]
     volumes: ["./backend:/app"]
+    depends_on:
+      - database
 
   database:
     image: redis

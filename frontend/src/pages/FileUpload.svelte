@@ -1,6 +1,6 @@
 <script>
   // Upload page for the csv files
-  import {Link} from 'svelte-navigator';
+  import { Link } from 'svelte-navigator';
   import { uploadWorkforceData } from '../api/upload';
   import AppLayout from '../components/layouts/AppLayout.svelte';
   import DefaultButton from '../components/DefaultButton.svelte';
@@ -32,7 +32,6 @@
       if (!fileType.file) {
         missingFiles.push(fileType.name);
       } else {
-        console.log(fileType.file[0]);
         formData.append(fileType.name, fileType.file[0]);
       }
     });
@@ -48,12 +47,9 @@
       successUpload();
     }
 
-    // Setting up local Storage based on user ID to pass individual data 
+    // Setting up local Storage based on user ID to pass individual data
     try {
       const response = await uploadWorkforceData(formData);
-      console.log(response);
-
-      console.log(response.ID);
       localStorage.setItem('globalId', response.ID);
     } catch (error) {
       console.log(error);

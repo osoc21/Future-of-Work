@@ -17,17 +17,13 @@
     // TODO supply labels on hover
     for (let index = 0; index < dataForYear.jobFamilies.length; index++) {
       // dataLabels = dataForYear.jobFamilies[index].map((item) => jobFamily);
-
-      console.log(dataLabels);
     }
-    console.log(dataForYear.jobFamilies[0].family);
     return dataForYear.jobFamilies.reduce((accumulator, jobFamily) => {
       if (!accumulator.roles) accumulator.roles = [];
       if (!accumulator.amounts) accumulator.amounts = [];
 
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
-      console.log(dataForYear);
 
       //Creating accumulator for families
       //   dataLabels = jobFamily.map((item) => item.family);

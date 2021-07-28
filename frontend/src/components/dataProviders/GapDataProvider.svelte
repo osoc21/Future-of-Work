@@ -5,7 +5,6 @@
 
   onMount(async () => {
     if (!$gapDataStore.isLoading) {
-      console.log($gapDataStore);
       return;
     }
 

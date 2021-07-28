@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import werkzeug
 import os
 #For documentation
-from flasgger import Swagger, swag_from
+from flasgger import Swagger
 #Database
 import redis
 #Our files
@@ -57,6 +57,60 @@ def create_app():
     #API calls
     class UploadAll(Resource):
         def post(self):
+            """
+            Upload 4 csv files to the server
+            ---
+            tags:
+                - File upload
+            parameters:
+                - name: Population
+                  in: files
+                  type: csv file
+                  required: true
+                  description: a csv-file containing the current population
+                - name: Attrition
+                  in: files
+                  type: csv file
+                  required: true
+                  description: a csv-file containting the attrition rates
+                - name: Retirement
+                  in: files
+                  type: csv file
+                  required: true
+                  description: a csv-file containing the retirement age 
+                - name: Demand
+                  in: files
+                  type: csv file
+                  required: true
+                  description: a csv-file containing the demand formulas 
+            responses:
+                400:
+                    description: form is incorrect format could not find poplation file
+                401:
+                    description: form is incorrect format could not find attrition file
+                402:
+                    description: form is incorrect format could not find retirement file
+                410:
+                    description: population file is empty so no file was selected
+                411:
+                    description: attrition file is empty so no file was selected
+                420:
+                    description: population file isn't a csv
+                421:
+                    description: attrition file isn't a csv
+                422:
+                    description: retirement file isn't a csv
+                200:
+                    description: ok
+                    schema:
+                        id: files
+                        properties: 
+                            sum:
+                                type: integer
+                                description: The sum of number
+                500:
+                    description: internal server error
+            """
             # check if the post request has the file part 
             if 'population' not in request.files:
                 flash('population is missing')
@@ -116,7 +170,7 @@ def create_app():
     class LoadAll(Resource): 
         def get(self):
             """
-            get back the data you have uploaded
+            get back all the data you have uploaded
             ---
             tags:
                 - File fetching
@@ -131,7 +185,7 @@ def create_app():
                 resp = make_response(readCSVs(globalID,r))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
 
     class UploadSupply(Resource):
@@ -241,7 +295,7 @@ def create_app():
                 resp = make_response(readSupplyCSVs(globalID,r))
                 return resp
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
     class CalculateSupply(Resource):
         def get(self):
@@ -254,7 +308,7 @@ def create_app():
                 resp = make_response(jsonify(supply))
                 return resp
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
     class UploadDemand(Resource):
         def post(self):
@@ -275,7 +329,7 @@ def create_app():
                     else:
                         abort(500)
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
     
 
     class LoadDemand(Resource): 
@@ -296,7 +350,7 @@ def create_app():
                 resp = make_response(readDemandCSV(globalID,r))
                 return resp
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
     class Parameters(Resource):
         def get(self):
@@ -306,7 +360,7 @@ def create_app():
                 resp = make_response(jsonify(result))
                 return resp
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
     
     class Parameter(Resource):
         def patch(self,year,id):
@@ -314,11 +368,10 @@ def create_app():
                 globalID = request.cookies.get("globalID") 
                 body = eval(request.data) 
                 setParameter(id,year,body["parameter"],r)
-                print(getParameter(globalID,r))
                 resp = make_response({"result":"result"})
                 return resp
             else:
-                abort(400,message="Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
     class CalculateDemand(Resource):
         def get(self):
@@ -328,7 +381,7 @@ def create_app():
                 resp = make_response(jsonify(result))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(405,message="Couldn't find ID")
             
 
     class CalculateGap(Resource):
@@ -344,19 +397,23 @@ def create_app():
                 resp = make_response(jsonify(result))
                 return resp
             else:
-                abort(400,"Couldn't find ID")
+                abort(405,message="Couldn't find ID")
 
     # API resource routing
+    # All
     api.add_resource(UploadAll, "/api/all/upload/")
     api.add_resource(LoadAll, "/api/all/load/")
+    # Supply
     api.add_resource(UploadSupply, "/api/supply/upload/")
     api.add_resource(LoadSupply, "/api/supply/load/")
     api.add_resource(CalculateSupply, "/api/supply/calculate/") 
+    # Demand
     api.add_resource(UploadDemand, "/api/demand/upload/")
     api.add_resource(LoadDemand, "/api/demand/load/")
     api.add_resource(Parameters, "/api/demand/parameters/")
-    api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>")
+    api.add_resource(Parameter, "/api/demand/parameter/<string:year>/<string:id>/")
     api.add_resource(CalculateDemand, "/api/demand/calculate/")
+    # Gap
     api.add_resource(CalculateGap, "/api/gap/calculate/")
 
     return app

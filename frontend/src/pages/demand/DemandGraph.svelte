@@ -17,6 +17,7 @@
       if (!accumulator.roles) accumulator.roles = [];
       if (!accumulator.amounts) accumulator.amounts = [];
 
+      // Creating accumulator for families
       accumulator.roles.push(...jobFamily.FTEs.map((FTE) => FTE.role));
       accumulator.amounts.push(...jobFamily.FTEs.map((FTE) => FTE.amount));
       return accumulator;

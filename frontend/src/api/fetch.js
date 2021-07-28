@@ -1,5 +1,7 @@
+import { API_URL } from '../constants';
+
 export const fetchWorkforceData = async () => {
-  const response = await fetch('http://localhost:4000/api/supply/calculate/', {
+  const response = await fetch(`${API_URL}/supply/calculate/`, {
     method: 'GET',
     credentials: 'include'
   });
@@ -7,7 +9,7 @@ export const fetchWorkforceData = async () => {
 };
 
 export const fetchDemandParameters = async () => {
-  const response = await fetch('http://localhost:4000/api/demand/parameters/', {
+  const response = await fetch(`${API_URL}/demand/parameters/`, {
     method: 'GET',
     credentials: 'include'
   });
@@ -15,7 +17,7 @@ export const fetchDemandParameters = async () => {
 };
 
 export const fetchDemandData = async () => {
-  const response = await fetch('http://localhost:4000/api/demand/calculate/', {
+  const response = await fetch(`${API_URL}/demand/calculate/`, {
     method: 'GET',
     credentials: 'include'
   });
@@ -23,7 +25,7 @@ export const fetchDemandData = async () => {
 };
 
 export const fetchGapData = async () => {
-  const response = await fetch('http://localhost:4000/api/gap/calculate/', {
+  const response = await fetch(`${API_URL}/gap/calculate/`, {
     method: 'GET',
     credentials: 'include'
   });

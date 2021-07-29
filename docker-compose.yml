@@ -1,12 +1,5 @@
 version: "3"
 services:
-  database:
-    build:
-      context: .
-      dockerfile: ./redis/Dockerfile
-    networks:
-      - app
-
   api:
     env_file:
       - backend/.env
@@ -15,9 +8,12 @@ services:
     volumes: ["./backend:/app"]
     depends_on:
       - database
-    networks:
-      - app
 
-networks:
-  app:
-    driver: bridge
+  database:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

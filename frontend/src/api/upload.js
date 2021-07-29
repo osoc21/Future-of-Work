@@ -1,5 +1,7 @@
+import { API_URL } from '../constants';
+
 export const uploadWorkforceData = async (fileData) => {
-  const response = await fetch('http://localhost:4000/api/all/upload/', {
+  const response = await fetch(`${API_URL}/all/upload/`, {
     method: 'POST',
     credentials: 'include',
     body: fileData

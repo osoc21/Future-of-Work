@@ -91,3 +91,23 @@ In the ```/layouts``` folder you can find two files, the ```HomeLayout.svelte```
 ## STORES
 
 In the stores folder you can find all the writable datastores. Inside the dataProviders all the data gets fetched and gets stored in these stores. later this data is used in childcomponents to build the tables.
+
+### Structure of the CSV files
+
+The application expects 4 files to be uploaded at the start (**without all 4 files you can't proceed to the next steps**)
+
+## Population file
+| Job title | Job family | Country of Personnel Area | FTE | Birth date |
+| --------- | ---------- | ------------------------- | --- | ---------- |
+
+## Attrition file (country names can vary)
+| Job family | Belgium | UK | Germany | US | China | Japan | Others | Global |
+| ---------- | ------- | -- | ------- | -- | ------| ----- | ------ | ------ |
+
+## Demand file
+| Job title | Formula |
+| --------- | ------- |
+
+## Retirement file
+| Country of Personnel Area | Age |
+| ------------------------- | --- |

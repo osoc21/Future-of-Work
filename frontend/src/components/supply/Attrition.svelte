@@ -1,4 +1,7 @@
 <script>
+  // Component used in the Supply Table to get the transformed data and display it
+
+
   import { workforceStore } from '../../stores/workforce';
   import WorkforceDataProvider from './../dataProviders/WorkforceDataProvider.svelte';
 
@@ -35,6 +38,7 @@
   };
 </script>
 
+<!-- Creating HTML Table with the data from $workforceStore-->
 <WorkforceDataProvider>
   {#if $workforceStore.isLoading}
     <p>Loading...</p>

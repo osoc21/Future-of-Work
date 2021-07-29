@@ -3,15 +3,18 @@
   import { demandParametersStore } from '../../stores/demandParameters';
   import DemandParametersProvider from '../dataProviders/DemandParametersProvider.svelte';
 
+  // Get the next 5 years for table headers
   const yearsArray = [];
   for (let i = 0; i < 5; i++) {
     let year = new Date().getFullYear() + i;
     yearsArray.push(year);
   }
 
+  // Get changed data from cell and send it to server with patch request
   const attemptValueChange = async (id, year, e) => {
     e.preventDefault();
     let value;
+    // Find the changed cell
     $demandParametersStore.data.forEach((row) => {
       const result = row.data.find((cell) => cell.id === id && cell.year === year);
       if (result) {
@@ -45,6 +48,7 @@
                   data-year={cell.year}
                   data-id={cell.id}
                   bind:value={cell.parameter}
+                  on:keyup={({ key, target }) => key === 'Enter' && target.blur()}
                   on:blur={(e) => attemptValueChange(cell.id, cell.year, e)}
                 />
               </td>

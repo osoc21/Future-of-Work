@@ -1,4 +1,6 @@
 <script>
+  // Layout of the Navigation bar 
+  
   import { Link } from 'svelte-navigator';
   import CaretDown from './CaretDown.svelte';
 

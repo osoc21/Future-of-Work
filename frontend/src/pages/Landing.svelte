@@ -1,4 +1,5 @@
 <script>
+  // Landing page of the Application
   import HomeLayout from '../components/layouts/HomeLayout.svelte';
   import { Link } from 'svelte-navigator';
 </script>
